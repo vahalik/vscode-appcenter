@@ -35,14 +35,14 @@ There are several possible scenarios this extension solves:
     * You will be prompted to enter a new name for your project and select user or organization where you would like to create app in App Center.
 
         ![Enter New Name](images/appcenter-enter-new-name.png)
-        * App Center sample app will be cloned into the repository you have provided (it will also have preconfigured for App Center Analytics/Crashes/CodePush SDK's)
+        * App Center sample app will be cloned into the repository you have provided (it will also have preconfigured for App Center Analytics/Crashes/CodePush SDKs)
         * Two React Native apps (for iOS and Android) will be created in App Center (`project-name-ios` and `project-name-android`)
         * CodePush deployments will be created for both apps
         * Apps will be automatically linked with corresponding iOS/Android secret keys and CodePush deployment keys
         * Changes will be pushed to your remote repository
         * New Testers Distribution Group will be created for every new app in App Center
-        > Tip: If you enable `appcenter.api.configurebranchandstartnewbuild` in extension sessings, the app will also be connected to your GH repository `master` branch and new build will be started 
-        * You will be notified when everything's finished and also we will automatically run `npm install` and `pod update` for you
+        > Tip: If you enable `appcenter.api.configurebranchandstartnewbuild` in extension settings, the app will also be connected to your GH repository `master` branch and new build will be started 
+        * You will be notified when everything's finished, and also we will automatically run `npm install` and `pod update` for you
 
 2. Link an existing React Native application to App Center. 
     You will see a `Set Current App` option, when logged in.
@@ -86,12 +86,12 @@ There are several possible scenarios this extension solves:
     * We will run `react-native link appcenter` for you and show you the secrets to be pasted.
     > Pay attention: Unlike linking CodePush, you will have to paste these secrets in the Terminal yourself when prompted. 
 
-5. You would like to open already existing React Native application with CodePush installed. When logged in, the following App Center Menu options should be avaliable under `CodePush`:
+5. You would like to open already existing React Native application with CodePush installed. When logged in, the following App Center Menu options should be available under `CodePush`:
     * Link CodePush
     * Navigate to CodePush tab in App Center
     * Make a new CodePush release
     * Change current Deployment
-    * Change target binary verson 
+    * Change target binary version 
     * Change if release should be mandatory
 
     ![CodePush](images/appcenter-code-push.png)
@@ -118,7 +118,7 @@ Extension supports Espresso tests only. Please, follow [the instructions for App
 
 ![Test options](images/appcenter-test-options.png)
 
-3. Select device configuration for tests. If you have device sets, they will appear at the top of the list and you can choose them.
+3. Select device configuration for tests. If you have device sets, they will appear at the top of the list, and you can choose them.
 
 ![Test devices](images/appcenter-test-devices.png)
 
@@ -129,7 +129,7 @@ Extension supports Espresso tests only. Please, follow [the instructions for App
 ## Contributing
 There are a couple of ways you can contribute to this repo:
 
-- **Ideas, feature requests and bugs**: We are open to all ideas and we want to get rid of bugs! Use the Issues section to either report a new issue, provide your ideas or contribute to existing threads.
+- **Ideas, feature requests and bugs**: We are open to all ideas, and we want to get rid of bugs! Use the Issues section to either report a new issue, provide your ideas or contribute to existing threads.
 - **Documentation**: Found a typo or strangely worded sentences? Submit a PR!
 - **Code**: Contribute bug fixes, features or design changes.
 
@@ -137,11 +137,10 @@ There are a couple of ways you can contribute to this repo:
 
 Here is the list of common known issues you may experience while using the extension:
 
-| Issue         | Description |
-| ------------- |-------------|
-| You received error '`failed to push to remote ... Device not configured`' when starting new project and pushing to remote repo      | Install [Git Credential Manager](https://docs.microsoft.com/en-us/vsts/git/set-up-credential-managers?view=vsts#install-the-git-credential-manager) and try again |
-| You received error '`CocoaPods was not able to update the master repo`' when running '`pod repo update`' while linking App Center| Delete and recreate your specs for repo by running `pod repo remove master` and `pod setup` commands
-                        
+| Issue                                                                                                                             | Description                                                                                                                                                       |
+|-----------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| You received error '`failed to push to remote ... Device not configured`' when starting new project and pushing to remote repo    | Install [Git Credential Manager](https://docs.microsoft.com/en-us/vsts/git/set-up-credential-managers?view=vsts#install-the-git-credential-manager) and try again |
+| You received error '`CocoaPods was not able to update the master repo`' when running '`pod repo update`' while linking App Center | Delete and recreate your specs for repo by running `pod repo remove master` and `pod setup` commands                                                              |
 
 ## Legal
 Before we can accept your pull request you will need to sign a **Contribution License Agreement**. All you need to do is to submit a pull request, then the PR will get appropriately labelled (e.g. `cla-required`, `cla-norequired`, `cla-signed`, `cla-already-signed`). If you already signed the agreement we will continue with reviewing the PR, otherwise system will tell you how you can sign the CLA. Once you sign the CLA all future PR's will be labeled as `cla-signed`.
