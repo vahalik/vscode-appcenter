@@ -51,7 +51,7 @@ export class OsxTokenStore implements TokenStore {
     });
   }
 
-  public get(key: TokenKeyType, _useOldName: boolean = false): Promise<TokenEntry> {
+  public get(key: TokenKeyType, _useOldName = false): Promise<TokenEntry> {
     const args = [
       "find-generic-password",
       "-a", key,

@@ -24,7 +24,7 @@ export default class SwitchMandatoryPropForRelease extends RNCPAppCommand {
             VsCodeUI.ShowWarningMessage(Messages.NoDeploymentsWarning);
             return;
         }
-        const newMandatoryValue = !!!app.isMandatory;
+        const newMandatoryValue = !app.isMandatory;
         await this.saveCurrentApp(
             app.identifier,
             AppCenterOS[app.os],

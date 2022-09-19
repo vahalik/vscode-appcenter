@@ -12,13 +12,13 @@ import { LogStrings } from "../extension/resources/logStrings";
 import { Messages } from "../extension/resources/messages";
 
 export default class AppCenterAppBuilder {
-    private _createIOSApp: boolean = false;
-    private _createAndroidApp: boolean = false;
-    private _createBetaTestersDistributionGroup: boolean = false;
-    private _connectRepositoryToBuildService: boolean = false;
-    private _withBranchConfigurationCreatedAndBuildKickOff: boolean = false;
+    private _createIOSApp = false;
+    private _createAndroidApp = false;
+    private _createBetaTestersDistributionGroup = false;
+    private _connectRepositoryToBuildService = false;
+    private _withBranchConfigurationCreatedAndBuildKickOff = false;
 
-    private appsCreated: boolean = false;
+    private appsCreated = false;
     private createdApps: CreatedAppFromAppCenter[];
 
     constructor(

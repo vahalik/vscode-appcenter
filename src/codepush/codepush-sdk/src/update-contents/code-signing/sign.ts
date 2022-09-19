@@ -7,8 +7,8 @@ import * as path from "path";
 import * as fileUtils from "../../utils/file-utils";
 import * as hashUtils from "./hash-utils";
 
-const CURRENT_CLAIM_VERSION: string = "1.0.0";
-const METADATA_FILE_NAME: string = ".codepushrelease";
+const CURRENT_CLAIM_VERSION = "1.0.0";
+const METADATA_FILE_NAME = ".codepushrelease";
 
 interface CodeSigningClaims {
   claimVersion: string;

@@ -6,5 +6,5 @@ export class NullLogger implements ILogger {
     public warning (_message: string) {}
     public error (_errorMessage: string, _error?: Error | undefined, _stack?: boolean | undefined) {}
     public debug (_message: string) {}
-    public logStream (_data: String | Buffer, _stream?: NodeJS.WritableStream | undefined) {}
+    public logStream (_data: string | Buffer, _stream?: NodeJS.WritableStream | undefined) {}
 }

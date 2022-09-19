@@ -63,7 +63,7 @@ export class VsCodeUI {
     private static async showMessage(message: string, type: MessageTypes, ...urlMessageItem: IButtonMessageItem[]): Promise<IButtonMessageItem> {
         //The following "cast" allows us to pass our own type around (and not reference "vscode" via an import)
         const messageItems: ButtonMessageItem[] = <ButtonMessageItem[]>urlMessageItem;
-        const messageToDisplay: string = `(${Constants.ExtensionName}) ${Utils.FormatMessage(message)}`;
+        const messageToDisplay = `(${Constants.ExtensionName}) ${Utils.FormatMessage(message)}`;
 
         //Use the typescript spread operator to pass the rest parameter to showErrorMessage
         let chosenItem: IButtonMessageItem | undefined;

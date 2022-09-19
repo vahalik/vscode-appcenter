@@ -15,7 +15,7 @@ export default class ShowMenu extends RNCPAppCommand {
             return false;
         }
 
-        const notCurrentApp: boolean = !!this._app;
+        const notCurrentApp = !!this._app;
         if (!this._app) {
             const currentApp: CurrentApp | null = await this.getCurrentApp(true);
             if (!currentApp) {

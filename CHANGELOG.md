@@ -1,3 +1,6 @@
+## 0.2.0
+* reincarnation of the project
+
 ## 0.1.11
 * Fixed several security issues
 

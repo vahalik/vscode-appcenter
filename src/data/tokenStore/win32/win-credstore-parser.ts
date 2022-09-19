@@ -67,7 +67,7 @@ function createParsingStream(): NodeJS.ReadWriteStream {
 }
 
 namespace createParsingStream {
-  export let ParsingStream = WinCredStoreParsingStream;
+  export const ParsingStream = WinCredStoreParsingStream;
 }
 
 export { createParsingStream };

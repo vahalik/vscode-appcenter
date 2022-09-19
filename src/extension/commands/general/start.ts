@@ -4,7 +4,13 @@ import Auth from '../../../auth/auth';
 import AppCenterAppBuilder from '../../../createApp/appCenterAppBuilder';
 import AppCenterAppCreator from '../../../createApp/appCenterAppCreator';
 import AppCenterConfig from '../../../data/appCenterConfig';
-import { CommandParams, CreatedAppFromAppCenter, Deployment, QuickPickAppItem, VstsProfile } from '../../../helpers/interfaces';
+import {
+    CommandParams,
+    CreatedAppFromAppCenter,
+    Deployment,
+    QuickPickAppItem,
+    VstsProfile,
+} from '../../../helpers/interfaces';
 import { SettingsHelper } from '../../../helpers/settingsHelper';
 import { cpUtils } from '../../../helpers/utils/cpUtils';
 import { FSUtils } from '../../../helpers/utils/fsUtils';
@@ -20,11 +26,10 @@ import { Utils } from '../../../helpers/utils/utils';
 import { LogStrings } from '../../resources/logStrings';
 import { Messages } from '../../resources/messages';
 import { CreateNewAppOption } from './createNewApp';
-// tslint:disable-next-line:no-var-requires
-const GitUrlParse = require("git-url-parse");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const GitUrlParse = require('git-url-parse');
 
 export default class Start extends CreateAppCommand {
-
     private repositoryURL: string;
     constructor(params: CommandParams) {
         super(params);
@@ -40,7 +45,7 @@ export default class Start extends CreateAppCommand {
             return;
         }
 
-        if (!await GitUtils.IsGitInstalled(this.rootPath)) {
+        if (!(await GitUtils.IsGitInstalled(this.rootPath))) {
             VsCodeUI.ShowWarningMessage(Messages.GitIsNotInstalledWarning);
             return;
         }
@@ -55,18 +60,15 @@ export default class Start extends CreateAppCommand {
 
         // For empty directory we create new VSTS repository
         // For empty git directory (either created with git clone or git init) we just need to be sure that remoteUrl is valid
-        if (!await GitUtils.IsGitRepo(this.logger, this.rootPath)) {
-
+        if (!(await GitUtils.IsGitRepo(this.logger, this.rootPath))) {
             let vstsProfile: VstsProfile | null = await this.vstsAuth.activeProfile;
             let loggedIn: boolean | void;
             if (!vstsProfile) {
-                loggedIn = await new LoginToVsts(
-                    {
-                        manager: this.manager,
-                        appCenterAuth: this.appCenterAuth,
-                        vstsAuth: this.vstsAuth
-                    }
-                ).runNoClient();
+                loggedIn = await new LoginToVsts({
+                    manager: this.manager,
+                    appCenterAuth: this.appCenterAuth,
+                    vstsAuth: this.vstsAuth,
+                }).runNoClient();
             } else {
                 loggedIn = true;
             }
@@ -82,11 +84,14 @@ export default class Start extends CreateAppCommand {
 
             const userName: string = vstsProfile.userName;
 
-            const vsts = new VSTSProvider({
-                tenantName: tenantName,
-                accessToken: accessToken,
-                userName: userName
-            }, this.logger);
+            const vsts = new VSTSProvider(
+                {
+                    tenantName: tenantName,
+                    accessToken: accessToken,
+                    userName: userName,
+                },
+                this.logger,
+            );
 
             const vstsProject: VSTSProject | null = await this.selectVstsProject(vsts);
             if (!vstsProject) {
@@ -103,22 +108,28 @@ export default class Start extends CreateAppCommand {
 
             this.repositoryURL = vstsGitRepo.remoteUrl;
             await GitUtils.GitInit(this.logger, this.rootPath);
-        } else if (!await this.getGitRemoteUrl(this.rootPath)) {
+        } else if (!(await this.getGitRemoteUrl(this.rootPath))) {
             VsCodeUI.ShowErrorMessage(Messages.FailedToProvideRepositoryNameMsg);
             return;
         }
 
-        if (!await this.ensureRemoteAdded(Constants.GitDefaultRemoteName, this.repositoryURL, this.rootPath)) {
+        if (!(await this.ensureRemoteAdded(Constants.GitDefaultRemoteName, this.repositoryURL, this.rootPath))) {
             VsCodeUI.ShowErrorMessage(Messages.FailedToAddRemoteRepositoryMsg);
             return;
         }
 
-        if (!await this.ensureRemoteAdded(Constants.AppCenterSampleGitRemoteName, SettingsHelper.getAppCenterDemoAppGitRepo(), this.rootPath)) {
+        if (
+            !(await this.ensureRemoteAdded(
+                Constants.AppCenterSampleGitRemoteName,
+                SettingsHelper.getAppCenterDemoAppGitRepo(),
+                this.rootPath,
+            ))
+        ) {
             VsCodeUI.ShowErrorMessage(Messages.FailedToAddRemoteRepositoryMsg);
             return;
         }
 
-        if (!await this.pullAppCenterSampleApp(this.rootPath)) {
+        if (!(await this.pullAppCenterSampleApp(this.rootPath))) {
             VsCodeUI.ShowErrorMessage(Messages.FailedToCreateRNProjectMsg);
             return;
         }
@@ -129,7 +140,13 @@ export default class Start extends CreateAppCommand {
         }
         this.userOrOrg = userOrOrgItem;
 
-        const appCenterAppBuilder = new AppCenterAppBuilder(projectName, userOrOrgItem, this.repositoryURL, this.client, this.logger);
+        const appCenterAppBuilder = new AppCenterAppBuilder(
+            projectName,
+            userOrOrgItem,
+            this.repositoryURL,
+            this.client,
+            this.logger,
+        );
         this.logger.info(LogStrings.CreatingAppsInAppCenter);
         await appCenterAppBuilder.createApps();
         const createdApps: CreatedAppFromAppCenter[] = appCenterAppBuilder.getCreatedApps();
@@ -140,7 +157,11 @@ export default class Start extends CreateAppCommand {
             return;
         }
 
-        const appCenterConfig = Utils.createAppCenterConfigFrom(Constants.AppCenterSampleAppName, this.rootPath, this.logger);
+        const appCenterConfig = Utils.createAppCenterConfigFrom(
+            Constants.AppCenterSampleAppName,
+            this.rootPath,
+            this.logger,
+        );
 
         this.logger.info(LogStrings.ConfiguringAppCenterSDK);
         if (!this.updateAppSecretKeys(createdApps, appCenterConfig)) {
@@ -151,10 +172,13 @@ export default class Start extends CreateAppCommand {
 
         const appCenterAppCreator: AppCenterAppCreator = new AppCenterAppCreator(this.client, this.logger);
         const codePushLinker: CodePushLinker = new CodePushLinker(appCenterAppCreator, this.logger, this.rootPath);
-        const codePushDeployments: Deployment[] | null = await codePushLinker.createCodePushDeployments(createdApps, <string>userOrOrgItem.name);
+        const codePushDeployments: Deployment[] | null = await codePushLinker.createCodePushDeployments(
+            createdApps,
+            <string>userOrOrgItem.name,
+        );
 
         if (codePushDeployments && codePushDeployments.length > 0) {
-            if (!await this.updateCodePushDeploymentKeys(codePushDeployments, appCenterConfig)) {
+            if (!(await this.updateCodePushDeploymentKeys(codePushDeployments, appCenterConfig))) {
                 this.logger.error(LogStrings.FailedToCreateDeploymentKeys);
             }
         } else {
@@ -163,7 +187,7 @@ export default class Start extends CreateAppCommand {
         }
 
         // We need to push changes before we configure/start build in AppCenter
-        if (!await this.pushToDefaultRemoteRepo(this.rootPath)) {
+        if (!(await this.pushToDefaultRemoteRepo(this.rootPath))) {
             VsCodeUI.ShowErrorMessage(Messages.FailedToPushChangesToRemoteRepoMsg(this.repositoryURL));
             return;
         }
@@ -175,7 +199,7 @@ export default class Start extends CreateAppCommand {
         if (!done) {
             VsCodeUI.ShowErrorMessage(Messages.FailedToCreateAppInAppCenter);
         } else {
-            const successMessage: string = `
+            const successMessage = `
 --------------------------------------------------------
     Apps Created:
         ${AppCenterAppBuilder.getAndroidAppName(projectName)}
@@ -189,7 +213,7 @@ export default class Start extends CreateAppCommand {
 
     private async runPodUpdate(): Promise<boolean> {
         try {
-            const podUpdateCmd: string = "pod install";
+            const podUpdateCmd = 'pod install';
             this.logger.debug(LogStrings.InstallingPods);
             await cpUtils.executeCommand(this.logger, true, `${this.rootPath}/ios`, podUpdateCmd);
             this.logger.debug(LogStrings.PodsInstalledMessage);
@@ -200,7 +224,7 @@ export default class Start extends CreateAppCommand {
             const messageItems: IButtonMessageItem[] = [];
             messageItems.push({
                 title: Strings.PodInstallBtnLabel,
-                url: "https://cocoapods.org"
+                url: 'https://cocoapods.org',
             });
             VsCodeUI.ShowInfoMessage(Messages.PodsNotInstalledMessage, ...messageItems);
             return false;
@@ -209,7 +233,7 @@ export default class Start extends CreateAppCommand {
 
     private async runNPMInstall(): Promise<boolean> {
         try {
-            const installNodeModulesCmd: string = "npm i";
+            const installNodeModulesCmd = 'npm i';
             this.logger.debug(LogStrings.RunningNpmI);
             await cpUtils.executeCommand(this.logger, true, this.rootPath, installNodeModulesCmd);
             this.logger.debug(LogStrings.NodeModulesInstalledMessage);
@@ -224,11 +248,12 @@ export default class Start extends CreateAppCommand {
         if (!apps || apps.length === 0) {
             return false;
         }
-        if (apps.length === 2) { // iOS and Android apps
-            if (typeof apps[0] === "boolean" && <boolean>!apps[0]) {
+        if (apps.length === 2) {
+            // iOS and Android apps
+            if (typeof apps[0] === 'boolean' && <boolean>!apps[0]) {
                 return false;
             }
-            if (typeof apps[1] === "boolean" && <boolean>!apps[1]) {
+            if (typeof apps[1] === 'boolean' && <boolean>!apps[1]) {
                 return false;
             }
         }
@@ -236,7 +261,7 @@ export default class Start extends CreateAppCommand {
     }
 
     private updateAppSecretKeys(apps: CreatedAppFromAppCenter[], appCenterConfig: AppCenterConfig): boolean {
-        let saved: boolean = false;
+        let saved = false;
         if (!apps || apps.length === 0) {
             return saved;
         }
@@ -262,8 +287,11 @@ export default class Start extends CreateAppCommand {
         return saved;
     }
 
-    private async updateCodePushDeploymentKeys(deployments: Deployment[], appCenterConfig: AppCenterConfig): Promise<boolean> {
-        let saved: boolean = false;
+    private async updateCodePushDeploymentKeys(
+        deployments: Deployment[],
+        appCenterConfig: AppCenterConfig,
+    ): Promise<boolean> {
+        let saved = false;
         if (!deployments || deployments.length === 0) {
             return saved;
         }
@@ -295,10 +323,10 @@ export default class Start extends CreateAppCommand {
             if (!repositoryURL || !Validators.ValidGitName(repositoryURL)) {
                 return false;
             }
-            this.repositoryURL = GitUrlParse(repositoryURL.trim()).toString("https");
+            this.repositoryURL = GitUrlParse(repositoryURL.trim()).toString('https');
             return true;
         } else {
-            const repoName = GitUrlParse(remoteUrl.trim()).toString("https");
+            const repoName = GitUrlParse(remoteUrl.trim()).toString('https');
             if (!repoName) {
                 return false;
             }
@@ -308,11 +336,16 @@ export default class Start extends CreateAppCommand {
     }
 
     private async pullAppCenterSampleApp(_rootPath: string): Promise<boolean> {
-        let created: boolean = false;
+        let created = false;
         this.logger.debug(LogStrings.PullingSample);
-        await VsCodeUI.showProgress(async progress => {
+        await VsCodeUI.showProgress(async (progress) => {
             progress.report({ message: Messages.CreateRNProjectProgressMessage });
-            created = await GitUtils.GitPullFromRemoteUrl(Constants.AppCenterSampleGitRemoteName, Constants.AppCenterSampleGitRemoteDefaultBranchName, this.logger, _rootPath);
+            created = await GitUtils.GitPullFromRemoteUrl(
+                Constants.AppCenterSampleGitRemoteName,
+                Constants.AppCenterSampleGitRemoteDefaultBranchName,
+                this.logger,
+                _rootPath,
+            );
         });
         return created;
     }
@@ -320,7 +353,7 @@ export default class Start extends CreateAppCommand {
     private async ensureRemoteAdded(remoteName: string, remoteUrl: string, _rootPath: string): Promise<boolean> {
         const remoteNames: string[] = await GitUtils.GitGetRemoteName(this.logger, _rootPath);
         if (remoteNames && remoteNames.length > 0) {
-            let alreadyExist: boolean = false;
+            let alreadyExist = false;
             remoteNames.forEach((remote: any) => {
                 if (remote.name.trim() === remoteName) {
                     alreadyExist = true;
@@ -337,11 +370,16 @@ export default class Start extends CreateAppCommand {
     }
 
     private async pushToDefaultRemoteRepo(_rootPath: string): Promise<boolean> {
-        let pushed: boolean = false;
+        let pushed = false;
         this.logger.debug(LogStrings.PushingChangesTo(this.repositoryURL));
-        await VsCodeUI.showProgress(async progress => {
+        await VsCodeUI.showProgress(async (progress) => {
             progress.report({ message: Messages.PushToRemoteRepoProgressMessage });
-            pushed = await GitUtils.GitPushToRemoteUrl(Constants.GitDefaultRemoteName, SettingsHelper.defaultBranchName(), this.logger, _rootPath);
+            pushed = await GitUtils.GitPushToRemoteUrl(
+                Constants.GitDefaultRemoteName,
+                SettingsHelper.defaultBranchName(),
+                this.logger,
+                _rootPath,
+            );
         });
         return pushed;
     }
@@ -349,7 +387,7 @@ export default class Start extends CreateAppCommand {
     private async selectVstsProject(vstsProvider: VSTSProvider): Promise<VSTSProject | null> {
         let projectList: VSTSProject[] | null = [];
         let vstsProject: VSTSProject | null = null;
-        await VsCodeUI.showProgress(async progress => {
+        await VsCodeUI.showProgress(async (progress) => {
             progress.report({ message: Messages.LoadingVSTSProjectsProgressMessage });
             projectList = await vstsProvider.GetAllProjects();
         });
@@ -372,17 +410,20 @@ export default class Start extends CreateAppCommand {
             const options: QuickPickAppItem[] = projectList.map((project: VSTSProject) => {
                 return {
                     label: `${project.name}`,
-                    description: "",
-                    target: `${project.id}`
+                    description: '',
+                    target: `${project.id}`,
                 };
             });
-            const selected: QuickPickAppItem = await VsCodeUI.showQuickPick(options, Strings.ProvideVSTSProjectPromptHint);
+            const selected: QuickPickAppItem = await VsCodeUI.showQuickPick(
+                options,
+                Strings.ProvideVSTSProjectPromptHint,
+            );
             if (!selected) {
                 this.logger.debug('User cancel selection of vsts project');
                 return null;
             }
             if (projectList) {
-                const selectedProj: VSTSProject[] = projectList.filter(proj => proj.id === selected.target);
+                const selectedProj: VSTSProject[] = projectList.filter((proj) => proj.id === selected.target);
                 if (selectedProj && selectedProj.length > 0) {
                     vstsProject = selectedProj[0];
                 }

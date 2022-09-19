@@ -5,7 +5,7 @@ import { VsCodeUI } from "../../ui/vscodeUI";
 import { Messages } from "../../resources/messages";
 
 export class RNCPAppCommand extends ReactNativeAppCommand {
-    protected checkForCodePush: boolean = true;
+    protected checkForCodePush = true;
 
     public async runNoClient(): Promise<boolean | void> {
         if (!await super.runNoClient()) {

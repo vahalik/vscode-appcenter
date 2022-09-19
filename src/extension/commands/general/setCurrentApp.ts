@@ -31,7 +31,7 @@ export default class SetCurrentApp extends ReactNativeAppCommand {
                 return;
             }
             const selectedApp: models.AppResponse = selectedApps[0];
-            const selectedAppName: string = `${selectedApp.owner.name}/${selectedApp.name}`;
+            const selectedAppName = `${selectedApp.owner.name}/${selectedApp.name}`;
             const selectedAppSecret: string = selectedApp.appSecret;
             const type: string = selectedApp.owner.type;
 

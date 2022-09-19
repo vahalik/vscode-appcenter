@@ -27,7 +27,7 @@ export class Utils {
         if (name.length < ELLIPSIZE_LENGTH_WO_HINT) {
             return name;
         }
-        let hint: string = "";
+        let hint = "";
         if (name.endsWith("-ios")) {
             hint = " (iOS)";
         } else if (name.endsWith("-android")) {
@@ -190,7 +190,7 @@ export class Utils {
 
     public static async packageInstalledGlobally(packageName: string) {
         const resultSignalsThatPackageInstalled = (result) => !/\(empty\)/.test(result);
-        let result: string = "";
+        let result = "";
         try {
             result = await cpUtils.executeCommand(undefined, true, undefined, "npm", [], true, {}, ...["list", "--depth", "1", "-g", packageName]);
         } catch (e) {

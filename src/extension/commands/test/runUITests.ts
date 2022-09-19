@@ -7,7 +7,7 @@ import { ReactNativeAppCommand } from '../reactNativeAppCommand';
 
 export default class RunUITests extends ReactNativeAppCommand {
 
-    private async: boolean = false;
+    private async = false;
 
     constructor(params: CommandParams, private _app: CurrentApp = null) {
         super(params);

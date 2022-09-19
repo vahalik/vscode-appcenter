@@ -8,7 +8,7 @@ import * as xml2js from "xml2js";
 
 export function getAppVersion(projectRoot?: string): Promise<string> {
   return new Promise<string>((resolve, reject) => {
-    let configString: string = "";
+    let configString = "";
     try {
       projectRoot = projectRoot || process.cwd();
       configString = fs.readFileSync(path.join(projectRoot, "config.xml"), { encoding: "utf8" });
@@ -45,7 +45,7 @@ export function isValidPlatform(platform: string): boolean {
 // Check whether the Cordova or PhoneGap CLIs are
 // installed, and if not, fail early
 export function getCordovaOrPhonegapCLI(): string {
-  let cordovaCLI: string = "cordova";
+  let cordovaCLI = "cordova";
 
   try {
     which.sync(cordovaCLI);
@@ -64,7 +64,7 @@ export function makeUpdateContents(os: string): string {
 
   const projectRoot: string = process.cwd();
   const platformFolder: string = path.join(projectRoot, "platforms", os);
-  let outputFolder: string = "";
+  let outputFolder = "";
 
   if (os === "ios") {
     outputFolder = path.join(platformFolder, "www");

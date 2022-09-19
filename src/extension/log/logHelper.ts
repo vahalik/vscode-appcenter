@@ -13,7 +13,7 @@ export interface ILogger {
     warning(message: string): void;
     error(errorMessage: string, error?: Error, stack?: boolean): void;
     debug(message: string): void;
-    logStream(data: Buffer | String, stream?: NodeJS.WritableStream): void;
+    logStream(data: Buffer | string, stream?: NodeJS.WritableStream): void;
 }
 
 export class LogHelper {
@@ -22,7 +22,7 @@ export class LogHelper {
     }
 }
 
-export const AppCenterExtensionLogPrefix: string = "VSCode App Center";
+export const AppCenterExtensionLogPrefix = "VSCode App Center";
 
 function getLogLevel() {
     try {

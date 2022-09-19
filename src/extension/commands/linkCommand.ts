@@ -8,7 +8,7 @@ import { Strings } from '../resources/strings';
 import { ReactNativeAppCommand } from "./reactNativeAppCommand";
 
 export class LinkCommand extends ReactNativeAppCommand {
-    protected showedCount: number = 0;
+    protected showedCount = 0;
     protected pickedApps: CurrentApp[] = [];
 
     public async run(): Promise<boolean | void> {
@@ -30,7 +30,7 @@ export class LinkCommand extends ReactNativeAppCommand {
                 return;
             }
             const selectedApp: models.AppResponse = selectedApps[0];
-            const selectedAppName: string = `${selectedApp.owner.name}/${selectedApp.name}`;
+            const selectedAppName = `${selectedApp.owner.name}/${selectedApp.name}`;
             const selectedAppSecret: string = selectedApp.appSecret;
             const type: string = selectedApp.owner.type;
 

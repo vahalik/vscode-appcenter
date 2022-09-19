@@ -97,7 +97,7 @@ export class WinTokenStore implements TokenStore {
    * @param {tokenKeyType} key target name for credential
    * @return {Promise<TokenEntry>} Returned credential or null if not found.
    */
-  public get(key: TokenKeyType, useOldName: boolean = false): Promise<TokenEntry> {
+  public get(key: TokenKeyType, useOldName = false): Promise<TokenEntry> {
     const prefixer = new Prefixer(useOldName);
     const args = ["-s", "-t", prefixer.ensurePrefix(key)];
 

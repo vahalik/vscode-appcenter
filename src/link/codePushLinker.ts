@@ -8,7 +8,7 @@ import { Messages } from '../extension/resources/messages';
 
 export default class CodePushLinker {
 
-    private useRNPM: boolean = false;
+    private useRNPM = false;
 
     constructor(private appCenterAppCreator: AppCenterAppCreator, private logger: ILogger, private rootPath: string) {
      }
@@ -34,8 +34,8 @@ export default class CodePushLinker {
     }
 
     public async installCodePush(): Promise<boolean> {
-        const installCodePushCmd: string = "npm i react-native-code-push --save";
-        const installRNPMCmd: string = "npm i -g rnpm";
+        const installCodePushCmd = "npm i react-native-code-push --save";
+        const installRNPMCmd = "npm i -g rnpm";
         return await VsCodeUI.showProgress(async () => {
             try {
                 await cpUtils.executeCommand(this.logger, true, this.rootPath, installCodePushCmd);

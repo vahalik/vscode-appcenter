@@ -20,7 +20,7 @@ export class ConsoleLogger implements ILogger {
         this.log(message, LogLevel.Warning);
     }
 
-    public error(errorMessage: string, error?: Error, logStack: boolean = true) {
+    public error(errorMessage: string, error?: Error, logStack = true) {
         console.error(ConsoleLogger.getFormattedMessage(errorMessage, LogLevel.Error));
 
         // Print the error stack if necessary

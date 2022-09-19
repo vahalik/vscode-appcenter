@@ -1,27 +1,32 @@
-import * as fs from "fs";
-import * as mkdirp from "mkdirp";
-import * as path from "path";
-import { ILogger } from "../extension/log/logHelper";
-import { LogStrings } from "../extension/resources/logStrings";
-// tslint:disable-next-line:no-var-requires
-const jsxml = require("node-jsxml");
-// tslint:disable-next-line:no-var-requires
+import * as fs from 'fs';
+import * as mkdirp from 'mkdirp';
+import * as path from 'path';
+import { ILogger } from '../extension/log/logHelper';
+import { LogStrings } from '../extension/resources/logStrings';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const jsxml = require('node-jsxml');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const plist = require('plist');
 
 export default class AppCenterConfig {
-
     private parsedInfoConfigPlist: any;
     private parsedInfoMainPlist: any;
     private androidAppCenterConfig: any;
     private androidStringResources: any;
 
-    constructor(private configPlistPath: string, private mainPlistPath: string, private pathToAndroidConfig: string, private pathToAndroidStringResources: string, private logger: ILogger) {
+    constructor(
+        private configPlistPath: string,
+        private mainPlistPath: string,
+        private pathToAndroidConfig: string,
+        private pathToAndroidStringResources: string,
+        private logger: ILogger,
+    ) {
         try {
             this.logger.debug(LogStrings.ReadContents(configPlistPath));
             const plistContents = fs.readFileSync(configPlistPath, 'utf8');
             this.parsedInfoConfigPlist = plist.parse(plistContents);
         } catch (e) {
-            this.logger.error(`${LogStrings.CouldNotRead("AppCenter-Config.plist")} ${e.message}`);
+            this.logger.error(`${LogStrings.CouldNotRead('AppCenter-Config.plist')} ${e.message}`);
             this.parsedInfoConfigPlist = plist.parse(plist.build({}));
         }
 
@@ -30,7 +35,7 @@ export default class AppCenterConfig {
             const plistContents = fs.readFileSync(mainPlistPath, 'utf8');
             this.parsedInfoMainPlist = plist.parse(plistContents);
         } catch (e) {
-            this.logger.error(`${LogStrings.CouldNotRead("Info.plist")} ${e.message}`);
+            this.logger.error(`${LogStrings.CouldNotRead('Info.plist')} ${e.message}`);
             this.parsedInfoMainPlist = plist.parse(plist.build({}));
         }
 
@@ -40,16 +45,16 @@ export default class AppCenterConfig {
             const fileContent: string | Buffer = fs.readFileSync(pathToAndroidConfig, 'utf-8');
             this.androidAppCenterConfig = JSON.parse(fileContent);
         } catch (e) {
-            this.logger.error(`${LogStrings.CouldNotRead("appcenter-config.json")} ${e.message}`);
+            this.logger.error(`${LogStrings.CouldNotRead('appcenter-config.json')} ${e.message}`);
         }
 
         try {
             this.logger.debug(LogStrings.ReadContents(pathToAndroidStringResources));
-            const data = fs.readFileSync(pathToAndroidStringResources, { encoding: "utf8" });
+            const data = fs.readFileSync(pathToAndroidStringResources, { encoding: 'utf8' });
             const xml = new jsxml.XML(data);
             this.androidStringResources = xml;
         } catch (e) {
-            this.logger.error(`${LogStrings.CouldNotRead("strings.xml")} ${e.message}`);
+            this.logger.error(`${LogStrings.CouldNotRead('strings.xml')} ${e.message}`);
         }
     }
 

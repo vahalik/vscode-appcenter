@@ -54,7 +54,7 @@ export class CreateAppCommand extends Command {
     }
 
     protected async appAlreadyExistInAppCenter(projectName: string): Promise<boolean> {
-        let exist: boolean = false;
+        let exist = false;
         this.logger.debug(LogStrings.CheckingProjectName(projectName));
         await VsCodeUI.showProgress(async progress => {
             progress.report({ message: Messages.CheckIfAppsExistProgressMessage });
@@ -67,7 +67,7 @@ export class CreateAppCommand extends Command {
         return exist;
     }
 
-    protected async getProjectName(option: CreateNewAppOption, appNameFromPackage: string = "", isNewProject: boolean = true): Promise<string | null> {
+    protected async getProjectName(option: CreateNewAppOption, appNameFromPackage = "", isNewProject = true): Promise<string | null> {
         let projectName = await VsCodeUI.showInput(Strings.PleaseEnterProjectNameHint, appNameFromPackage);
         projectName = projectName.trim();
 

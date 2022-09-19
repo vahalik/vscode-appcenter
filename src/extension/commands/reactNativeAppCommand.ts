@@ -12,10 +12,10 @@ import { MenuStrings } from "../resources/menuStrings";
 import { LogStrings } from "../resources/logStrings";
 
 export class ReactNativeAppCommand extends Command {
-    protected currentAppMenuTarget: string = "MenuCurrentApp";
+    protected currentAppMenuTarget = "MenuCurrentApp";
     protected static cachedAllApps: models.AppResponse[];
     protected userAlreadySelectedApp: boolean;
-    protected checkForReact: boolean = true;
+    protected checkForReact = true;
     protected _params: CommandParams;
 
     constructor(params: CommandParams) {
@@ -54,7 +54,7 @@ export class ReactNativeAppCommand extends Command {
         return true;
     }
 
-    protected async getCurrentApp(refreshDeployments: boolean = false): Promise<CurrentApp | null> {
+    protected async getCurrentApp(refreshDeployments = false): Promise<CurrentApp | null> {
         return await VsCodeUI.showProgress(() => {
             return this.appCenterProfile.then(async (profile: AppCenterProfile | null) => {
                 if (profile && profile.currentApp) {
@@ -83,7 +83,7 @@ export class ReactNativeAppCommand extends Command {
         throw Error("handleShowCurrentAppQuickPickSelection not implemented in base class");
     }
 
-    protected async showAppsQuickPick(apps: models.AppResponse[], includeAllApps: boolean = false, includeSelectCurrent: boolean = false, includeCreateNew: boolean = true, prompt: string = Strings.ProvideCurrentAppHint, force: boolean = false) {
+    protected async showAppsQuickPick(apps: models.AppResponse[], includeAllApps = false, includeSelectCurrent = false, includeCreateNew = true, prompt: string = Strings.ProvideCurrentAppHint, force = false) {
         if (!apps) {
             this.logger.debug(LogStrings.NoAppsToShow);
             return;
@@ -130,7 +130,7 @@ export class ReactNativeAppCommand extends Command {
         return apps.filter(app => app.platform === Constants.AppCenterReactNativePlatformName);
     }
 
-    protected refreshCachedAppsAndRepaintQuickPickIfNeeded(includeSelectCurrent: boolean = false, includeCreateNew: boolean = true, includeAllApps: boolean = true, prompt: string = Strings.ProvideCurrentAppHint) {
+    protected refreshCachedAppsAndRepaintQuickPickIfNeeded(includeSelectCurrent = false, includeCreateNew = true, includeAllApps = true, prompt: string = Strings.ProvideCurrentAppHint) {
         VsCodeUI.showProgress(async (progress) => {
             progress.report({ message: Messages.GetAppsListProgressMessage });
 
@@ -156,7 +156,7 @@ export class ReactNativeAppCommand extends Command {
             return true;
         }
 
-        let differs: boolean = false;
+        let differs = false;
         cachedApps.every((cachedItem) => {
             const matches = appsList.filter((item) => {
                 return this.compareAppsItems(cachedItem, item);

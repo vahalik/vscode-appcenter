@@ -9,9 +9,9 @@ export class SpawnError extends Error {
 }
 
 export namespace cpUtils {
-    export async function executeCommand(logger: ILogger | undefined, logErrorsOnly: boolean = false, workingDirectory: string | undefined, command: string, inputValues: ReactNativeLinkInputValue[] = [], exposeArgs: boolean = true, environment: any = {}, ...args: string[]): Promise<string> {
-        let cmdOutput: string = '';
-        let cmdOutputIncludingStderr: string = '';
+    export async function executeCommand(logger: ILogger | undefined, logErrorsOnly = false, workingDirectory: string | undefined, command: string, inputValues: ReactNativeLinkInputValue[] = [], exposeArgs = true, environment: any = {}, ...args: string[]): Promise<string> {
+        let cmdOutput = '';
+        let cmdOutputIncludingStderr = '';
         workingDirectory = workingDirectory || os.tmpdir();
         const formattedArgs: string = exposeArgs ? args.join(' ') : "";
         await new Promise((resolve: () => void, reject: (e: Error) => void): void => {
@@ -66,7 +66,7 @@ export namespace cpUtils {
 
             childProc.on('close', (code: number) => {
                 if (code !== 0) {
-                    const errMsg: string = `AppCenter.commandError', 'Command "${command} ${formattedArgs}" failed with exit code "${code}":${os.EOL}${cmdOutputIncludingStderr}`;
+                    const errMsg = `AppCenter.commandError', 'Command "${command} ${formattedArgs}" failed with exit code "${code}":${os.EOL}${cmdOutputIncludingStderr}`;
                     if (logger) {
                         logger.error(errMsg);
                     }

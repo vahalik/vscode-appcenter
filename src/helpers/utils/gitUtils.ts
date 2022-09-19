@@ -1,13 +1,13 @@
-import { ILogger } from "../../extension/log/logHelper";
-import { Constants } from "../../extension/resources/constants";
-import { cpUtils } from "./cpUtils";
-import { LogStrings } from "../../extension/resources/logStrings";
-// tslint:disable-next-line:no-var-requires
+import { ILogger } from '../../extension/log/logHelper';
+import { Constants } from '../../extension/resources/constants';
+import { cpUtils } from './cpUtils';
+import { LogStrings } from '../../extension/resources/logStrings';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const git = require('simple-git/promise');
 
 export class GitUtils {
-    private static gitCommand: string = 'git';
-    private static gitFirstCommitName: string = 'Configure App Center apps';
+    private static gitCommand = 'git';
+    private static gitFirstCommitName = 'Configure App Center apps';
 
     public static async IsGitInstalled(workingDirectory: string): Promise<boolean> {
         try {
@@ -36,7 +36,11 @@ export class GitUtils {
         }
     }
 
-    public static async GitRemoveRemote(remoteName: string, logger: ILogger, workingDirectory: string): Promise<boolean> {
+    public static async GitRemoveRemote(
+        remoteName: string,
+        logger: ILogger,
+        workingDirectory: string,
+    ): Promise<boolean> {
         try {
             await git(workingDirectory).removeRemote(remoteName);
             return true;
@@ -46,7 +50,12 @@ export class GitUtils {
         }
     }
 
-    public static async GitAddRemote(remoteName: string, remoteUrl: string, logger: ILogger, workingDirectory: string): Promise<boolean> {
+    public static async GitAddRemote(
+        remoteName: string,
+        remoteUrl: string,
+        logger: ILogger,
+        workingDirectory: string,
+    ): Promise<boolean> {
         try {
             const gitrepo = git(workingDirectory);
             await gitrepo.addRemote(remoteName, remoteUrl);
@@ -62,7 +71,7 @@ export class GitUtils {
             const remote: string[] = await git(workingDirectory).getRemotes();
             return remote;
         } catch (e) {
-            logger.error(`${LogStrings.FailedToGetRemote("name")}: ${e.message}`);
+            logger.error(`${LogStrings.FailedToGetRemote('name')}: ${e.message}`);
             return [];
         }
     }
@@ -72,14 +81,19 @@ export class GitUtils {
             const remote: string = await git(workingDirectory).listRemote(['--get-url']);
             return remote;
         } catch (e) {
-            logger.error(`${LogStrings.FailedToGetRemote("url")}: ${e.message}`);
-            return "";
+            logger.error(`${LogStrings.FailedToGetRemote('url')}: ${e.message}`);
+            return '';
         }
     }
 
-    public static async GitPullFromRemoteUrl(remoteRepo: string, branch: string, logger: ILogger, workingDirectory: string): Promise<boolean> {
+    public static async GitPullFromRemoteUrl(
+        remoteRepo: string,
+        branch: string,
+        logger: ILogger,
+        workingDirectory: string,
+    ): Promise<boolean> {
         try {
-            await git(workingDirectory).pull(remoteRepo, branch, {'--rebase': 'true', '--squash': null});
+            await git(workingDirectory).pull(remoteRepo, branch, { '--rebase': 'true', '--squash': null });
             return true;
         } catch (e) {
             logger.error(`${LogStrings.FailedToPullRemote(remoteRepo)}: ${e.message}`);
@@ -87,7 +101,12 @@ export class GitUtils {
         }
     }
 
-    public static async GitPushToRemoteUrl(remoteRepoName: string, branch: string, logger: ILogger, workingDirectory: string): Promise<boolean> {
+    public static async GitPushToRemoteUrl(
+        remoteRepoName: string,
+        branch: string,
+        logger: ILogger,
+        workingDirectory: string,
+    ): Promise<boolean> {
         try {
             const gitrepo = git(workingDirectory);
             await gitrepo.add('./*');
@@ -101,7 +120,11 @@ export class GitUtils {
         }
     }
 
-    public static async GitCloneIntoExistingDir(logger: ILogger, workingDirectory: string, remoteRepo: string): Promise<boolean> {
+    public static async GitCloneIntoExistingDir(
+        logger: ILogger,
+        workingDirectory: string,
+        remoteRepo: string,
+    ): Promise<boolean> {
         try {
             const gitrepo = git(workingDirectory);
             await gitrepo.init();
@@ -115,7 +138,12 @@ export class GitUtils {
         return true;
     }
 
-    public static async ConfigureRepoAndPush(remoteRepo: string, branch: string, logger: ILogger, workingDirectory: string): Promise<boolean> {
+    public static async ConfigureRepoAndPush(
+        remoteRepo: string,
+        branch: string,
+        logger: ILogger,
+        workingDirectory: string,
+    ): Promise<boolean> {
         try {
             const gitrepo = git(workingDirectory);
             await gitrepo.add('./*');

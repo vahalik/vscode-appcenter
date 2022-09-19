@@ -4,7 +4,7 @@ import { ILogger, LogHelper, LogLevel, AppCenterExtensionLogPrefix } from "./log
 const channels: { [channelName: string]: OutputChannelLogger } = {};
 
 export class OutputChannelLogger implements ILogger {
-    public static MAIN_CHANNEL_NAME: string = "React Native";
+    public static MAIN_CHANNEL_NAME = "React Native";
     private outputChannel: vscode.OutputChannel;
 
     public static disposeChannel(channelName: string): void {
@@ -26,7 +26,7 @@ export class OutputChannelLogger implements ILogger {
         return channels[channelName];
     }
 
-    constructor(public readonly channelName: string, lazy: boolean = false, private preserveFocus: boolean = false) {
+    constructor(public readonly channelName: string, lazy = false, private preserveFocus: boolean = false) {
         if (!lazy) {
             this.channel = vscode.window.createOutputChannel(this.channelName);
             this.channel.show(this.preserveFocus);
@@ -52,7 +52,7 @@ export class OutputChannelLogger implements ILogger {
         this.log(message.toString(), LogLevel.Warning);
     }
 
-    public error(errorMessage: string, error?: Error, logStack: boolean = true): void {
+    public error(errorMessage: string, error?: Error, logStack = true): void {
         this.channel.appendLine(OutputChannelLogger.getFormattedMessage(errorMessage, LogLevel.Error));
 
         // Print the error stack if necessary

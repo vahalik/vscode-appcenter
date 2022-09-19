@@ -53,7 +53,7 @@ export class CrashGenerator {
 
     private async sendCrashes(installId: string, body: object): Promise<void> {
         try {
-            const url: string = `${this._baseUrl}?api-version=1.0`;
+            const url = `${this._baseUrl}?api-version=1.0`;
             const requestInfo = this.getRequestInfo(HTTP_METHODS.POST, body, installId);
 
             const response = await fetch(url, requestInfo);

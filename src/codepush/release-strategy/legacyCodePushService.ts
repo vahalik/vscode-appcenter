@@ -36,7 +36,7 @@ export interface BlobInfo {
 export type Headers = { [headerName: string]: string };
 
 export default class LegacyCodePushServiceClient {
-    private static API_VERSION: number = 2;
+    private static API_VERSION = 2;
 
     constructor(private accessKey: string, private app: CurrentApp, private serverUrl: string) {
         if (!accessKey) { throw new Error("A token must be specified to execute server calls."); }
