@@ -1,9 +1,8 @@
-import { AppCenterProfile, CommandParams } from "../../../helpers/interfaces";
-import { GeneralMenu } from "../../menu/generalMenu";
-import { Command } from "../command";
+import { AppCenterProfile, CommandParams } from '../../../helpers/interfaces';
+import { GeneralMenu } from '../../menu/generalMenu';
+import { Command } from '../command';
 
 export default class ShowMenu extends Command {
-
     private _params: CommandParams;
     constructor(params: CommandParams) {
         super(params);

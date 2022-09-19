@@ -180,7 +180,7 @@ describe('FsProfileStorage', function () {
       vstsProfileStorage = new FsProfileStorage(absolutePath, new ConsoleLogger());
       await vstsProfileStorage.init();
       const duplicateProfile: VstsProfile = malformedProfiles[0];
-      return new Promise(function (resolve, reject) {
+      return new Promise<void>(function (resolve, reject) {
         vstsProfileStorage.get(duplicateProfile.userId).catch(error => {
           should.exist(error);
           resolve();

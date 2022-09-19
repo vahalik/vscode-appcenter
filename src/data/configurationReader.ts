@@ -1,4 +1,4 @@
-import { LogStrings } from "../extension/resources/logStrings";
+import { LogStrings } from '../extension/resources/logStrings';
 
 export class ConfigurationReader {
     public static readString(value: any): string {
@@ -12,8 +12,8 @@ export class ConfigurationReader {
     public static readBoolean(value: any): boolean {
         if (this.isBoolean(value)) {
             return value;
-        } else if (value === "true" || value === "false") {
-            return value === "true";
+        } else if (value === 'true' || value === 'false') {
+            return value === 'true';
         } else {
             throw new Error(LogStrings.ConfigurationFailedToParse(value));
         }
@@ -54,7 +54,7 @@ export class ConfigurationReader {
     }
 
     public static readIntWithDefaultAsync(value: any, defaultValuePromise: Promise<number>): Promise<number> {
-        return defaultValuePromise.then(defaultValue => {
+        return defaultValuePromise.then((defaultValue) => {
             return this.readIntWithDefaultSync(value, defaultValue);
         });
     }
@@ -64,15 +64,15 @@ export class ConfigurationReader {
     }
 
     private static isObject(value: any): boolean {
-        return typeof value === "object" || !ConfigurationReader.isArray(value);
+        return typeof value === 'object' || !ConfigurationReader.isArray(value);
     }
 
     private static isString(value: any): boolean {
-        return typeof value === "string";
+        return typeof value === 'string';
     }
 
     private static isBoolean(value: any): boolean {
-        return typeof value === "boolean";
+        return typeof value === 'boolean';
     }
 
     private static isInt(value: any): boolean {
@@ -80,6 +80,6 @@ export class ConfigurationReader {
     }
 
     private static isNumber(value: any): boolean {
-        return typeof value === "number";
+        return typeof value === 'number';
     }
 }

@@ -1,22 +1,21 @@
-import * as os from "os";
-import * as qs from "qs";
-import { CommandParams, Profile } from "../../../helpers/interfaces";
-import { SettingsHelper } from "../../../helpers/settingsHelper";
-import { AuthProvider } from "../../resources/constants";
-import { Strings } from "../../resources/strings";
-import { Command } from "../command";
-import { IButtonMessageItem, VsCodeUI } from "../../ui/vscodeUI";
-import { Messages } from "../../resources/messages";
-import { LogStrings } from "../../resources/logStrings";
+import * as os from 'os';
+import * as qs from 'qs';
+import { CommandParams, Profile } from '../../../helpers/interfaces';
+import { SettingsHelper } from '../../../helpers/settingsHelper';
+import { AuthProvider } from '../../resources/constants';
+import { Strings } from '../../resources/strings';
+import { Command } from '../command';
+import { IButtonMessageItem, VsCodeUI } from '../../ui/vscodeUI';
+import { Messages } from '../../resources/messages';
+import { LogStrings } from '../../resources/logStrings';
 
 export default class Login extends Command {
-
     constructor(params: CommandParams) {
         super(params);
     }
 
     public async runNoClient(): Promise<boolean | void> {
-        if (! await super.runNoClient()) {
+        if (!(await super.runNoClient())) {
             return false;
         }
 
@@ -24,10 +23,13 @@ export default class Login extends Command {
         const loginUrl = `${SettingsHelper.getAppCenterLoginEndpoint()}?${qs.stringify({ hostname: os.hostname() })}`;
         messageItems.push({
             title: Strings.OkBtnLabel,
-            url: loginUrl
+            url: loginUrl,
         });
 
-        const selection: IButtonMessageItem | undefined = await VsCodeUI.ShowInfoMessage(Messages.PleaseLoginViaBrowserMessage, ...messageItems);
+        const selection: IButtonMessageItem | undefined = await VsCodeUI.ShowInfoMessage(
+            Messages.PleaseLoginViaBrowserMessage,
+            ...messageItems,
+        );
         if (selection) {
             const token: string = await VsCodeUI.showInput(Strings.PleaseProvideTokenHint);
             this.loginWithToken(token);

@@ -9,16 +9,25 @@ export class SpawnError extends Error {
 }
 
 export namespace cpUtils {
-    export async function executeCommand(logger: ILogger | undefined, logErrorsOnly = false, workingDirectory: string | undefined, command: string, inputValues: ReactNativeLinkInputValue[] = [], exposeArgs = true, environment: any = {}, ...args: string[]): Promise<string> {
+    export async function executeCommand(
+        logger: ILogger | undefined,
+        logErrorsOnly = false,
+        workingDirectory: string | undefined,
+        command: string,
+        inputValues: ReactNativeLinkInputValue[] = [],
+        exposeArgs = true,
+        environment: NodeJS.ProcessEnv | undefined = undefined,
+        ...args: string[]
+    ): Promise<string> {
         let cmdOutput = '';
         let cmdOutputIncludingStderr = '';
         workingDirectory = workingDirectory || os.tmpdir();
-        const formattedArgs: string = exposeArgs ? args.join(' ') : "";
-        await new Promise((resolve: () => void, reject: (e: Error) => void): void => {
+        const formattedArgs: string = exposeArgs ? args.join(' ') : '';
+        await new Promise<void>((resolve: () => void, reject: (e: Error) => void): void => {
             const options: cp.SpawnOptions = {
                 cwd: workingDirectory,
                 shell: true,
-                env: { ...process.env, ...environment }
+                env: { ...process.env, ...environment },
             };
             const childProc: cp.ChildProcess = cp.spawn(command, args, options);
 
@@ -35,19 +44,21 @@ export namespace cpUtils {
                 }
                 if (inputValues.length > 0) {
                     let sentResponse: boolean;
-                    const lines = data.split('\n').filter(function (line) { return line.length > 0; });
+                    const lines = data.split('\n').filter(function (line) {
+                        return line.length > 0;
+                    });
                     for (const line of lines) {
                         const filtered = inputValues.filter((inputValue) => {
                             return line.indexOf(inputValue.label) > 0;
                         });
                         if (filtered.length > 0 && !filtered[0].sent) {
                             sentResponse = true;
-                            childProc.stdin.write(filtered[0].input + "\n");
+                            childProc.stdin.write(filtered[0].input + '\n');
                             inputValues[inputValues.indexOf(filtered[0])].sent = true;
                         }
                     }
                     if (!sentResponse) {
-                        childProc.stdin.write("\n");
+                        childProc.stdin.write('\n');
                     }
                 }
             });
@@ -76,7 +87,9 @@ export namespace cpUtils {
                     reject(error);
                 } else {
                     if (logger && !logErrorsOnly) {
-                        logger.info(`finishedRunningCommand', 'Finished running command: "${command} ${formattedArgs}".`);
+                        logger.info(
+                            `finishedRunningCommand', 'Finished running command: "${command} ${formattedArgs}".`,
+                        );
                     }
                     resolve();
                 }

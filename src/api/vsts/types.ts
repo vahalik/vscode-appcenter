@@ -28,9 +28,9 @@ export interface VSTSGitRepository {
 }
 
 export enum HTTP_METHODS {
-    GET = "GET",
-    PUT = "PUT",
-    DELETE = "DELETE",
-    POST = "POST",
-    PATCH = "PATCH"
+    GET = 'GET',
+    PUT = 'PUT',
+    DELETE = 'DELETE',
+    POST = 'POST',
+    PATCH = 'PATCH',
 }

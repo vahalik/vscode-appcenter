@@ -6,13 +6,12 @@ import { VsCodeUI } from '../../ui/vscodeUI';
 import { Messages } from '../../resources/messages';
 
 export default class Logout extends Command {
-
     constructor(params: CommandParams) {
         super(params);
     }
 
     public async runNoClient(): Promise<boolean | void> {
-        if (!await super.runNoClient()) {
+        if (!(await super.runNoClient())) {
             return false;
         }
 
@@ -31,16 +30,19 @@ export default class Logout extends Command {
 
         // Two or more users - choose from which one user should be logged out
         const menuOptions: ProfileQuickPickItem[] = [];
-        profiles.forEach(profile => {
+        profiles.forEach((profile) => {
             menuOptions.push(<ProfileQuickPickItem>{
                 label: profile.userId,
-                description: "",
-                profile: profile
+                description: '',
+                profile: profile,
             });
         });
 
         try {
-            const selected: ProfileQuickPickItem = await VsCodeUI.showQuickPick(menuOptions, Strings.SelectProfileTitleHint);
+            const selected: ProfileQuickPickItem = await VsCodeUI.showQuickPick(
+                menuOptions,
+                Strings.SelectProfileTitleHint,
+            );
             if (!selected) {
                 // User cancel selection
                 return void 0;

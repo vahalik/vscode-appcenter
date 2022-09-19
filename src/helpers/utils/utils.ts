@@ -16,7 +16,7 @@ export class Utils {
     public static FormatMessage(message: string): string {
         if (message) {
             //Replace newlines with spaces
-            return message.replace(/\r\n/g, " ").replace(/\n/g, " ").trim();
+            return message.replace(/\r\n/g, ' ').replace(/\n/g, ' ').trim();
         }
         return message;
     }
@@ -27,13 +27,13 @@ export class Utils {
         if (name.length < ELLIPSIZE_LENGTH_WO_HINT) {
             return name;
         }
-        let hint = "";
-        if (name.endsWith("-ios")) {
-            hint = " (iOS)";
-        } else if (name.endsWith("-android")) {
-            hint = " (android)";
+        let hint = '';
+        if (name.endsWith('-ios')) {
+            hint = ' (iOS)';
+        } else if (name.endsWith('-android')) {
+            hint = ' (android)';
         }
-        return name.substr(0, hint.length ? ELLIPSIZE_LENGTH_WITH_HINT : ELLIPSIZE_LENGTH_WO_HINT) + "..." + hint;
+        return name.substr(0, hint.length ? ELLIPSIZE_LENGTH_WITH_HINT : ELLIPSIZE_LENGTH_WO_HINT) + '...' + hint;
     }
 
     public static Delay<T>(millis: number, value?: T): Promise<T> {
@@ -43,8 +43,8 @@ export class Utils {
     //Use open for Windows and Mac, opener for Linux
     public static OpenUrl(url: string): void {
         switch (process.platform) {
-            case "win32":
-            case "darwin":
+            case 'win32':
+            case 'darwin':
                 open(url);
                 break;
             default:
@@ -85,14 +85,18 @@ export class Utils {
         }
     }
 
-    public static projectHaveNpmPackage(logger: ILogger, projectRoot: string | undefined, packageName: string, installHint: string, showMessageOnError?: boolean): boolean {
+    public static projectHaveNpmPackage(
+        logger: ILogger,
+        projectRoot: string | undefined,
+        packageName: string,
+        installHint: string,
+        showMessageOnError?: boolean,
+    ): boolean {
         if (!projectRoot) {
             return false;
         }
 
-        const packageJsonPath = path.resolve(
-            projectRoot, 'node_modules', packageName, 'package.json'
-        );
+        const packageJsonPath = path.resolve(projectRoot, 'node_modules', packageName, 'package.json');
 
         try {
             Utils.parseJsonFile(packageJsonPath, installHint);
@@ -107,15 +111,41 @@ export class Utils {
     }
 
     public static isReactNativeProject(logger: ILogger, projectRoot: string | undefined, showMessageOnError?: boolean) {
-        return Utils.projectHaveNpmPackage(logger, projectRoot, 'react-native', LogStrings.ReactNativeInstallMessage, showMessageOnError);
+        return Utils.projectHaveNpmPackage(
+            logger,
+            projectRoot,
+            'react-native',
+            LogStrings.ReactNativeInstallMessage,
+            showMessageOnError,
+        );
     }
 
-    public static isReactNativeCodePushProject(logger: ILogger, projectRoot: string | undefined, showMessageOnError?: boolean) {
-        return Utils.projectHaveNpmPackage(logger, projectRoot, 'react-native-code-push', LogStrings.CodePushInstallMessage, showMessageOnError);
+    public static isReactNativeCodePushProject(
+        logger: ILogger,
+        projectRoot: string | undefined,
+        showMessageOnError?: boolean,
+    ) {
+        return Utils.projectHaveNpmPackage(
+            logger,
+            projectRoot,
+            'react-native-code-push',
+            LogStrings.CodePushInstallMessage,
+            showMessageOnError,
+        );
     }
 
-    public static isReactNativeAppCenterProject(logger: ILogger, projectRoot: string | undefined, showMessageOnError?: boolean) {
-        return Utils.projectHaveNpmPackage(logger, projectRoot, 'appcenter', LogStrings.AppCenterInstallMessage, showMessageOnError);
+    public static isReactNativeAppCenterProject(
+        logger: ILogger,
+        projectRoot: string | undefined,
+        showMessageOnError?: boolean,
+    ) {
+        return Utils.projectHaveNpmPackage(
+            logger,
+            projectRoot,
+            'appcenter',
+            LogStrings.AppCenterInstallMessage,
+            showMessageOnError,
+        );
     }
 
     public static toAppCenterOS(codePushOs: string): AppCenterOS | undefined {
@@ -131,13 +161,15 @@ export class Utils {
         }
     }
 
-    public static toCurrentApp(app: string,
+    public static toCurrentApp(
+        app: string,
         appOS: AppCenterOS,
         appDeployment: CurrentAppDeployments | null,
         targetBinaryVersion: string,
         type: string,
         isMandatory: boolean,
-        appSecret: string): CurrentApp | null {
+        appSecret: string,
+    ): CurrentApp | null {
         const matches = app.match(Validators.ValidAppCenterAppName);
         if (matches !== null) {
             return {
@@ -149,10 +181,12 @@ export class Utils {
                 isMandatory: isMandatory,
                 type: type,
                 appSecret: appSecret,
-                currentAppDeployments: appDeployment ? appDeployment : {
-                    codePushDeployments: [],
-                    currentDeploymentName: ""
-                }
+                currentAppDeployments: appDeployment
+                    ? appDeployment
+                    : {
+                          codePushDeployments: [],
+                          currentDeploymentName: '',
+                      },
             };
         }
         return null;
@@ -160,7 +194,7 @@ export class Utils {
 
     public static getUserDir(): string {
         //todo move to constants
-        if (os.platform() === "win32") {
+        if (os.platform() === 'win32') {
             return process.env.AppData;
         } else {
             return os.homedir();
@@ -180,9 +214,7 @@ export class Utils {
     }
 
     public static getAppName(projectRoot: string) {
-        const packageJsonPath = path.resolve(
-            projectRoot, 'package.json'
-        );
+        const packageJsonPath = path.resolve(projectRoot, 'package.json');
 
         const packageJson = Utils.parseJsonFile(packageJsonPath);
         return packageJson.name;
@@ -190,9 +222,18 @@ export class Utils {
 
     public static async packageInstalledGlobally(packageName: string) {
         const resultSignalsThatPackageInstalled = (result) => !/\(empty\)/.test(result);
-        let result = "";
+        let result = '';
         try {
-            result = await cpUtils.executeCommand(undefined, true, undefined, "npm", [], true, {}, ...["list", "--depth", "1", "-g", packageName]);
+            result = await cpUtils.executeCommand(
+                undefined,
+                true,
+                undefined,
+                'npm',
+                [],
+                true,
+                {},
+                ...['list', '--depth', '1', '-g', packageName],
+            );
         } catch (e) {
             if (e instanceof SpawnError) {
                 if (e.exitCode === 1 && e.result && !resultSignalsThatPackageInstalled(e.result)) {
@@ -204,24 +245,51 @@ export class Utils {
         return resultSignalsThatPackageInstalled(result);
     }
 
-    public static createAppCenterConfigFrom(appName: string, projectRootPath: string, logger: ILogger): AppCenterConfig {
-        const pathToAppCenterConfigPlist: string = path.join(projectRootPath, "ios", appName, "AppCenter-Config.plist");
-        const pathToMainPlist: string = path.join(projectRootPath, "ios", appName, "Info.plist");
-        const pathToAndroidConfig: string = path.join(projectRootPath, "android", "app", "src", "main", "assets", "appcenter-config.json");
-        const pathToAndroidStringResources: string = path.join(projectRootPath, "android", "app", "src", "main", "res", "values", "strings.xml");
-        return new AppCenterConfig(pathToAppCenterConfigPlist, pathToMainPlist, pathToAndroidConfig, pathToAndroidStringResources, logger);
+    public static createAppCenterConfigFrom(
+        appName: string,
+        projectRootPath: string,
+        logger: ILogger,
+    ): AppCenterConfig {
+        const pathToAppCenterConfigPlist: string = path.join(projectRootPath, 'ios', appName, 'AppCenter-Config.plist');
+        const pathToMainPlist: string = path.join(projectRootPath, 'ios', appName, 'Info.plist');
+        const pathToAndroidConfig: string = path.join(
+            projectRootPath,
+            'android',
+            'app',
+            'src',
+            'main',
+            'assets',
+            'appcenter-config.json',
+        );
+        const pathToAndroidStringResources: string = path.join(
+            projectRootPath,
+            'android',
+            'app',
+            'src',
+            'main',
+            'res',
+            'values',
+            'strings.xml',
+        );
+        return new AppCenterConfig(
+            pathToAppCenterConfigPlist,
+            pathToMainPlist,
+            pathToAndroidConfig,
+            pathToAndroidStringResources,
+            logger,
+        );
     }
 
     public static selectCurrentDeploymentName(deployments: Deployment[], currentDeploymentName: string = null): string {
         if (deployments.length === 0) {
-            return "";
+            return '';
         }
 
-        if (currentDeploymentName && deployments.some(depl => depl.name === currentDeploymentName)) {
+        if (currentDeploymentName && deployments.some((depl) => depl.name === currentDeploymentName)) {
             return currentDeploymentName; // keep current deployment
         }
 
-        if (deployments.some(depl => depl.name === Constants.CodePushStagingDeploymentName)) {
+        if (deployments.some((depl) => depl.name === Constants.CodePushStagingDeploymentName)) {
             return Constants.CodePushStagingDeploymentName;
         }
 

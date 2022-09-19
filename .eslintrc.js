@@ -13,5 +13,6 @@ module.exports = {
     plugins: ['@typescript-eslint'],
     rules: {
         '@typescript-eslint/no-namespace': 'warn',
+        'no-return-await': 'error',
     },
 };

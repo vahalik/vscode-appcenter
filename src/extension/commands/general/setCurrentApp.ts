@@ -1,12 +1,18 @@
-import * as General from "../general";
-import { models } from "../../../api/appcenter";
-import { CommandParams, CurrentApp, CurrentAppDeployments, Deployment, QuickPickAppItem } from "../../../helpers/interfaces";
-import { Utils } from "../../../helpers/utils/utils";
-import { AppCenterOS, CommandNames, Constants } from "../../resources/constants";
-import { ReactNativeAppCommand } from "../reactNativeAppCommand";
-import { VsCodeUI } from "../../ui/vscodeUI";
-import { LogStrings } from "../../resources/logStrings";
-import { Messages } from "../../resources/messages";
+import * as General from '../general';
+import { models } from '../../../api/appcenter';
+import {
+    CommandParams,
+    CurrentApp,
+    CurrentAppDeployments,
+    Deployment,
+    QuickPickAppItem,
+} from '../../../helpers/interfaces';
+import { Utils } from '../../../helpers/utils/utils';
+import { AppCenterOS, CommandNames, Constants } from '../../resources/constants';
+import { ReactNativeAppCommand } from '../reactNativeAppCommand';
+import { VsCodeUI } from '../../ui/vscodeUI';
+import { LogStrings } from '../../resources/logStrings';
+import { Messages } from '../../resources/messages';
 
 export default class SetCurrentApp extends ReactNativeAppCommand {
     constructor(params: CommandParams) {
@@ -14,7 +20,7 @@ export default class SetCurrentApp extends ReactNativeAppCommand {
     }
 
     public async run(): Promise<void> {
-        if (!await super.run()) {
+        if (!(await super.run())) {
             return;
         }
         this.showAppsQuickPick(this.CachedAllApps);
@@ -26,7 +32,9 @@ export default class SetCurrentApp extends ReactNativeAppCommand {
             await new General.CreateNewApp(this._params).run();
             return;
         } else {
-            const selectedApps: models.AppResponse[] = rnApps.filter(app => app.name === selected.target && app.owner.type === selected.description);
+            const selectedApps: models.AppResponse[] = rnApps.filter(
+                (app) => app.name === selected.target && app.owner.type === selected.description,
+            );
             if (!selectedApps || selectedApps.length !== 1) {
                 return;
             }
@@ -41,7 +49,7 @@ export default class SetCurrentApp extends ReactNativeAppCommand {
                 return;
             }
             try {
-                const deployments: models.Deployment[] = await VsCodeUI.showProgress(async progress => {
+                const deployments: models.Deployment[] = await VsCodeUI.showProgress(async (progress) => {
                     progress.report({ message: Messages.FetchDeploymentsProgressMessage });
                     return await this.client.codePushDeployments.list(selectedApp.owner.name, selectedApp.name);
                 });
@@ -53,12 +61,12 @@ export default class SetCurrentApp extends ReactNativeAppCommand {
                 if (appDeployments.length > 0) {
                     const deployments: Deployment[] = appDeployments.map((d) => {
                         return {
-                            name: d.name
+                            name: d.name,
                         };
                     });
                     currentDeployments = {
                         codePushDeployments: deployments,
-                        currentDeploymentName: Utils.selectCurrentDeploymentName(deployments)
+                        currentDeploymentName: Utils.selectCurrentDeploymentName(deployments),
                     };
                 }
                 const app: CurrentApp | null = await this.saveCurrentApp(
@@ -68,10 +76,13 @@ export default class SetCurrentApp extends ReactNativeAppCommand {
                     Constants.AppCenterDefaultTargetBinaryVersion,
                     type,
                     Constants.AppCenterDefaultIsMandatoryParam,
-                    selectedAppSecret
+                    selectedAppSecret,
                 );
                 if (app) {
-                    const message = Messages.YourCurrentAppAndDeploymentMessage(selected.target, app.currentAppDeployments.currentDeploymentName);
+                    const message = Messages.YourCurrentAppAndDeploymentMessage(
+                        selected.target,
+                        app.currentAppDeployments.currentDeploymentName,
+                    );
                     VsCodeUI.ShowInfoMessage(message);
                 } else {
                     this.logger.error(LogStrings.FailedToSaveCurrentApp);

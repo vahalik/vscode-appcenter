@@ -57,10 +57,11 @@ export class ExtensionManager implements Disposable {
         return this._projectRootPath;
     }
 
-    public async Initialize(projectRootPath: string | undefined,
+    public async Initialize(
+        projectRootPath: string | undefined,
         logger: ILogger = new ConsoleLogger(),
         appCenterAuth: AppCenterAuth,
-        vstsAuth: VstsAuth
+        vstsAuth: VstsAuth,
     ): Promise<void> {
         this._logger = logger;
         this._projectRootPath = projectRootPath;
@@ -82,7 +83,10 @@ export class ExtensionManager implements Disposable {
     }
 
     private async checkAppExists(profile: AppCenterProfile, appCenterAuth: AppCenterAuth) {
-        const clientForProfile: AppCenterClient = createAppCenterClient().fromProfile(profile, SettingsHelper.getAppCenterAPIEndpoint());
+        const clientForProfile: AppCenterClient = createAppCenterClient().fromProfile(
+            profile,
+            SettingsHelper.getAppCenterAPIEndpoint(),
+        );
         try {
             await clientForProfile.apps.get(profile.currentApp.ownerName, profile.currentApp.appName);
         } catch (e) {
@@ -95,24 +99,31 @@ export class ExtensionManager implements Disposable {
 
     public setupAppCenterStatusBar(profile: Profile | null): Promise<void> {
         if (profile && profile.userName) {
-            const currentAppName = profile.currentApp && profile.currentApp.appName && Utils.isReactNativeProject(this._logger, this.projectRootPath, false) ?
-                profile.currentApp.appName :
-                null;
+            const currentAppName =
+                profile.currentApp &&
+                profile.currentApp.appName &&
+                Utils.isReactNativeProject(this._logger, this.projectRootPath, false)
+                    ? profile.currentApp.appName
+                    : null;
 
-            const tooltip = currentAppName ?
-                Messages.YouAreLoggedInCurrentAppIsMessage(AuthProvider.AppCenter, profile.userName, currentAppName) :
-                Messages.YouAreLoggedInMessage(AuthProvider.AppCenter, profile.userName);
+            const tooltip = currentAppName
+                ? Messages.YouAreLoggedInCurrentAppIsMessage(AuthProvider.AppCenter, profile.userName, currentAppName)
+                : Messages.YouAreLoggedInMessage(AuthProvider.AppCenter, profile.userName);
 
-            return VsCodeUI.setStatusBar(this._appCenterStatusBarItem,
-                currentAppName ? `App Center: ${Utils.FormatAppName(currentAppName)}` : `App Center: ${profile.userName}`,
+            return VsCodeUI.setStatusBar(
+                this._appCenterStatusBarItem,
+                currentAppName
+                    ? `App Center: ${Utils.FormatAppName(currentAppName)}`
+                    : `App Center: ${profile.userName}`,
                 tooltip,
-                `${CommandNames.ShowMenu}`
+                `${CommandNames.ShowMenu}`,
             );
         } else {
-            VsCodeUI.setStatusBar(this._appCenterStatusBarItem,
+            VsCodeUI.setStatusBar(
+                this._appCenterStatusBarItem,
                 `$(icon octicon-sign-in) ${Strings.LoginToAppCenterStatusBarButton}`,
                 Strings.UserMustSignInStatusBarMessage,
-                `${CommandNames.Login}`
+                `${CommandNames.Login}`,
             );
         }
         return Promise.resolve(void 0);
@@ -138,7 +149,7 @@ export class ExtensionManager implements Disposable {
     }
 
     private cleanup(): void {
-        this._logger.info("Extension Manager: Called cleanup");
+        this._logger.info('Extension Manager: Called cleanup');
         if (this._appCenterStatusBarItem) {
             this._appCenterStatusBarItem.dispose();
         }

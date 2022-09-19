@@ -1,4 +1,4 @@
-import { Observable } from "rx-lite";
+import { Observable } from 'rx-lite';
 
 export interface TokenStore {
     // List all entries in the store for our project
@@ -11,8 +11,8 @@ export interface TokenStore {
     set(key: TokenKeyType, token: TokenValueType): Promise<void>;
 
     // Remove a token
-    remove(key: TokenKeyType): Promise<void> ;
-  }
+    remove(key: TokenKeyType): Promise<void>;
+}
 
 // Information stored about in each token
 export interface TokenEntry {

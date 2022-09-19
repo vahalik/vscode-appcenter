@@ -1,8 +1,8 @@
-import { QuickPickItem } from "vscode";
-import AppCenterAuth from "../auth/appCenterAuth";
-import VstsAuth from "../auth/vstsAuth";
-import { ExtensionManager } from "../extension/extensionManager";
-import { AppCenterOS } from "../extension/resources/constants";
+import { QuickPickItem } from 'vscode';
+import AppCenterAuth from '../auth/appCenterAuth';
+import VstsAuth from '../auth/vstsAuth';
+import { ExtensionManager } from '../extension/extensionManager';
+import { AppCenterOS } from '../extension/resources/constants';
 
 export interface Deployment {
     name: string;
@@ -73,7 +73,7 @@ export interface LoginInfo {
 }
 
 // tslint:disable-next-line:no-empty-interface
-export type AppCenterLoginInfo = LoginInfo
+export type AppCenterLoginInfo = LoginInfo;
 
 export interface VstsLoginInfo extends LoginInfo {
     tenantName: string;

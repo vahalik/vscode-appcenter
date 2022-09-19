@@ -1,5 +1,5 @@
-import { CommandParams, CurrentApp } from "../../../helpers/interfaces";
-import { TestMenu } from "../../menu/testMenu";
+import { CommandParams, CurrentApp } from '../../../helpers/interfaces';
+import { TestMenu } from '../../menu/testMenu';
 import { ReactNativeAppCommand } from '../reactNativeAppCommand';
 
 export default class ShowMenu extends ReactNativeAppCommand {
@@ -8,7 +8,7 @@ export default class ShowMenu extends ReactNativeAppCommand {
     }
 
     public async runNoClient(): Promise<boolean | void> {
-        if (!await super.runNoClient()) {
+        if (!(await super.runNoClient())) {
             return false;
         }
         if (!this._app) {

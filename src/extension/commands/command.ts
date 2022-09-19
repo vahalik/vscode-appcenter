@@ -1,18 +1,17 @@
-import { AppCenterClient, AppCenterClientFactory, createAppCenterClient } from "../../api/appcenter";
-import AppCenterAuth from "../../auth/appCenterAuth";
-import VstsAuth from "../../auth/vstsAuth";
-import { AppCenterProfile, CommandParams, CurrentApp, CurrentAppDeployments } from "../../helpers/interfaces";
-import { SettingsHelper } from "../../helpers/settingsHelper";
-import { Utils } from "../../helpers/utils/utils";
-import { ExtensionManager } from "../extensionManager";
-import { ILogger } from "../log/logHelper";
-import { AppCenterOS } from "../resources/constants";
-import { VsCodeUI } from "../ui/vscodeUI";
-import { Messages } from "../resources/messages";
-import { LogStrings } from "../resources/logStrings";
+import { AppCenterClient, AppCenterClientFactory, createAppCenterClient } from '../../api/appcenter';
+import AppCenterAuth from '../../auth/appCenterAuth';
+import VstsAuth from '../../auth/vstsAuth';
+import { AppCenterProfile, CommandParams, CurrentApp, CurrentAppDeployments } from '../../helpers/interfaces';
+import { SettingsHelper } from '../../helpers/settingsHelper';
+import { Utils } from '../../helpers/utils/utils';
+import { ExtensionManager } from '../extensionManager';
+import { ILogger } from '../log/logHelper';
+import { AppCenterOS } from '../resources/constants';
+import { VsCodeUI } from '../ui/vscodeUI';
+import { Messages } from '../resources/messages';
+import { LogStrings } from '../resources/logStrings';
 
 export class Command {
-
     protected clientFactory: AppCenterClientFactory;
     protected client: AppCenterClient;
 
@@ -90,8 +89,17 @@ export class Command {
         targetBinaryVersion: string,
         type: string,
         isMandatory: boolean,
-        appSecret: string): Promise<CurrentApp | null> {
-        const currentApp = Utils.toCurrentApp(currentAppName, appOS, currentAppDeployments, targetBinaryVersion, type, isMandatory, appSecret);
+        appSecret: string,
+    ): Promise<CurrentApp | null> {
+        const currentApp = Utils.toCurrentApp(
+            currentAppName,
+            appOS,
+            currentAppDeployments,
+            targetBinaryVersion,
+            type,
+            isMandatory,
+            appSecret,
+        );
         if (!currentApp) {
             VsCodeUI.ShowWarningMessage(Messages.InvalidCurrentAppNameWarning);
             return null;
@@ -108,6 +116,5 @@ export class Command {
             VsCodeUI.ShowWarningMessage(Messages.UserIsNotLoggedInWarning);
             return null;
         }
-
     }
 }

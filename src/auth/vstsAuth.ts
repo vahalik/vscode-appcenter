@@ -1,5 +1,5 @@
-import { VstsLoginInfo, VstsProfile } from "../helpers/interfaces";
-import Auth from "./auth";
+import { VstsLoginInfo, VstsProfile } from '../helpers/interfaces';
+import Auth from './auth';
 
 class VstsProfileImpl implements VstsProfile {
     public userId: string;
@@ -18,7 +18,6 @@ class VstsProfileImpl implements VstsProfile {
 }
 
 export default class VstsAuth extends Auth<VstsProfile> {
-
     protected async getUserInfo(loginInfo: VstsLoginInfo): Promise<VstsProfile> {
         return new VstsProfileImpl(loginInfo);
     }

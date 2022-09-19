@@ -1,18 +1,17 @@
-
 import { models } from '../../api/appcenter';
 import { CurrentApp, QuickPickAppItem } from '../../helpers/interfaces';
-import { SettingsHelper } from "../../helpers/settingsHelper";
+import { SettingsHelper } from '../../helpers/settingsHelper';
 import { Utils } from '../../helpers/utils/utils';
 import { AppCenterOS, Constants } from '../resources/constants';
 import { Strings } from '../resources/strings';
-import { ReactNativeAppCommand } from "./reactNativeAppCommand";
+import { ReactNativeAppCommand } from './reactNativeAppCommand';
 
 export class LinkCommand extends ReactNativeAppCommand {
     protected showedCount = 0;
     protected pickedApps: CurrentApp[] = [];
 
     public async run(): Promise<boolean | void> {
-        if (!await super.run()) {
+        if (!(await super.run())) {
             return false;
         }
         return true;
@@ -23,7 +22,9 @@ export class LinkCommand extends ReactNativeAppCommand {
         if (selected.target === this.currentAppMenuTarget) {
             currentApp = await this.getCurrentApp();
         } else {
-            const selectedApps: models.AppResponse[] = _rnApps.filter(app => app.name === selected.target && app.owner.type === selected.description);
+            const selectedApps: models.AppResponse[] = _rnApps.filter(
+                (app) => app.name === selected.target && app.owner.type === selected.description,
+            );
             if (!selectedApps || selectedApps.length !== 1) {
                 this.showedCount = 0;
                 this.pickedApps = [];
@@ -35,24 +36,42 @@ export class LinkCommand extends ReactNativeAppCommand {
             const type: string = selectedApp.owner.type;
 
             const OS: AppCenterOS | undefined = Utils.toAppCenterOS(selectedApp.os);
-            currentApp = Utils.toCurrentApp(selectedAppName, OS, null, Constants.AppCenterDefaultTargetBinaryVersion, type, Constants.AppCenterDefaultIsMandatoryParam, selectedAppSecret);
+            currentApp = Utils.toCurrentApp(
+                selectedAppName,
+                OS,
+                null,
+                Constants.AppCenterDefaultTargetBinaryVersion,
+                type,
+                Constants.AppCenterDefaultIsMandatoryParam,
+                selectedAppSecret,
+            );
         }
         this.pickedApps.push(currentApp);
         if (this.showedCount < 1 && SettingsHelper.linkTwoApps()) {
             this.showedCount++;
-            const missingOS: AppCenterOS = currentApp.os.toLowerCase() === AppCenterOS.Android.toLowerCase() ? AppCenterOS.iOS : AppCenterOS.Android;
+            const missingOS: AppCenterOS =
+                currentApp.os.toLowerCase() === AppCenterOS.Android.toLowerCase()
+                    ? AppCenterOS.iOS
+                    : AppCenterOS.Android;
             const cachedFilteredApps = this.getRnApps(this.CachedAllApps).filter((cachedApp) => {
                 return cachedApp.os.toLowerCase() === missingOS.toLowerCase();
             });
             const current: CurrentApp | null = await this.getCurrentApp();
             const showCurrentApp: boolean = current.os.toLowerCase() !== currentApp.os.toLowerCase();
-            this.showAppsQuickPick(cachedFilteredApps, false, showCurrentApp, false, Strings.ProvideSecondAppHint, true);
+            this.showAppsQuickPick(
+                cachedFilteredApps,
+                false,
+                showCurrentApp,
+                false,
+                Strings.ProvideSecondAppHint,
+                true,
+            );
         } else {
             this.linkApps();
         }
     }
 
     protected async linkApps(): Promise<boolean> {
-        throw Error("linkApps not implemented in base class");
+        throw Error('linkApps not implemented in base class');
     }
 }

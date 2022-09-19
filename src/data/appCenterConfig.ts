@@ -51,8 +51,7 @@ export default class AppCenterConfig {
         try {
             this.logger.debug(LogStrings.ReadContents(pathToAndroidStringResources));
             const data = fs.readFileSync(pathToAndroidStringResources, { encoding: 'utf8' });
-            const xml = new jsxml.XML(data);
-            this.androidStringResources = xml;
+            this.androidStringResources = new jsxml.XML(data);
         } catch (e) {
             this.logger.error(`${LogStrings.CouldNotRead('strings.xml')} ${e.message}`);
         }

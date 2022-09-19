@@ -6,9 +6,8 @@ import { VsCodeUI } from '../../ui/vscodeUI';
 import { Messages } from '../../resources/messages';
 
 export default class SwitchAccount extends Command {
-
     public async runNoClient(): Promise<boolean | void> {
-        if (!await super.runNoClient()) {
+        if (!(await super.runNoClient())) {
             return false;
         }
 
@@ -18,18 +17,21 @@ export default class SwitchAccount extends Command {
         }
 
         const menuOptions: ProfileQuickPickItem[] = [];
-        profiles.forEach(profile => {
+        profiles.forEach((profile) => {
             if (!profile.isActive) {
                 menuOptions.push(<ProfileQuickPickItem>{
                     label: profile.userId,
-                    description: "",
-                    profile: profile
+                    description: '',
+                    profile: profile,
                 });
             }
         });
 
         try {
-            const selected: ProfileQuickPickItem = await VsCodeUI.showQuickPick(menuOptions, Strings.SelectProfileTitleHint);
+            const selected: ProfileQuickPickItem = await VsCodeUI.showQuickPick(
+                menuOptions,
+                Strings.SelectProfileTitleHint,
+            );
             if (!selected) {
                 // User cancel selection
                 return void 0;

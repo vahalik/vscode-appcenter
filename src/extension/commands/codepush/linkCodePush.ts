@@ -8,13 +8,12 @@ import { VsCodeUI } from '../../ui/vscodeUI';
 import { Messages } from '../../resources/messages';
 
 export default class LinkCodePush extends LinkCommand {
-
     public constructor(params: CommandParams, private _app: CurrentApp = null) {
         super(params);
     }
 
     public async run(): Promise<void> {
-        if (!await super.run()) {
+        if (!(await super.run())) {
             return;
         }
 

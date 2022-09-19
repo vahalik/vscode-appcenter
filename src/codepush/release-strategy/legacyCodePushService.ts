@@ -1,7 +1,7 @@
-import * as fs from "fs";
-import * as request from "request";
-import { models } from "../../api/appcenter";
-import { CurrentApp } from "../../helpers/interfaces";
+import * as fs from 'fs';
+import * as request from 'request';
+import { models } from '../../api/appcenter';
+import { CurrentApp } from '../../helpers/interfaces';
 
 export interface PackageInfo {
     appVersion?: string;
@@ -16,10 +16,10 @@ export interface PackageInfo {
 export interface Package extends PackageInfo {
     /*generated*/ blobUrl: string;
     /*generated*/ diffPackageMap?: PackageHashToBlobInfoMap;
-    /*generated*/ originalLabel?: string;       // Set on "Promote" and "Rollback"
-    /*generated*/ originalDeployment?: string;  // Set on "Promote"
-    /*generated*/ releasedBy?: string;          // Set by commitPackage
-    /*generated*/ releaseMethod?: string;       // "Upload", "Promote" or "Rollback". Unknown if unspecified
+    /*generated*/ originalLabel?: string; // Set on "Promote" and "Rollback"
+    /*generated*/ originalDeployment?: string; // Set on "Promote"
+    /*generated*/ releasedBy?: string; // Set by commitPackage
+    /*generated*/ releaseMethod?: string; // "Upload", "Promote" or "Rollback". Unknown if unspecified
     /*generated*/ size: number;
     /*generated*/ uploadTime: number;
 }
@@ -39,23 +39,33 @@ export default class LegacyCodePushServiceClient {
     private static API_VERSION = 2;
 
     constructor(private accessKey: string, private app: CurrentApp, private serverUrl: string) {
-        if (!accessKey) { throw new Error("A token must be specified to execute server calls."); }
-        if (!serverUrl) { throw new Error("A server url must be specified to execute server calls."); }
+        if (!accessKey) {
+            throw new Error('A token must be specified to execute server calls.');
+        }
+        if (!serverUrl) {
+            throw new Error('A server url must be specified to execute server calls.');
+        }
     }
 
-    public release(deploymentName: string, filePath: string, updateMetadata: PackageInfo): Promise<models.CodePushRelease> {
+    public release(
+        deploymentName: string,
+        filePath: string,
+        updateMetadata: PackageInfo,
+    ): Promise<models.CodePushRelease> {
         const appName = this.app.identifier;
         return new Promise<models.CodePushRelease>((resolve, reject) => {
             const options = {
-                url: this.serverUrl + this.urlEncode(`/apps/${this.appNameParam(appName)}/deployments/${deploymentName}/release`),
+                url:
+                    this.serverUrl +
+                    this.urlEncode(`/apps/${this.appNameParam(appName)}/deployments/${deploymentName}/release`),
                 headers: {
                     Accept: `application/vnd.code-push.v${LegacyCodePushServiceClient.API_VERSION}+json`,
-                    Authorization: `Bearer ${this.accessKey}`
+                    Authorization: `Bearer ${this.accessKey}`,
                 },
                 formData: {
                     packageInfo: JSON.stringify(updateMetadata),
-                    package: fs.createReadStream(filePath)
-                }
+                    package: fs.createReadStream(filePath),
+                },
             };
 
             request.post(options, (err: any, httpResponse: any) => {
@@ -75,7 +85,7 @@ export default class LegacyCodePushServiceClient {
 
     // A template string tag function that URL encodes the substituted values
     private urlEncode(strings: any, ...values: string[]): string {
-        let result = "";
+        let result = '';
         for (let i = 0; i < strings.length; i++) {
             result += strings[i];
             if (i < values.length) {
@@ -98,10 +108,10 @@ export default class LegacyCodePushServiceClient {
     // Eventually, this service will go away & we'll all be on Max's new service. That's hosted in docker, no more IIS,
     // so this issue should go away then.
     private appNameParam(appName: string) {
-        return appName.replace("/", "~~");
+        return appName.replace('/', '~~');
     }
 
     private getErrorMessage(error: Error | null, response: request.RequestResponse): string {
-        return response && response.body ? response.body : (error ? error.message : "");
+        return response && response.body ? response.body : error ? error.message : '';
     }
 }

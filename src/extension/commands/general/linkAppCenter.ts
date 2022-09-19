@@ -1,15 +1,14 @@
-import { Utils } from "../../../helpers/utils/utils";
-import AppCenterLinker from "../../../link/appCenterLinker";
-import { Strings } from "../../resources/strings";
-import { LinkCommand } from "../linkCommand";
-import { VsCodeUI } from "../../ui/vscodeUI";
-import { Constants, AppCenterOS } from "../../resources/constants";
-import { Messages } from "../../resources/messages";
+import { Utils } from '../../../helpers/utils/utils';
+import AppCenterLinker from '../../../link/appCenterLinker';
+import { Strings } from '../../resources/strings';
+import { LinkCommand } from '../linkCommand';
+import { VsCodeUI } from '../../ui/vscodeUI';
+import { Constants, AppCenterOS } from '../../resources/constants';
+import { Messages } from '../../resources/messages';
 
 export default class LinkAppCenter extends LinkCommand {
-
     public async run(): Promise<void> {
-        if (!await super.run()) {
+        if (!(await super.run())) {
             return;
         }
 
@@ -43,11 +42,11 @@ export default class LinkAppCenter extends LinkCommand {
 
         const appCenterConfig = Utils.createAppCenterConfigFrom(appName, this.rootPath, this.logger);
 
-        const hasAndroidApps: boolean = this.pickedApps.some(app => {
+        const hasAndroidApps: boolean = this.pickedApps.some((app) => {
             return app.os.toLowerCase() === AppCenterOS.Android.toLowerCase();
         });
 
-        const hasiOSApps: boolean = this.pickedApps.some(app => {
+        const hasiOSApps: boolean = this.pickedApps.some((app) => {
             return app.os.toLowerCase() === AppCenterOS.iOS.toLowerCase();
         });
 
@@ -61,5 +60,4 @@ export default class LinkAppCenter extends LinkCommand {
             appCenterConfig.saveAndroidAppCenterConfig();
         }
     }
-
 }

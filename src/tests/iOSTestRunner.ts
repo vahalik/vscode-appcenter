@@ -1,11 +1,10 @@
-import * as path from "path";
-import { Utils } from "../helpers/utils/utils";
-import AppCenterUITestRunner from "./appCenterUITestRunner";
+import * as path from 'path';
+import { Utils } from '../helpers/utils/utils';
+import AppCenterUITestRunner from './appCenterUITestRunner';
 
 export class IOSTestRunner extends AppCenterUITestRunner {
-
     protected getBundleName(): string {
-        return "main.jsbundle";
+        return 'main.jsbundle';
     }
 
     protected getBundleOutputDir(): string {
@@ -25,30 +24,30 @@ export class IOSTestRunner extends AppCenterUITestRunner {
     }
 
     protected getRelativeBuildBinaryDirectoryPath(): string {
-        return "DerivedData/Build/Products/Release-iphoneos";
+        return 'DerivedData/Build/Products/Release-iphoneos';
     }
 
     protected getTestFrameworkName(): string {
-        return "xcuitest";
+        return 'xcuitest';
     }
 
     protected async buildAppForTest(): Promise<boolean> {
         const appName = Utils.getAppName(this.options.appDirPath);
         const args = [
-            "xcodebuild",
-            "build-for-testing",
-            "-configuration",
-            "Release",
-            "-workspace",
+            'xcodebuild',
+            'build-for-testing',
+            '-configuration',
+            'Release',
+            '-workspace',
             path.join(this.nativeAppDirectory, `${appName}.xcworkspace`),
-            "-sdk",
-            "iphoneos",
-            "-scheme",
+            '-sdk',
+            'iphoneos',
+            '-scheme',
             appName,
-            "-derivedDataPath",
-            "DerivedData"
+            '-derivedDataPath',
+            'DerivedData',
         ];
 
-        return this.spawnProcess("xcrun", args);
+        return this.spawnProcess('xcrun', args);
     }
 }

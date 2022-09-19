@@ -1,19 +1,23 @@
-import * as path from "path";
-import { AppCenterClient, models } from "../api/appcenter";
-import { DeviceConfiguration } from "../api/appcenter/generated/models";
-import Auth from "../auth/auth";
-import { fileUtils } from "../codepush/codepush-sdk/src";
-import { ILogger } from "../extension/log/logHelper";
-import { AppCenterOS, ReactNativePlatformDirectory, Constants } from "../extension/resources/constants";
-import { Strings } from "../extension/resources/strings";
-import { CurrentApp, Profile } from "../helpers/interfaces";
-import { cpUtils } from "../helpers/utils/cpUtils";
-import { FSUtils } from "../helpers/utils/fsUtils";
-import { Utils } from "../helpers/utils/utils";
-import { DeviceConfigurationSort } from "./deviceConfigurationSort";
-import { VsCodeUI, BaseQuickPickItem } from "../extension/ui/vscodeUI";
-import { Messages } from "../extension/resources/messages";
-import { MenuStrings } from "../extension/resources/menuStrings";
+import * as path from 'path';
+import { AppCenterClient, models } from '../api/appcenter';
+
+// Generated JS Code without proper definition file
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { DeviceConfiguration } from '../api/appcenter/generated/models';
+import Auth from '../auth/auth';
+import { fileUtils } from '../codepush/codepush-sdk/src';
+import { ILogger } from '../extension/log/logHelper';
+import { AppCenterOS, ReactNativePlatformDirectory, Constants } from '../extension/resources/constants';
+import { Strings } from '../extension/resources/strings';
+import { CurrentApp, Profile } from '../helpers/interfaces';
+import { cpUtils } from '../helpers/utils/cpUtils';
+import { FSUtils } from '../helpers/utils/fsUtils';
+import { Utils } from '../helpers/utils/utils';
+import { DeviceConfigurationSort } from './deviceConfigurationSort';
+import { VsCodeUI, BaseQuickPickItem } from '../extension/ui/vscodeUI';
+import { Messages } from '../extension/resources/messages';
+import { MenuStrings } from '../extension/resources/menuStrings';
 const rimraf = FSUtils.rimraf;
 
 export interface TestRunnerOptions {
@@ -27,7 +31,7 @@ export interface TestRunnerOptions {
 
 enum TestDeviceType {
     Device = 0,
-    DeviceSet = 1
+    DeviceSet = 1,
 }
 
 class TestQuickPickItem extends BaseQuickPickItem {
@@ -43,10 +47,10 @@ export default abstract class AppCenterUITestRunner {
     }
 
     public async runUITests(async: boolean): Promise<boolean> {
-        return await VsCodeUI.showProgress<boolean>(async progress => {
+        return VsCodeUI.showProgress<boolean>(async (progress) => {
             progress.report({ message: Messages.CheckingAppCenterCliProgressMessage });
-            if (!await Utils.packageInstalledGlobally("appcenter-cli")) {
-                VsCodeUI.ShowWarningMessage(Messages.PackageIsNotInstalledGloballyWarning("appcenter-cli"));
+            if (!(await Utils.packageInstalledGlobally('appcenter-cli'))) {
+                VsCodeUI.ShowWarningMessage(Messages.PackageIsNotInstalledGloballyWarning('appcenter-cli'));
                 return false;
             }
 
@@ -54,7 +58,10 @@ export default abstract class AppCenterUITestRunner {
             const devices: TestQuickPickItem[] = await this.getDevicesList(this.options.app);
             const deviceSets: TestQuickPickItem[] = await this.getDeviceSetsList(this.options.app);
             devices.unshift(...deviceSets);
-            const selectedDevice: TestQuickPickItem = await VsCodeUI.showQuickPick(devices, Strings.SelectTestDeviceTitleHint(this.options.app.appName));
+            const selectedDevice: TestQuickPickItem = await VsCodeUI.showQuickPick(
+                devices,
+                Strings.SelectTestDeviceTitleHint(this.options.app.appName),
+            );
             if (!selectedDevice) {
                 return false;
             }
@@ -71,37 +78,37 @@ export default abstract class AppCenterUITestRunner {
 
             if (this.options.app.os.toLowerCase() === AppCenterOS.Android.toLowerCase()) {
                 progress.report({ message: Messages.MakingBundleProgressMessage });
-                if (!await this.makeBundle()) {
+                if (!(await this.makeBundle())) {
                     return false;
                 }
             }
 
             progress.report({ message: Messages.PreparingBuildProgressMessage });
-            if (!await this.buildAppForTest()) {
+            if (!(await this.buildAppForTest())) {
                 return false;
             }
 
             progress.report({ message: Messages.UploadingAndRunningTestsProgressMessage });
             const args = [
-                "test",
-                "run",
+                'test',
+                'run',
                 this.getTestFrameworkName(),
-                "--app",
+                '--app',
                 `${this.options.app.ownerName}/${this.options.app.appName}`,
-                "--devices",
+                '--devices',
                 shortDeviceId,
-                "--test-series",
+                '--test-series',
                 `"master"`, // IMPORTANT: this parameter should be quoted otherwise tests on a portal will fail to start!
-                "--locale",
+                '--locale',
                 `en_US`,
-                "--build-dir",
+                '--build-dir',
                 this.getRelativeBuildBinaryDirectoryPath(),
-                "--token",
-                await Auth.accessTokenFor(this.options.profile)
+                '--token',
+                await Auth.accessTokenFor(this.options.profile),
             ];
 
             if (async) {
-                args.push("--async");
+                args.push('--async');
             }
 
             const additionalArgs: string[] = this.getAdditionalArgs();
@@ -111,24 +118,30 @@ export default abstract class AppCenterUITestRunner {
             }
 
             const environment = {
-                APPCENTER_TELEMETRY_SOURCE: Constants.TelemetrySource
+                APPCENTER_TELEMETRY_SOURCE: Constants.TelemetrySource,
             };
 
-            return this.spawnProcess("appcenter", args, undefined, environment);
+            return this.spawnProcess('appcenter', args, undefined, environment);
         });
     }
 
     private async getDevicesList(app: CurrentApp): Promise<TestQuickPickItem[]> {
-        let configs: models.DeviceConfiguration[] = await this.options.client.test.getDeviceConfigurations(app.ownerName, app.appName);
+        let configs: models.DeviceConfiguration[] = await this.options.client.test.getDeviceConfigurations(
+            app.ownerName,
+            app.appName,
+        );
         // Sort devices list like it was done on AppCenter Portal
         configs = configs.sort(DeviceConfigurationSort.compare);
-        return configs.map((config: DeviceConfiguration) => <TestQuickPickItem>{
-            label: `${config.name}`,
-            description: `${config.osName}`,
-            id: config.id,
-            type: TestDeviceType.Device,
-            slug: ""
-        });
+        return configs.map(
+            (config: DeviceConfiguration) =>
+                <TestQuickPickItem>{
+                    label: `${config.name}`,
+                    description: `${config.osName}`,
+                    id: config.id,
+                    type: TestDeviceType.Device,
+                    slug: '',
+                },
+        );
     }
 
     private sortDeviceSets(a: models.DeviceSet, b: models.DeviceSet): number {
@@ -142,26 +155,48 @@ export default abstract class AppCenterUITestRunner {
     }
 
     private async getDeviceSetsList(app: CurrentApp): Promise<TestQuickPickItem[]> {
-        let configs: models.DeviceSet[] = await this.options.client.test.listDeviceSetsOfOwner(app.ownerName, app.appName);
+        let configs: models.DeviceSet[] = await this.options.client.test.listDeviceSetsOfOwner(
+            app.ownerName,
+            app.appName,
+        );
         // Sort devices list like it was done on AppCenter Portal
         configs = configs.sort(this.sortDeviceSets);
-        return configs.map((config: models.DeviceSet) => <TestQuickPickItem>{
-            label: `${config.name}`,
-            description: MenuStrings.DeviceSetsDescription(config.owner.type),
-            id: config.id,
-            type: TestDeviceType.DeviceSet,
-            slug: config.slug
-        });
+        return configs.map(
+            (config: models.DeviceSet) =>
+                <TestQuickPickItem>{
+                    label: `${config.name}`,
+                    description: MenuStrings.DeviceSetsDescription(config.owner.type),
+                    id: config.id,
+                    type: TestDeviceType.DeviceSet,
+                    slug: config.slug,
+                },
+        );
     }
 
     private async selectDevice(app: CurrentApp, deviceId: string): Promise<string> {
-        const deviceSelection: any = await this.options.client.test.createDeviceSelection(app.ownerName, app.appName, [deviceId]);
+        const deviceSelection = await this.options.client.test.createDeviceSelection(app.ownerName, app.appName, [
+            deviceId,
+        ]);
         return deviceSelection.shortId;
     }
 
-    protected async spawnProcess(command: string, args: string[], dir?: string, environment?: any): Promise<boolean> {
+    protected async spawnProcess(
+        command: string,
+        args: string[],
+        dir?: string,
+        environment?: NodeJS.ProcessEnv,
+    ): Promise<boolean> {
         try {
-            await cpUtils.executeCommand(this.options.logger, false, dir || this.nativeAppDirectory, command, [], false, environment, ...args);
+            await cpUtils.executeCommand(
+                this.options.logger,
+                false,
+                dir || this.nativeAppDirectory,
+                command,
+                [],
+                false,
+                environment,
+                ...args,
+            );
         } catch (e) {
             this.options.logger.error(e.message, e, true);
             return false;
@@ -169,25 +204,30 @@ export default abstract class AppCenterUITestRunner {
         return true;
     }
 
-    protected abstract async buildAppForTest(): Promise<boolean>;
+    protected abstract buildAppForTest(): Promise<boolean>;
 
     protected makeBundle(): Promise<boolean> {
         const args = [
-            "bundle",
-            "--assets-dest", this.getAssetsFolder(),
-            "--bundle-output", this.getBundleOutputDir(),
-            "--dev", "true",
-            "--entry-file", this.getDefautEntryFileName(),
-            "--platform", this.getAppOsString()
+            'bundle',
+            '--assets-dest',
+            this.getAssetsFolder(),
+            '--bundle-output',
+            this.getBundleOutputDir(),
+            '--dev',
+            'true',
+            '--entry-file',
+            this.getDefautEntryFileName(),
+            '--platform',
+            this.getAppOsString(),
         ];
 
-        return this.spawnProcess("react-native", args, this.options.appDirPath);
+        return this.spawnProcess('react-native', args, this.options.appDirPath);
     }
 
     private getDefautEntryFileName(): string {
         const entryFilePath: string = path.join(this.options.appDirPath, `index.${this.getAppOsString()}.js`);
         if (fileUtils.fileDoesNotExistOrIsDirectory(entryFilePath)) {
-            return "index.js";
+            return 'index.js';
         } else {
             return `index.${this.getAppOsString()}.js`;
         }

@@ -1,5 +1,5 @@
-import * as CodePush from "../commands/codepush";
-import BaseCommandHandler from "./baseCommandHandler";
+import * as CodePush from '../commands/codepush';
+import BaseCommandHandler from './baseCommandHandler';
 
 export default class CodePushCommandHandler extends BaseCommandHandler {
     public async ShowMenu(): Promise<void> {

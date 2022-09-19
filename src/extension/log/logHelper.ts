@@ -4,7 +4,7 @@ export enum LogLevel {
     Info = 2,
     Warning = 3,
     Error = 4,
-    None = 5
+    None = 5,
 }
 
 export interface ILogger {
@@ -22,13 +22,14 @@ export class LogHelper {
     }
 }
 
-export const AppCenterExtensionLogPrefix = "VSCode App Center";
+export const AppCenterExtensionLogPrefix = 'VSCode App Center';
 
 function getLogLevel() {
     try {
-        const SettingsHelper = require("../settingsHelper").SettingsHelper;
+        const SettingsHelper = require('../settingsHelper').SettingsHelper;
         return SettingsHelper.getLogLevel();
-    } catch (err) { // Debugger context
+    } catch (err) {
+        // Debugger context
         return LogLevel.Info; // Default
     }
 }

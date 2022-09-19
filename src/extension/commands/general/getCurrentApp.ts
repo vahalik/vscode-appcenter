@@ -1,17 +1,16 @@
-import { CommandParams, CurrentApp } from "../../../helpers/interfaces";
-import { ReactNativeAppCommand } from "../reactNativeAppCommand";
-import { VsCodeUI } from "../../ui/vscodeUI";
-import { Messages } from "../../resources/messages";
+import { CommandParams, CurrentApp } from '../../../helpers/interfaces';
+import { ReactNativeAppCommand } from '../reactNativeAppCommand';
+import { VsCodeUI } from '../../ui/vscodeUI';
+import { Messages } from '../../resources/messages';
 
 export default class GetCurrentApp extends ReactNativeAppCommand {
-
     constructor(params: CommandParams) {
         super(params);
         this.checkForReact = false;
     }
 
     public async runNoClient(): Promise<void> {
-        if (!await super.runNoClient()) {
+        if (!(await super.runNoClient())) {
             return;
         }
 

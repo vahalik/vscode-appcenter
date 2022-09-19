@@ -1,23 +1,23 @@
-import { VSTSProvider } from "../../../api/vsts/vstsProvider";
-import Auth from "../../../auth/auth";
-import { VstsLoginInfo, VstsProfile } from "../../../helpers/interfaces";
-import { AuthProvider } from "../../resources/constants";
-import { Strings } from "../../resources/strings";
-import { Command } from "../command";
-import { VsCodeUI } from "../../ui/vscodeUI";
-import { Messages } from "../../resources/messages";
-import { LogStrings } from "../../resources/logStrings";
+import { VSTSProvider } from '../../../api/vsts/vstsProvider';
+import Auth from '../../../auth/auth';
+import { VstsLoginInfo, VstsProfile } from '../../../helpers/interfaces';
+import { AuthProvider } from '../../resources/constants';
+import { Strings } from '../../resources/strings';
+import { Command } from '../command';
+import { VsCodeUI } from '../../ui/vscodeUI';
+import { Messages } from '../../resources/messages';
+import { LogStrings } from '../../resources/logStrings';
 
 export default class LoginToVsts extends Command {
     public async runNoClient(): Promise<boolean | void> {
-        if (!await super.runNoClient()) {
+        if (!(await super.runNoClient())) {
             return false;
         }
 
         const loginInfo: VstsLoginInfo = {
-            tenantName: "",
-            userName: "",
-            token: ""
+            tenantName: '',
+            userName: '',
+            token: '',
         };
         let value;
 
@@ -56,11 +56,14 @@ export default class LoginToVsts extends Command {
             const accessToken: string = await Auth.accessTokenFor(profile);
 
             const userName: string = profile.userName;
-            const vsts = new VSTSProvider({
-                tenantName: tenantName,
-                accessToken: accessToken,
-                userName: userName
-            }, this.logger);
+            const vsts = new VSTSProvider(
+                {
+                    tenantName: tenantName,
+                    accessToken: accessToken,
+                    userName: userName,
+                },
+                this.logger,
+            );
             const isValid: boolean = await vsts.TestVstsConnection();
             if (!isValid) {
                 VsCodeUI.ShowWarningMessage(Messages.VstsCredsNotValidWarning);

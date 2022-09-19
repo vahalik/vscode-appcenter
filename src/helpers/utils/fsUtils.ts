@@ -1,9 +1,8 @@
-import * as fs from "fs";
-import * as path from "path";
-import * as rimraf from "rimraf";
+import * as fs from 'fs';
+import * as path from 'path';
+import * as rimraf from 'rimraf';
 
 export class FSUtils {
-
     private static readonly FileDoesNotExist = 'ENOENT';
 
     public static GetDirectoryContent(dirName: string) {
@@ -13,10 +12,12 @@ export class FSUtils {
     public static IsEmptyDirectory(dirName: string) {
         let dirContent: string[] | null = null;
         dirContent = fs.readdirSync(dirName);
-        const ignoredItems = [".vscode"];
-        const filteredDir = dirContent && dirContent.filter((item: string) => {
-            return ignoredItems.indexOf(item) === -1;
-        });
+        const ignoredItems = ['.vscode'];
+        const filteredDir =
+            dirContent &&
+            dirContent.filter((item: string) => {
+                return ignoredItems.indexOf(item) === -1;
+            });
         const dirExistAndEmpty = filteredDir && filteredDir.length === 0;
         return dirExistAndEmpty;
     }
@@ -25,10 +26,12 @@ export class FSUtils {
         let dirContent: string[] | null = null;
         dirContent = fs.readdirSync(dirName);
 
-        const ignoredItems = [".vscode", ".git"];
-        const filteredDir = dirContent && dirContent.filter((item: string) => {
-            return ignoredItems.indexOf(item) === -1;
-        });
+        const ignoredItems = ['.vscode', '.git'];
+        const filteredDir =
+            dirContent &&
+            dirContent.filter((item: string) => {
+                return ignoredItems.indexOf(item) === -1;
+            });
         const dirExistAndEmpty = filteredDir && filteredDir.length === 0;
         return dirExistAndEmpty;
     }
@@ -53,7 +56,7 @@ export class FSUtils {
 
     public static readFile(fileName: string): Promise<string> {
         return new Promise((resolve, reject) => {
-            fs.readFile(fileName, "utf8", (err, data) => {
+            fs.readFile(fileName, 'utf8', (err, data) => {
                 if (err) {
                     reject(err);
                 }
@@ -75,7 +78,7 @@ export class FSUtils {
 
     public static writeFile(fileName: string, data: string): Promise<void> {
         return new Promise((resolve, reject) => {
-            fs.writeFile(fileName, data, "utf8", (err) => {
+            fs.writeFile(fileName, data, 'utf8', (err) => {
                 if (err) {
                     reject(err);
                 }

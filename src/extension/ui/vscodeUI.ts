@@ -1,9 +1,18 @@
-import { commands, MessageItem, QuickPickItem, StatusBarAlignment, StatusBarItem, window, Progress, ProgressLocation } from "vscode";
-import { Constants, MessageTypes } from "../../extension/resources/constants";
-import { SettingsHelper } from "../../helpers/settingsHelper";
-import { Utils } from "../../helpers/utils/utils";
-import { Strings } from "../resources/strings";
-import { Messages } from "../resources/messages";
+import {
+    commands,
+    MessageItem,
+    QuickPickItem,
+    StatusBarAlignment,
+    StatusBarItem,
+    window,
+    Progress,
+    ProgressLocation,
+} from 'vscode';
+import { Constants, MessageTypes } from '../../extension/resources/constants';
+import { SettingsHelper } from '../../helpers/settingsHelper';
+import { Utils } from '../../helpers/utils/utils';
+import { Strings } from '../resources/strings';
+import { Messages } from '../resources/messages';
 
 export class BaseQuickPickItem implements QuickPickItem {
     public label: string;
@@ -34,7 +43,12 @@ export class VsCodeUI {
         return window.createStatusBarItem(StatusBarAlignment.Left, 12);
     }
 
-    public static async setStatusBar(statusBar: StatusBarItem, text: string, tooltip: string, commandOnClick?: string): Promise<void> {
+    public static async setStatusBar(
+        statusBar: StatusBarItem,
+        text: string,
+        tooltip: string,
+        commandOnClick?: string,
+    ): Promise<void> {
         if (statusBar !== undefined) {
             statusBar.command = commandOnClick; // undefined clears the command
             statusBar.text = text;
@@ -46,11 +60,17 @@ export class VsCodeUI {
         return Promise.resolve(void 0);
     }
 
-    public static async ShowErrorMessage(message: string, ...urlMessageItem: IButtonMessageItem[]): Promise<IButtonMessageItem> {
+    public static async ShowErrorMessage(
+        message: string,
+        ...urlMessageItem: IButtonMessageItem[]
+    ): Promise<IButtonMessageItem> {
         return this.showMessage(message, MessageTypes.Error, ...urlMessageItem);
     }
 
-    public static async ShowInfoMessage(message: string, ...urlMessageItem: IButtonMessageItem[]): Promise<IButtonMessageItem> {
+    public static async ShowInfoMessage(
+        message: string,
+        ...urlMessageItem: IButtonMessageItem[]
+    ): Promise<IButtonMessageItem> {
         return this.showMessage(message, MessageTypes.Info, ...urlMessageItem);
     }
 
@@ -60,7 +80,11 @@ export class VsCodeUI {
 
     //We have a single method to display either simple messages (with no options) or messages
     //that have multiple buttons that can run commands, open URLs, send telemetry, etc.
-    private static async showMessage(message: string, type: MessageTypes, ...urlMessageItem: IButtonMessageItem[]): Promise<IButtonMessageItem> {
+    private static async showMessage(
+        message: string,
+        type: MessageTypes,
+        ...urlMessageItem: IButtonMessageItem[]
+    ): Promise<IButtonMessageItem> {
         //The following "cast" allows us to pass our own type around (and not reference "vscode" via an import)
         const messageItems: ButtonMessageItem[] = <ButtonMessageItem[]>urlMessageItem;
         const messageToDisplay = `(${Constants.ExtensionName}) ${Utils.FormatMessage(message)}`;
@@ -92,16 +116,25 @@ export class VsCodeUI {
         return <IButtonMessageItem>chosenItem;
     }
 
-    public static async showProgress<R>(task: (progress: Progress<{ message?: string; }>) => Promise<R>, title?: string): Promise<R> {
-        return await window.withProgress({ location: ProgressLocation.Window, title: title || Messages.VSCodeProgressLoadingTitle }, task);
+    public static async showProgress<R>(
+        task: (progress: Progress<{ message?: string }>) => Promise<R>,
+        title?: string,
+    ): Promise<R> {
+        return await window.withProgress(
+            { location: ProgressLocation.Window, title: title || Messages.VSCodeProgressLoadingTitle },
+            task,
+        );
     }
 
     public static async showInput(prompt: string, value?: string): Promise<string> {
-        return await window.showInputBox({ prompt: prompt, ignoreFocusOut: true, value: value || "" });
+        return await window.showInputBox({ prompt: prompt, ignoreFocusOut: true, value: value || '' });
     }
 
     public static async showQuickPick<T extends QuickPickItem>(items: T[], placeholder?: string): Promise<T> {
-        return await window.showQuickPick(items, { placeHolder: placeholder || Strings.MenuTitleHint, ignoreFocusOut: true });
+        return await window.showQuickPick(items, {
+            placeHolder: placeholder || Strings.MenuTitleHint,
+            ignoreFocusOut: true,
+        });
     }
 }
 

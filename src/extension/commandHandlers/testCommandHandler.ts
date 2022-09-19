@@ -1,5 +1,5 @@
-import * as Test from "../commands/test";
-import BaseCommandHandler from "./baseCommandHandler";
+import * as Test from '../commands/test';
+import BaseCommandHandler from './baseCommandHandler';
 
 export default class TestCommandHandler extends BaseCommandHandler {
     public async showMenu(): Promise<void> {

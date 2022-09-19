@@ -1,38 +1,38 @@
 export class Constants {
-    public static ExtensionName = "App Center";
-    public static ExtensionCommandPrefix = "appcenter";
-    public static DefaultAPIEndPoint = "https://api.appcenter.ms";
-    public static AppCenterPortalURL = "https://appcenter.ms";
-    public static DefaultLegacyCodePushService = "https://codepush-management.azurewebsites.net/";
-    public static DefaultDistributionGroupTestersName = "Beta Testers";
-    public static DefaultBranchName = "master";
-    public static DefaultLoginEndPoint = "https://appcenter.ms/cli-login";
-    public static ProdCrashesEndPoint = "https://in.mobile.azure.com/logs";
-    public static IntCrashesEndPoint = "https://in-integration.dev.avalanch.es/logs";
-    public static StagingCrashesEndPoint = "https://in-staging-south-centralus.staging.avalanch.es/logs";
-    public static CodePushStagingDeploymentName = "Staging";
-    public static iOSAppSuffix = "-ios";
-    public static AndroidAppSuffix = "-android";
-    public static AppCenterDefaultTargetBinaryVersion = "";
+    public static ExtensionName = 'App Center';
+    public static ExtensionCommandPrefix = 'appcenter';
+    public static DefaultAPIEndPoint = 'https://api.appcenter.ms';
+    public static AppCenterPortalURL = 'https://appcenter.ms';
+    public static DefaultLegacyCodePushService = 'https://codepush-management.azurewebsites.net/';
+    public static DefaultDistributionGroupTestersName = 'Beta Testers';
+    public static DefaultBranchName = 'master';
+    public static DefaultLoginEndPoint = 'https://appcenter.ms/cli-login';
+    public static ProdCrashesEndPoint = 'https://in.mobile.azure.com/logs';
+    public static IntCrashesEndPoint = 'https://in-integration.dev.avalanch.es/logs';
+    public static StagingCrashesEndPoint = 'https://in-staging-south-centralus.staging.avalanch.es/logs';
+    public static CodePushStagingDeploymentName = 'Staging';
+    public static iOSAppSuffix = '-ios';
+    public static AndroidAppSuffix = '-android';
+    public static AppCenterDefaultTargetBinaryVersion = '';
     public static AppCenterDefaultIsMandatoryParam = false;
-    public static IOSAppSecretKey = "AppSecret";
-    public static AndroidAppSecretKey = "app_secret";
-    public static IOSCodePushDeploymentKey = "CodePushDeploymentKey";
-    public static AndroidCodePushDeploymentKey = "reactNativeCodePush_androidDeploymentKey";
-    public static AppCenterSampleGitRemoteName = "appcenter-sample-repo";
-    public static AppCenterSampleGitRemoteDefaultBranchName = "master";
-    public static AppCenterSampleAppName = "AppCenterSample";
+    public static IOSAppSecretKey = 'AppSecret';
+    public static AndroidAppSecretKey = 'app_secret';
+    public static IOSCodePushDeploymentKey = 'CodePushDeploymentKey';
+    public static AndroidCodePushDeploymentKey = 'reactNativeCodePush_androidDeploymentKey';
+    public static AppCenterSampleGitRemoteName = 'appcenter-sample-repo';
+    public static AppCenterSampleGitRemoteDefaultBranchName = 'master';
+    public static AppCenterSampleAppName = 'AppCenterSample';
     public static GitDefaultRemoteName = 'origin';
-    public static ProfileDir = ".vscode-appcenter";
-    public static AppCenterProfileFileName = "VSCodeAppCenterProfile.json";
-    public static VstsProfileFileName = "VSCodeVstsProfile.json";
-    public static TokenDir = ".vscode-appcenter";
-    public static AppCenterTokenFileName = "VSCodeAppCenterTokens.json";
-    public static TelemetrySource = "appcenter-vscode-extension";
+    public static ProfileDir = '.vscode-appcenter';
+    public static AppCenterProfileFileName = 'VSCodeAppCenterProfile.json';
+    public static VstsProfileFileName = 'VSCodeVstsProfile.json';
+    public static TokenDir = '.vscode-appcenter';
+    public static AppCenterTokenFileName = 'VSCodeAppCenterTokens.json';
+    public static TelemetrySource = 'appcenter-vscode-extension';
 
     // IMPORTANT: this two items below should stay in sync in terms of xcode projectOrWorkspacePath/scheme values
     // We should decide how we should handle this (e.g. create manually within App Center site)
-    public static AppCenterDemoAppRepository = "https://github.com/Microsoft/appcenter-sampleapp-react-native.git";
+    public static AppCenterDemoAppRepository = 'https://github.com/Microsoft/appcenter-sampleapp-react-native.git';
     public static defaultBuildConfigJSON = `{
         "branch": {
             "name": "master"
@@ -68,19 +68,19 @@ export class Constants {
         }
     }`;
 
-    public static AppCenterReactNativePlatformName = "React-Native";
+    public static AppCenterReactNativePlatformName = 'React-Native';
 }
 // tslint:disable:max-classes-per-file
 export class CommandNames {
-    public static CommandPrefix: string = Constants.ExtensionCommandPrefix + ".";
-    public static AppCenterPortal: string = CommandNames.CommandPrefix + "showPortalMenu";
-    public static WhoAmI: string = CommandNames.CommandPrefix + "whoAmI";
-    public static Login: string = CommandNames.CommandPrefix + "login";
-    public static ShowMenu: string = CommandNames.CommandPrefix + "menu";
-    public static Start: string = CommandNames.CommandPrefix + "start";
-    public static GetCurrentApp: string = CommandNames.CommandPrefix + "getCurrentApp";
-    public static SetCurrentApp: string = CommandNames.CommandPrefix + "setCurrentApp";
-    public static SimulateCrashes: string = CommandNames.CommandPrefix + "simulateCrashes";
+    public static CommandPrefix: string = Constants.ExtensionCommandPrefix + '.';
+    public static AppCenterPortal: string = CommandNames.CommandPrefix + 'showPortalMenu';
+    public static WhoAmI: string = CommandNames.CommandPrefix + 'whoAmI';
+    public static Login: string = CommandNames.CommandPrefix + 'login';
+    public static ShowMenu: string = CommandNames.CommandPrefix + 'menu';
+    public static Start: string = CommandNames.CommandPrefix + 'start';
+    public static GetCurrentApp: string = CommandNames.CommandPrefix + 'getCurrentApp';
+    public static SetCurrentApp: string = CommandNames.CommandPrefix + 'setCurrentApp';
+    public static SimulateCrashes: string = CommandNames.CommandPrefix + 'simulateCrashes';
     public static InstallSDK = `${CommandNames.CommandPrefix}installSDK`;
     public static CreateNewApp = `${CommandNames.CommandPrefix}createNewApp`;
 
@@ -105,83 +105,84 @@ export class CommandNames {
     };
 
     public static CodePush = class {
-        public static SetCurrentDeployment: string = CommandNames.CommandPrefix + "codePush.setCurrentDeployment";
-        public static ReleaseReact: string = CommandNames.CommandPrefix + "codePush.releaseReact";
-        public static SwitchMandatoryPropForRelease: string = CommandNames.CommandPrefix + "codePush.switchMandatoryPropForRelease";
-        public static SetTargetBinaryVersion: string = CommandNames.CommandPrefix + "codePush.setTargetBinaryVersion";
+        public static SetCurrentDeployment: string = CommandNames.CommandPrefix + 'codePush.setCurrentDeployment';
+        public static ReleaseReact: string = CommandNames.CommandPrefix + 'codePush.releaseReact';
+        public static SwitchMandatoryPropForRelease: string =
+            CommandNames.CommandPrefix + 'codePush.switchMandatoryPropForRelease';
+        public static SetTargetBinaryVersion: string = CommandNames.CommandPrefix + 'codePush.setTargetBinaryVersion';
         public static LinkCodePush = `${CommandNames.CommandPrefix}codePush.linkCodePush`;
     };
 
     public static Test = class {
-        public static ShowMenu: string = CommandNames.CommandPrefix + "test.showMenu";
-        public static RunUITests: string = CommandNames.CommandPrefix + "test.runUITests";
-        public static RunUITestsAsync: string = CommandNames.CommandPrefix + "test.runUITestsAsync";
-        public static ViewResults: string = CommandNames.CommandPrefix + "test.viewResults";
+        public static ShowMenu: string = CommandNames.CommandPrefix + 'test.showMenu';
+        public static RunUITests: string = CommandNames.CommandPrefix + 'test.runUITests';
+        public static RunUITestsAsync: string = CommandNames.CommandPrefix + 'test.runUITestsAsync';
+        public static ViewResults: string = CommandNames.CommandPrefix + 'test.viewResults';
     };
 }
 
 export enum MessageTypes {
     Error = 0,
     Warn = 1,
-    Info = 2
+    Info = 2,
 }
 
 export enum AppCenterOS {
-    iOS = "iOS",
-    Android = "Android",
-    macOS = "macOS",
-    Tizen = "Tizen",
-    tvOS = "tvOS",
-    Windows = "Windows"
+    iOS = 'iOS',
+    Android = 'Android',
+    macOS = 'macOS',
+    Tizen = 'Tizen',
+    tvOS = 'tvOS',
+    Windows = 'Windows',
 }
 
 export enum AppCenterPlatform {
-    ReactNative = "React-Native",
-    Cordova = "Cordova",
-    UWP = "UWP",
-    Xamarin = "Xamarin",
-    Java = "Java"
+    ReactNative = 'React-Native',
+    Cordova = 'Cordova',
+    UWP = 'UWP',
+    Xamarin = 'Xamarin',
+    Java = 'Java',
 }
 
 export enum AppCenterBeacons {
-    Build = "Build",
-    Test = "Test",
-    CodePush = "CodePush",
-    Distribute = "Distribute",
-    Crashes = "Crashes",
-    Analytics = "Analytics",
-    Push = "Push"
+    Build = 'Build',
+    Test = 'Test',
+    CodePush = 'CodePush',
+    Distribute = 'Distribute',
+    Crashes = 'Crashes',
+    Analytics = 'Analytics',
+    Push = 'Push',
 }
 
 export enum AppCenterDistributionTabs {
-    Stores = "distribution-stores",
-    Groups = "distribution-groups",
-    CodePush = "code-push",
-    Releases = "releases"
+    Stores = 'distribution-stores',
+    Groups = 'distribution-groups',
+    CodePush = 'code-push',
+    Releases = 'releases',
 }
 
 export enum AppCenterCrashesTabs {
-    Crashes = "crashes-portal",
-    Simulate = "simulate-crashes"
+    Crashes = 'crashes-portal',
+    Simulate = 'simulate-crashes',
 }
 
 export enum AppCenterAppType {
-    User = "User",
-    Org = "Org"
+    User = 'User',
+    Org = 'Org',
 }
 
 export enum AuthProvider {
-    Vsts = "VSTS",
-    AppCenter = "App Center"
+    Vsts = 'VSTS',
+    AppCenter = 'App Center',
 }
 
 export enum AppCenterEnvironment {
     Prod = 0,
     Staging = 1,
-    Int = 2
+    Int = 2,
 }
 
 export enum ReactNativePlatformDirectory {
-    IOS = "ios",
-    Android = "android"
+    IOS = 'ios',
+    Android = 'android',
 }

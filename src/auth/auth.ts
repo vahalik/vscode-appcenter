@@ -1,17 +1,13 @@
-import { tokenStore } from "../data/tokenStore";
-import { fileTokenStore } from "../data/tokenStore";
-import { ILogger } from "../extension/log/logHelper";
-import { LoginInfo, Profile, ProfileStorage } from "../helpers/interfaces";
-import { LogStrings } from "../extension/resources/logStrings";
+import { tokenStore } from '../data/tokenStore';
+import { fileTokenStore } from '../data/tokenStore';
+import { ILogger } from '../extension/log/logHelper';
+import { LoginInfo, Profile, ProfileStorage } from '../helpers/interfaces';
+import { LogStrings } from '../extension/resources/logStrings';
 
 export default abstract class Auth<T extends Profile> {
+    public constructor(protected profileStorage: ProfileStorage<T>, protected logger: ILogger) {}
 
-    public constructor(
-        protected profileStorage: ProfileStorage<T>,
-        protected logger: ILogger) {
-    }
-
-    protected abstract async getUserInfo(credentials: LoginInfo): Promise<T>;
+    protected abstract getUserInfo(credentials: LoginInfo): Promise<T>;
 
     public get activeProfile(): Promise<T | null> {
         const activeProfile: T = this.profileStorage.activeProfile;
@@ -68,7 +64,6 @@ export default abstract class Auth<T extends Profile> {
     }
 
     public async doLogout(userId: string): Promise<void> {
-
         // Remove token from the store
         // TODO: Probably we need to delete token from server also?
         try {
@@ -102,14 +97,14 @@ export default abstract class Auth<T extends Profile> {
     }
 
     public static async accessTokenFor(profile: Profile): Promise<string> {
-        const emptyToken = "";
+        const emptyToken = '';
         // tslint:disable-next-line:no-any
         try {
             const entry = await tokenStore.get(profile.userId);
             if (entry) {
                 return entry.accessToken.token;
             }
-            throw new Error("Empty token!");
+            throw new Error('Empty token!');
         } catch (err) {
             // compatibility
             try {
@@ -125,7 +120,6 @@ export default abstract class Auth<T extends Profile> {
                 console.error(LogStrings.FailedToGetToken, err);
                 return emptyToken;
             }
-
         }
     }
 }

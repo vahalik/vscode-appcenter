@@ -1,4 +1,4 @@
-import {ILogger, LogHelper, LogLevel, AppCenterExtensionLogPrefix} from "./logHelper";
+import { ILogger, LogHelper, LogLevel, AppCenterExtensionLogPrefix } from './logHelper';
 
 export class ConsoleLogger implements ILogger {
     public log(message: string, level: LogLevel): void {

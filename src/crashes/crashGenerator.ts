@@ -1,5 +1,7 @@
 import fetch = require('node-fetch');
 import uuid = require('uuid');
+
+import data = require('./log.json');
 import { HTTP_METHODS } from '../api/vsts/types';
 import { ConsoleLogger } from '../extension/log/consoleLogger';
 import { ILogger } from '../extension/log/logHelper';
@@ -8,7 +10,7 @@ import { CrashLogSchema } from './crashLogSchema';
 import { LogStrings } from '../extension/resources/logStrings';
 
 export class CrashGenerator {
-    private _appSecret: string;
+    private readonly _appSecret: string;
 
     constructor(currentApp: CurrentApp, private _baseUrl: string, private logger: ILogger = new ConsoleLogger()) {
         this._appSecret = currentApp.appSecret;
@@ -21,7 +23,9 @@ export class CrashGenerator {
         const crashId: string = uuid.v4();
         const installId: string = uuid.v4();
 
-        const crashLog: CrashLogSchema = require('./log.json');
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const crashLog: CrashLogSchema = data;
 
         delete crashLog.appId;
         delete crashLog.installId;
@@ -37,7 +41,7 @@ export class CrashGenerator {
             type: 'startSession',
             toffset: crashTime,
             sid: sessionId,
-            device: crashLog.device
+            device: crashLog.device,
         };
 
         const sessionLogContainer = { Logs: [session] };
@@ -64,7 +68,7 @@ export class CrashGenerator {
             }
             return response;
         } catch (e) {
-            this.logger.error(LogStrings.FailedToSendCrashes + (e && e.message) || "");
+            this.logger.error(LogStrings.FailedToSendCrashes + (e && e.message) || '');
             throw new Error(e);
         }
     }
@@ -72,15 +76,14 @@ export class CrashGenerator {
     private getRequestInfo(method: HTTP_METHODS, body: object, installId: string) {
         const headers = {
             'Install-ID': installId,
-            'App-Secret': this._appSecret
+            'App-Secret': this._appSecret,
         };
-        const requestOptions = {
+        return {
             method: method,
             headers: headers,
             useQuerystring: true,
             json: true,
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
         };
-        return requestOptions;
     }
 }

@@ -15,16 +15,16 @@ export interface CommandFailedResult {
 export function success(res: any): CommandResult {
     return {
         succeeded: true,
-        result: res
+        result: res,
     };
-  }
+}
 
 // Used when there's a failure otherwise
 export function failure(errorCode: number, errorMessage: string): CommandResult {
     return {
         succeeded: false,
         errorCode,
-        errorMessage
+        errorMessage,
     };
 }
 
@@ -41,5 +41,5 @@ export enum ErrorCodes {
     // Command requires logged in user
     NotLoggedIn,
     // The requested resource was not found
-    NotFound
+    NotFound,
 }

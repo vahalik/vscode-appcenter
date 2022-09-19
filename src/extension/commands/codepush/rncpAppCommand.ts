@@ -1,14 +1,14 @@
-import { CurrentApp } from "../../../helpers/interfaces";
-import { Utils } from "../../../helpers/utils/utils";
-import { ReactNativeAppCommand } from "../reactNativeAppCommand";
-import { VsCodeUI } from "../../ui/vscodeUI";
-import { Messages } from "../../resources/messages";
+import { CurrentApp } from '../../../helpers/interfaces';
+import { Utils } from '../../../helpers/utils/utils';
+import { ReactNativeAppCommand } from '../reactNativeAppCommand';
+import { VsCodeUI } from '../../ui/vscodeUI';
+import { Messages } from '../../resources/messages';
 
 export class RNCPAppCommand extends ReactNativeAppCommand {
     protected checkForCodePush = true;
 
     public async runNoClient(): Promise<boolean | void> {
-        if (!await super.runNoClient()) {
+        if (!(await super.runNoClient())) {
             return false;
         }
         if (this.checkForCodePush && !Utils.isReactNativeCodePushProject(this.logger, this.rootPath, true)) {
@@ -19,7 +19,7 @@ export class RNCPAppCommand extends ReactNativeAppCommand {
     }
 
     public async run(): Promise<boolean | void> {
-        if (!await super.run()) {
+        if (!(await super.run())) {
             return false;
         }
         if (this.checkForCodePush && !Utils.isReactNativeCodePushProject(this.logger, this.rootPath, true)) {
@@ -30,6 +30,10 @@ export class RNCPAppCommand extends ReactNativeAppCommand {
     }
 
     protected hasCodePushDeployments(currentApp: CurrentApp): boolean {
-        return currentApp.currentAppDeployments && currentApp.currentAppDeployments.codePushDeployments && currentApp.currentAppDeployments.codePushDeployments.length > 0;
+        return (
+            currentApp.currentAppDeployments &&
+            currentApp.currentAppDeployments.codePushDeployments &&
+            currentApp.currentAppDeployments.codePushDeployments.length > 0
+        );
     }
 }

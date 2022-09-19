@@ -1,6 +1,6 @@
-import * as fs from "fs";
-import { AppCenterClient } from "../../api/appcenter";
-import { ICodePushReleaseParams } from "../../helpers/interfaces";
+import * as fs from 'fs';
+import { AppCenterClient } from '../../api/appcenter';
+import { ICodePushReleaseParams } from '../../helpers/interfaces';
 
 export async function appCenterCodePushRelease(client: AppCenterClient, params: ICodePushReleaseParams): Promise<void> {
     const app = params.app;
@@ -16,7 +16,7 @@ export async function appCenterCodePushRelease(client: AppCenterClient, params: 
             disabled: params.isDisabled,
             mandatory: params.isMandatory,
             noDuplicateReleaseError: false, // TODO: remove it, not needed to send to server
-            rollout: params.rollout
-        }
+            rollout: params.rollout,
+        },
     );
 }

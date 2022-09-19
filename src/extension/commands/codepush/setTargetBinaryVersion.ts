@@ -12,7 +12,7 @@ export default class SetTargetBinaryVersion extends RNCPAppCommand {
     }
 
     public async run(): Promise<void> {
-        if (!await super.run()) {
+        if (!(await super.run())) {
             return;
         }
         const app: CurrentApp = await this.getCurrentApp(true);
@@ -36,14 +36,16 @@ export default class SetTargetBinaryVersion extends RNCPAppCommand {
 
         const currentApp: CurrentApp = await this.saveCurrentApp(
             app.identifier,
-            AppCenterOS[app.os], {
+            AppCenterOS[app.os],
+            {
                 currentDeploymentName: app.currentAppDeployments.currentDeploymentName,
-                codePushDeployments: app.currentAppDeployments.codePushDeployments
+                codePushDeployments: app.currentAppDeployments.codePushDeployments,
             },
             appVersion,
             app.type,
             app.isMandatory,
-            app.appSecret);
+            app.appSecret,
+        );
         if (!currentApp) {
             return;
         }

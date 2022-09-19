@@ -1,12 +1,11 @@
-import { CommandParams, CurrentApp } from "../../../helpers/interfaces";
-import { AndroidTestRunner } from "../../../tests/androidTestRunner";
+import { CommandParams, CurrentApp } from '../../../helpers/interfaces';
+import { AndroidTestRunner } from '../../../tests/androidTestRunner';
 import { TestRunnerOptions } from '../../../tests/appCenterUITestRunner';
-import { IOSTestRunner } from "../../../tests/iOSTestRunner";
+import { IOSTestRunner } from '../../../tests/iOSTestRunner';
 import { AppCenterOS, ReactNativePlatformDirectory } from '../../resources/constants';
 import { ReactNativeAppCommand } from '../reactNativeAppCommand';
 
 export default class RunUITests extends ReactNativeAppCommand {
-
     private async = false;
 
     constructor(params: CommandParams, private _app: CurrentApp = null) {
@@ -18,7 +17,7 @@ export default class RunUITests extends ReactNativeAppCommand {
     }
 
     public async run(): Promise<boolean | void> {
-        if (!await super.run()) {
+        if (!(await super.run())) {
             return;
         }
         if (!this._app) {
@@ -38,7 +37,7 @@ export default class RunUITests extends ReactNativeAppCommand {
             logger: this.logger,
             platformDir: platformDir,
             appDirPath: this.manager.projectRootPath,
-            profile: await this.appCenterProfile
+            profile: await this.appCenterProfile,
         };
 
         if (isIOSplatform) {

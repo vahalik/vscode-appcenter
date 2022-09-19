@@ -61,14 +61,14 @@ New line here.`;
         });
 
         it('should fail to read malformed file', async () => {
-            return new Promise(function (resolve, reject) {
+            return new Promise<void>(function (resolve, reject) {
                 try {
-                    Utils.parseJsonFile(path.resolve("test/" + malformedJsonFilePath));
+                    Utils.parseJsonFile(path.resolve('test/' + malformedJsonFilePath));
                 } catch (e) {
                     should.exist(e);
                     resolve();
                 }
-                reject("the function should throw");
+                reject('the function should throw');
             });
         });
     });

@@ -1,10 +1,10 @@
-import * as vscode from "vscode";
-import { ILogger, LogHelper, LogLevel, AppCenterExtensionLogPrefix } from "./logHelper";
+import * as vscode from 'vscode';
+import { ILogger, LogHelper, LogLevel, AppCenterExtensionLogPrefix } from './logHelper';
 
 const channels: { [channelName: string]: OutputChannelLogger } = {};
 
 export class OutputChannelLogger implements ILogger {
-    public static MAIN_CHANNEL_NAME = "React Native";
+    public static MAIN_CHANNEL_NAME = 'React Native';
     private outputChannel: vscode.OutputChannel;
 
     public static disposeChannel(channelName: string): void {

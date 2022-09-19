@@ -1,28 +1,27 @@
-import AppCenterAppBuilder from "../../../createApp/appCenterAppBuilder";
-import { AppCenterUrlBuilder } from "../../../helpers/appCenterUrlBuilder";
-import { CommandParams, CreatedAppFromAppCenter, QuickPickAppItem } from "../../../helpers/interfaces";
-import { Utils } from "../../../helpers/utils/utils";
-import { Strings } from "../../resources/strings";
-import { CreateAppCommand } from "../createAppCommand";
-import { CommandNames } from "../../resources/constants";
-import * as Menu from "../../menu/menu";
-import { VsCodeUI, IButtonMessageItem } from "../../ui/vscodeUI";
-import { Messages } from "../../resources/messages";
+import AppCenterAppBuilder from '../../../createApp/appCenterAppBuilder';
+import { AppCenterUrlBuilder } from '../../../helpers/appCenterUrlBuilder';
+import { CommandParams, CreatedAppFromAppCenter, QuickPickAppItem } from '../../../helpers/interfaces';
+import { Utils } from '../../../helpers/utils/utils';
+import { Strings } from '../../resources/strings';
+import { CreateAppCommand } from '../createAppCommand';
+import { CommandNames } from '../../resources/constants';
+import * as Menu from '../../menu/menu';
+import { VsCodeUI, IButtonMessageItem } from '../../ui/vscodeUI';
+import { Messages } from '../../resources/messages';
 
 export enum CreateNewAppOption {
     Android,
     IOS,
-    Both
+    Both,
 }
 
 export default class CreateNewApp extends CreateAppCommand {
-
     constructor(params: CommandParams) {
         super(params);
     }
 
     public async run(): Promise<boolean | void> {
-        if (!await super.run()) {
+        if (!(await super.run())) {
             return false;
         }
 
@@ -36,7 +35,7 @@ export default class CreateNewApp extends CreateAppCommand {
             return;
         }
 
-        const appNameFromPackage = Utils.parseJsonFile(this.rootPath + "/package.json", "").name;
+        const appNameFromPackage = Utils.parseJsonFile(this.rootPath + '/package.json', '').name;
 
         let projectName: string | null = null;
 
@@ -55,7 +54,7 @@ export default class CreateNewApp extends CreateAppCommand {
             return;
         }
 
-        const appCenterAppBuilder = new AppCenterAppBuilder(projectName, this.userOrOrg, "", this.client, this.logger);
+        const appCenterAppBuilder = new AppCenterAppBuilder(projectName, this.userOrOrg, '', this.client, this.logger);
         await appCenterAppBuilder.createApps(option);
         const createdApps: CreatedAppFromAppCenter[] = appCenterAppBuilder.getCreatedApps();
         if (!createdApps) {
@@ -72,14 +71,18 @@ export default class CreateNewApp extends CreateAppCommand {
                 this.pickApp(createdApps);
                 return true;
             }
-            default: return false;
+            default:
+                return false;
         }
     }
 
     protected async showCreateAppOptions(): Promise<CreateNewAppOption> {
         const appCenterPortalTabOptions: QuickPickAppItem[] = Menu.getCreateAppOptions();
 
-        const selected: QuickPickAppItem = await VsCodeUI.showQuickPick(appCenterPortalTabOptions, Strings.CreateAppHint);
+        const selected: QuickPickAppItem = await VsCodeUI.showQuickPick(
+            appCenterPortalTabOptions,
+            Strings.CreateAppHint,
+        );
 
         if (!selected) {
             this.logger.debug('User cancel selection of create app tab');
@@ -87,15 +90,15 @@ export default class CreateNewApp extends CreateAppCommand {
         }
 
         switch (selected.target) {
-            case (CommandNames.CreateApp.IOS):
+            case CommandNames.CreateApp.IOS:
                 return CreateNewAppOption.IOS;
-            case (CommandNames.CreateApp.Android):
+            case CommandNames.CreateApp.Android:
                 return CreateNewAppOption.Android;
-            case (CommandNames.CreateApp.Both):
+            case CommandNames.CreateApp.Both:
                 return CreateNewAppOption.Both;
             default:
                 // Ideally shouldn't be there :)
-                this.logger.error("Unknown create app option");
+                this.logger.error('Unknown create app option');
                 return null;
         }
     }
@@ -107,10 +110,14 @@ export default class CreateNewApp extends CreateAppCommand {
         }
         await this.setCurrentApp(apps[0]);
         const messageItems: IButtonMessageItem[] = [];
-        const appUrl = AppCenterUrlBuilder.GetAppCenterAppLink(this.userOrOrg.name, apps[0].appName, this.userOrOrg.isOrganization);
+        const appUrl = AppCenterUrlBuilder.GetAppCenterAppLink(
+            this.userOrOrg.name,
+            apps[0].appName,
+            this.userOrOrg.isOrganization,
+        );
         messageItems.push({
             title: Strings.AppCreatedBtnLabel,
-            url: appUrl
+            url: appUrl,
         });
         VsCodeUI.ShowInfoMessage(Messages.AppCreatedMessage(apps[0].appName, true), ...messageItems);
     }

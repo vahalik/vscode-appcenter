@@ -1,7 +1,7 @@
-import { ILogger } from "../extension/log/logHelper";
-import { Profile, ProfileStorage } from "../helpers/interfaces";
-import { FSUtils } from "../helpers/utils/fsUtils";
-import { LogStrings } from "../extension/resources/logStrings";
+import { ILogger } from '../extension/log/logHelper';
+import { Profile, ProfileStorage } from '../helpers/interfaces';
+import { FSUtils } from '../helpers/utils/fsUtils';
+import { LogStrings } from '../extension/resources/logStrings';
 
 export default class FsProfileStorage<T extends Profile> implements ProfileStorage<T> {
     protected profiles: T[];
@@ -12,18 +12,20 @@ export default class FsProfileStorage<T extends Profile> implements ProfileStora
     }
 
     public get activeProfile(): T | null {
-        return (this.indexOfActiveProfile === null || this.profiles.length <= this.indexOfActiveProfile) ? null : this.profiles[this.indexOfActiveProfile];
+        return this.indexOfActiveProfile === null || this.profiles.length <= this.indexOfActiveProfile
+            ? null
+            : this.profiles[this.indexOfActiveProfile];
     }
 
     public async init(): Promise<void> {
-        if (!await this.storageExists()) {
+        if (!(await this.storageExists())) {
             await this.createEmptyStorage();
         }
         await this.loadDataFromStorage();
     }
 
     private async createEmptyStorage(): Promise<void> {
-        return await FSUtils.writeFile(this.storageFilePath, "[]");
+        return await FSUtils.writeFile(this.storageFilePath, '[]');
     }
 
     private async storageExists(): Promise<boolean> {
@@ -35,13 +37,13 @@ export default class FsProfileStorage<T extends Profile> implements ProfileStora
             const data: string = await FSUtils.readFile(this.storageFilePath);
             this.profiles = JSON.parse(data);
         } catch (e) {
-            this.logger.info(LogStrings.FailedToParseStorage(this.storageFilePath) + (e && e.message) || "");
+            this.logger.info(LogStrings.FailedToParseStorage(this.storageFilePath) + (e && e.message) || '');
             FSUtils.removeFile(this.storageFilePath);
             return;
         }
 
         // Identify active profile
-        const activeProfiles: T[] = this.profiles.filter(profile => profile.isActive);
+        const activeProfiles: T[] = this.profiles.filter((profile) => profile.isActive);
 
         if (activeProfiles.length > 1) {
             this.logger.error(LogStrings.MultipleActiveProfiles(this.storageFilePath));
@@ -54,7 +56,7 @@ export default class FsProfileStorage<T extends Profile> implements ProfileStora
         if (this.profiles.length === 0) {
             return false;
         }
-        const activeProfiles: T[] = this.profiles.filter(profile => profile.isActive);
+        const activeProfiles: T[] = this.profiles.filter((profile) => profile.isActive);
 
         if (activeProfiles.length > 1) {
             for (const activeProfile of activeProfiles) {
@@ -75,11 +77,11 @@ export default class FsProfileStorage<T extends Profile> implements ProfileStora
     }
 
     private async saveProfiles(): Promise<void> {
-        const data = JSON.stringify(this.profiles, null, "\t");
+        const data = JSON.stringify(this.profiles, null, '\t');
         try {
             await FSUtils.writeFile(this.storageFilePath, data);
         } catch (e) {
-            this.logger.info(LogStrings.FailedToWriteProfiles(this.storageFilePath) + (e && e.message) || "");
+            this.logger.info(LogStrings.FailedToWriteProfiles(this.storageFilePath) + (e && e.message) || '');
             return;
         }
     }
@@ -124,7 +126,7 @@ export default class FsProfileStorage<T extends Profile> implements ProfileStora
     }
 
     public async get(userId: string): Promise<T | null> {
-        const foundProfiles: T[] = this.profiles.filter(value => value.userId === userId);
+        const foundProfiles: T[] = this.profiles.filter((value) => value.userId === userId);
         if (foundProfiles.length === 1) {
             return foundProfiles[0];
         } else if (foundProfiles.length > 1) {

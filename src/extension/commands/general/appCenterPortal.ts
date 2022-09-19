@@ -1,20 +1,18 @@
-import { models } from "../../../api/appcenter";
-import * as General from "../general";
-import { CurrentApp, QuickPickAppItem, CurrentAppDeployments, Deployment } from "../../../helpers/interfaces";
-import { AppCenterPortalMenu } from "../../menu/appCenterPortalMenu";
-import { CommandNames, AppCenterOS, Constants } from "../../resources/constants";
-import { ReactNativeAppCommand } from "../reactNativeAppCommand";
-import { Utils } from "../../../helpers/utils/utils";
-import { VsCodeUI } from "../../ui/vscodeUI";
-import { Messages } from "../../resources/messages";
+import { models } from '../../../api/appcenter';
+import * as General from '../general';
+import { CurrentApp, QuickPickAppItem, CurrentAppDeployments, Deployment } from '../../../helpers/interfaces';
+import { AppCenterPortalMenu } from '../../menu/appCenterPortalMenu';
+import { CommandNames, AppCenterOS, Constants } from '../../resources/constants';
+import { ReactNativeAppCommand } from '../reactNativeAppCommand';
+import { Utils } from '../../../helpers/utils/utils';
+import { VsCodeUI } from '../../ui/vscodeUI';
+import { Messages } from '../../resources/messages';
 
 export default class AppCenterPortal extends ReactNativeAppCommand {
-
     public async run(): Promise<void> {
-
         // Disabling the check whether project has react-native package installed cause it's kinda useless here.
         this.checkForReact = false;
-        if (!await super.run()) {
+        if (!(await super.run())) {
             return;
         }
         this.showAppsQuickPick(this.CachedAllApps, true);
@@ -26,10 +24,11 @@ export default class AppCenterPortal extends ReactNativeAppCommand {
             await new General.CreateNewApp(this._params).run();
             return;
         } else {
-
             let selectedApp: models.AppResponse;
 
-            const selectedApps: models.AppResponse[] = rnApps.filter(app => app.name === selected.target && app.owner.type === selected.description);
+            const selectedApps: models.AppResponse[] = rnApps.filter(
+                (app) => app.name === selected.target && app.owner.type === selected.description,
+            );
 
             // If this is not current app then we can assign current app, otherwise we will use GetCurrentApp method
             if (selected.target !== this.currentAppMenuTarget) {
@@ -41,7 +40,6 @@ export default class AppCenterPortal extends ReactNativeAppCommand {
             let currentAppToUse: CurrentApp;
 
             if (selectedApp) {
-
                 const selectedApp: models.AppResponse = selectedApps[0];
                 const selectedAppName = `${selectedApp.owner.name}/${selectedApp.name}`;
                 const selectedAppSecret: string = selectedApp.appSecret;
@@ -49,7 +47,7 @@ export default class AppCenterPortal extends ReactNativeAppCommand {
 
                 const OS: AppCenterOS | undefined = Utils.toAppCenterOS(selectedApp.os);
 
-                const deployments: models.Deployment[] = await VsCodeUI.showProgress(async progress => {
+                const deployments: models.Deployment[] = await VsCodeUI.showProgress(async (progress) => {
                     progress.report({ message: Messages.FetchDeploymentsProgressMessage });
                     return await this.client.codePushDeployments.list(selectedApp.owner.name, selectedApp.name);
                 });
@@ -61,24 +59,31 @@ export default class AppCenterPortal extends ReactNativeAppCommand {
                 if (appDeployments.length > 0) {
                     const deployments: Deployment[] = appDeployments.map((d) => {
                         return {
-                            name: d.name
+                            name: d.name,
                         };
                     });
                     currentDeployments = {
                         codePushDeployments: deployments,
-                        currentDeploymentName: Utils.selectCurrentDeploymentName(deployments)
+                        currentDeploymentName: Utils.selectCurrentDeploymentName(deployments),
                     };
                 }
 
-                currentAppToUse = Utils.toCurrentApp(selectedAppName, OS,
-                    currentDeployments, Constants.AppCenterDefaultTargetBinaryVersion, type, false, selectedAppSecret);
+                currentAppToUse = Utils.toCurrentApp(
+                    selectedAppName,
+                    OS,
+                    currentDeployments,
+                    Constants.AppCenterDefaultTargetBinaryVersion,
+                    type,
+                    false,
+                    selectedAppSecret,
+                );
             } else {
                 const currentApp: CurrentApp | null = await this.getCurrentApp();
                 if (currentApp) {
                     currentAppToUse = currentApp;
                 } else {
-                    this.logger.error("Current app is undefined");
-                    throw new Error("Current app is undefined");
+                    this.logger.error('Current app is undefined');
+                    throw new Error('Current app is undefined');
                 }
             }
 

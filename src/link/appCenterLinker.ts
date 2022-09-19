@@ -8,11 +8,10 @@ import { VsCodeTerminal } from '../extension/ui/VsCodeTerminal';
 import { Messages } from '../extension/resources/messages';
 
 export default class AppCenterLinker {
-
-    constructor(private logger: ILogger, private rootPath: string) { }
+    constructor(private logger: ILogger, private rootPath: string) {}
 
     public async installAppcenter(): Promise<boolean> {
-        const installAppCenterCmd = "npm i appcenter appcenter-analytics appcenter-crashes --save";
+        const installAppCenterCmd = 'npm i appcenter appcenter-analytics appcenter-crashes --save';
         return await VsCodeUI.showProgress(async (progress) => {
             progress.report({ message: Messages.InstallAppCenterProgressMessage });
             try {
@@ -33,17 +32,23 @@ export default class AppCenterLinker {
 
         const messageItems: IButtonMessageItem[] = [];
         messageItems.push({
-            title: Strings.OkBtnLabel
+            title: Strings.OkBtnLabel,
         });
 
-        const selection: IButtonMessageItem | undefined = await VsCodeUI.ShowInfoMessage(Messages.AppCenterBeforeLinkMessage, ...messageItems);
+        const selection: IButtonMessageItem | undefined = await VsCodeUI.ShowInfoMessage(
+            Messages.AppCenterBeforeLinkMessage,
+            ...messageItems,
+        );
         if (selection) {
             terminalHelper.run('react-native link');
             const messageItems: IButtonMessageItem[] = [];
             messageItems.push({
-                title: Strings.LinkDoneBtnLabel
+                title: Strings.LinkDoneBtnLabel,
             });
-            VsCodeUI.ShowInfoMessage(Messages.AppCenterSecretsHintMessage(androidAppSecret, iosAppSecret), ...messageItems);
+            VsCodeUI.ShowInfoMessage(
+                Messages.AppCenterSecretsHintMessage(androidAppSecret, iosAppSecret),
+                ...messageItems,
+            );
             return true;
         }
         return false;
@@ -54,8 +59,8 @@ export default class AppCenterLinker {
             return app.os.toLowerCase() === os.toLowerCase();
         });
         if (filteredApps.length === 0) {
-            return "";
+            return '';
         }
-        return filteredApps[0].appSecret || "";
+        return filteredApps[0].appSecret || '';
     }
 }

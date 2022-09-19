@@ -4,9 +4,8 @@ import { VsCodeUI } from '../../ui/vscodeUI';
 import { Messages } from '../../resources/messages';
 
 export default class ToggleStatusBar extends Command {
-
     public async runNoClient(): Promise<boolean | void> {
-        if (!await super.runNoClient()) {
+        if (!(await super.runNoClient())) {
             return false;
         }
 

@@ -1,18 +1,18 @@
-import { Md5 } from "ts-md5/dist/md5";
-import { models } from "../../api/appcenter";
+import { Md5 } from 'ts-md5/dist/md5';
+import { models } from '../../api/appcenter';
 import { AppCenterProfile, CommandParams, CurrentApp, QuickPickAppItem } from '../../helpers/interfaces';
-import { Utils } from "../../helpers/utils/utils";
-import * as Menu from "../menu/menu";
-import { CommandNames, Constants } from "../resources/constants";
-import { Strings } from "../resources/strings";
+import { Utils } from '../../helpers/utils/utils';
+import * as Menu from '../menu/menu';
+import { CommandNames, Constants } from '../resources/constants';
+import { Strings } from '../resources/strings';
 import { Command } from './command';
-import { VsCodeUI } from "../ui/vscodeUI";
-import { Messages } from "../resources/messages";
-import { MenuStrings } from "../resources/menuStrings";
-import { LogStrings } from "../resources/logStrings";
+import { VsCodeUI } from '../ui/vscodeUI';
+import { Messages } from '../resources/messages';
+import { MenuStrings } from '../resources/menuStrings';
+import { LogStrings } from '../resources/logStrings';
 
 export class ReactNativeAppCommand extends Command {
-    protected currentAppMenuTarget = "MenuCurrentApp";
+    protected currentAppMenuTarget = 'MenuCurrentApp';
     protected static cachedAllApps: models.AppResponse[];
     protected userAlreadySelectedApp: boolean;
     protected checkForReact = true;
@@ -32,7 +32,7 @@ export class ReactNativeAppCommand extends Command {
     }
 
     public async runNoClient(): Promise<boolean | void> {
-        if (!await super.runNoClient()) {
+        if (!(await super.runNoClient())) {
             return false;
         }
         if (this.checkForReact && !Utils.isReactNativeProject(this.logger, this.rootPath, true)) {
@@ -43,7 +43,7 @@ export class ReactNativeAppCommand extends Command {
     }
 
     public async run(): Promise<boolean | void> {
-        if (!await super.run()) {
+        if (!(await super.run())) {
             return false;
         }
 
@@ -60,17 +60,21 @@ export class ReactNativeAppCommand extends Command {
                 if (profile && profile.currentApp) {
                     if (refreshDeployments) {
                         try {
-                            const result: models.Deployment[] = await this.client.codePushDeployments.list(profile.currentApp.ownerName, profile.currentApp.appName);
+                            const result: models.Deployment[] = await this.client.codePushDeployments.list(
+                                profile.currentApp.ownerName,
+                                profile.currentApp.appName,
+                            );
                             if (result) {
                                 profile.currentApp.currentAppDeployments.codePushDeployments = [];
                                 profile.currentApp.currentAppDeployments.codePushDeployments.push(...result);
 
-                                profile.currentApp.currentAppDeployments.currentDeploymentName = Utils.selectCurrentDeploymentName(
-                                    profile.currentApp.currentAppDeployments.codePushDeployments,
-                                    profile.currentApp.currentAppDeployments.currentDeploymentName
-                                );
+                                profile.currentApp.currentAppDeployments.currentDeploymentName =
+                                    Utils.selectCurrentDeploymentName(
+                                        profile.currentApp.currentAppDeployments.codePushDeployments,
+                                        profile.currentApp.currentAppDeployments.currentDeploymentName,
+                                    );
                             }
-                        } catch (err) { }
+                        } catch (err) {}
                     }
                     return profile.currentApp;
                 }
@@ -80,10 +84,17 @@ export class ReactNativeAppCommand extends Command {
     }
 
     protected async handleShowCurrentAppQuickPickSelection(_target: QuickPickAppItem, _rnApps: models.AppResponse[]) {
-        throw Error("handleShowCurrentAppQuickPickSelection not implemented in base class");
+        throw Error('handleShowCurrentAppQuickPickSelection not implemented in base class');
     }
 
-    protected async showAppsQuickPick(apps: models.AppResponse[], includeAllApps = false, includeSelectCurrent = false, includeCreateNew = true, prompt: string = Strings.ProvideCurrentAppHint, force = false) {
+    protected async showAppsQuickPick(
+        apps: models.AppResponse[],
+        includeAllApps = false,
+        includeSelectCurrent = false,
+        includeCreateNew = true,
+        prompt: string = Strings.ProvideCurrentAppHint,
+        force = false,
+    ) {
         if (!apps) {
             this.logger.debug(LogStrings.NoAppsToShow);
             return;
@@ -96,8 +107,8 @@ export class ReactNativeAppCommand extends Command {
         if (includeCreateNew && Utils.isReactNativeProject(this.logger, this.rootPath, false)) {
             const createNewAppItem = {
                 label: MenuStrings.CreateNewAppMenuLabel,
-                description: "",
-                target: CommandNames.CreateApp.CommandName
+                description: '',
+                target: CommandNames.CreateApp.CommandName,
             };
             options.splice(0, 0, createNewAppItem);
         }
@@ -108,7 +119,7 @@ export class ReactNativeAppCommand extends Command {
                 const currentAppItem = {
                     label: MenuStrings.SelectCurrentAppMenuDescription,
                     description: currentApp.type,
-                    target: this.currentAppMenuTarget
+                    target: this.currentAppMenuTarget,
                 };
                 options.splice(0, 0, currentAppItem);
             }
@@ -127,19 +138,31 @@ export class ReactNativeAppCommand extends Command {
         if (!apps) {
             return [];
         }
-        return apps.filter(app => app.platform === Constants.AppCenterReactNativePlatformName);
+        return apps.filter((app) => app.platform === Constants.AppCenterReactNativePlatformName);
     }
 
-    protected refreshCachedAppsAndRepaintQuickPickIfNeeded(includeSelectCurrent = false, includeCreateNew = true, includeAllApps = true, prompt: string = Strings.ProvideCurrentAppHint) {
+    protected refreshCachedAppsAndRepaintQuickPickIfNeeded(
+        includeSelectCurrent = false,
+        includeCreateNew = true,
+        includeAllApps = true,
+        prompt: string = Strings.ProvideCurrentAppHint,
+    ) {
         VsCodeUI.showProgress(async (progress) => {
             progress.report({ message: Messages.GetAppsListProgressMessage });
 
             const apps: models.AppResponse[] = await this.client.apps.list({
-                orderBy: "name"
+                orderBy: 'name',
             });
             const rnApps: models.AppResponse[] = includeAllApps ? apps : this.getRnApps(apps);
             // we repaint menu only in case we have changed apps
-            if (this.cachedAppsItemsDiffer(rnApps, includeAllApps ? ReactNativeAppCommand.cachedAllApps : this.getRnApps(ReactNativeAppCommand.cachedAllApps))) {
+            if (
+                this.cachedAppsItemsDiffer(
+                    rnApps,
+                    includeAllApps
+                        ? ReactNativeAppCommand.cachedAllApps
+                        : this.getRnApps(ReactNativeAppCommand.cachedAllApps),
+                )
+            ) {
                 this.showAppsQuickPick(rnApps, includeAllApps, includeSelectCurrent, includeCreateNew, prompt);
             }
         }).catch((e) => {

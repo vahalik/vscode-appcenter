@@ -1,9 +1,8 @@
-
-import { CommandParams, CurrentApp } from "../../../helpers/interfaces";
-import { AppCenterOS } from "../../resources/constants";
-import { RNCPAppCommand } from "./rncpAppCommand";
-import { VsCodeUI } from "../../ui/vscodeUI";
-import { Messages } from "../../resources/messages";
+import { CommandParams, CurrentApp } from '../../../helpers/interfaces';
+import { AppCenterOS } from '../../resources/constants';
+import { RNCPAppCommand } from './rncpAppCommand';
+import { VsCodeUI } from '../../ui/vscodeUI';
+import { Messages } from '../../resources/messages';
 
 export default class SwitchMandatoryPropForRelease extends RNCPAppCommand {
     constructor(params: CommandParams) {
@@ -11,7 +10,7 @@ export default class SwitchMandatoryPropForRelease extends RNCPAppCommand {
     }
 
     public async run(): Promise<void> {
-        if (!await super.run()) {
+        if (!(await super.run())) {
             return;
         }
 
@@ -30,12 +29,13 @@ export default class SwitchMandatoryPropForRelease extends RNCPAppCommand {
             AppCenterOS[app.os],
             {
                 currentDeploymentName: app.currentAppDeployments.currentDeploymentName,
-                codePushDeployments: app.currentAppDeployments.codePushDeployments
+                codePushDeployments: app.currentAppDeployments.codePushDeployments,
             },
             app.targetBinaryVersion,
             app.type,
             newMandatoryValue,
-            app.appSecret);
+            app.appSecret,
+        );
         VsCodeUI.ShowInfoMessage(Messages.ChangedMandatoryMessage(newMandatoryValue));
     }
 }

@@ -1,5 +1,5 @@
-import * as General from "../commands/general";
-import BaseCommandHandler from "./baseCommandHandler";
+import * as General from '../commands/general';
+import BaseCommandHandler from './baseCommandHandler';
 
 export default class AppCenterCommandHandler extends BaseCommandHandler {
     public async AppCenterPortalMenu(): Promise<void> {

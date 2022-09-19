@@ -1,3 +1,3 @@
-import codePushRelease from "./release";
+import codePushRelease from './release';
 
 export { codePushRelease };

@@ -1,8 +1,8 @@
-import { SettingsHelper } from "../../helpers/settingsHelper";
-import * as Settings from "../commands/settings";
-import BaseCommandHandler from "./baseCommandHandler";
-import { VsCodeUI } from "../ui/vscodeUI";
-import { Messages } from "../resources/messages";
+import { SettingsHelper } from '../../helpers/settingsHelper';
+import * as Settings from '../commands/settings';
+import BaseCommandHandler from './baseCommandHandler';
+import { VsCodeUI } from '../ui/vscodeUI';
+import { Messages } from '../resources/messages';
 
 export default class SettingsCommandHandler extends BaseCommandHandler {
     public async ShowMenu(): Promise<void> {

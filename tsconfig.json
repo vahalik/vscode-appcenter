@@ -11,7 +11,9 @@
         "noImplicitThis": true,
         "noImplicitReturns": true,
         "strictNullChecks": false,
-        "noUnusedParameters": true
+        "noUnusedParameters": true,
+        "outDir": "./dist",
+        "resolveJsonModule": true
     },
     "exclude": [
         "node_modules",

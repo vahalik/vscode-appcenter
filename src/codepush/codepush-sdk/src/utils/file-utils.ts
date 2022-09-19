@@ -2,13 +2,12 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
 import * as fs from 'fs';
-import * as _ from 'lodash';
 import * as os from 'os';
 import * as path from 'path';
 import * as rimraf from 'rimraf';
 import * as temp from 'temp';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const noop = require('node-noop').noop;
+import { OpenMode, PathLike } from 'node:fs';
+import { Abortable } from 'node:events';
 
 export function fileExists(file: string): boolean {
     try {
@@ -88,26 +87,27 @@ export async function walk(dir: string): Promise<string[]> {
 }
 
 export async function stat(path: string | Buffer): Promise<fs.Stats> {
-    return (await callFs(fs.stat, path))[0];
+    return fs.promises.stat(path);
 }
 
 export async function readdir(path: string | Buffer): Promise<string[]> {
-    return (await callFs(fs.readdir, path))[0];
+    return fs.promises.readdir(path);
 }
 
-export function readFile(filename: string): Promise<Buffer>;
-export function readFile(filename: string, encoding: string): Promise<string>;
-// tslint:disable-next-line:unified-signatures
-export function readFile(filename: string, options: { flag?: string }): Promise<Buffer>;
-export function readFile(filename: string, options?: string | { encoding: string; flag?: string }): Promise<string>;
-export async function readFile(...args: any[]): Promise<any> {
-    return (await callFs(fs.readFile, ...args))[0];
+export async function readFile(
+    filename: PathLike,
+    options?:
+        | ({
+              encoding?: null | undefined;
+              flag?: OpenMode | undefined;
+          } & Abortable)
+        | null,
+): Promise<Buffer> {
+    return fs.promises.readFile(filename, options);
 }
 
 export async function access(path: string | Buffer, mode: number): Promise<void> {
-    return callFs(fs.access, path, mode).then(() => {
-        noop();
-    });
+    return fs.promises.access(path, mode);
 }
 
 export function rmDir(source: string, recursive = true): Promise<void> {
@@ -122,46 +122,10 @@ export function rmDir(source: string, recursive = true): Promise<void> {
             });
         });
     } else {
-        return callFs(fs.rmdir, source).then(() => {
-            noop();
-        });
+        return fs.promises.rmdir(source);
     }
 }
 
 export function mkTempDir(affixes: string): Promise<string> {
-    return callTemp(temp.mkdir, affixes);
-}
-
-function callTemp<TResult>(func: (...args: any[]) => void, ...args: any[]): Promise<TResult> {
-    return new Promise<TResult>((resolve, reject) => {
-        func.apply(
-            temp,
-            _.concat(args, [
-                (err: any, result: TResult) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(result);
-                    }
-                },
-            ]),
-        );
-    });
-}
-
-function callFs(func: (...args: any[]) => void, ...args: any[]): Promise<any[]> {
-    return new Promise<any[]>((resolve, reject) => {
-        func.apply(
-            fs,
-            _.concat(args, [
-                (err: any, ...args: any[]) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(args);
-                    }
-                },
-            ]),
-        );
-    });
+    return temp.mkdir(affixes);
 }
