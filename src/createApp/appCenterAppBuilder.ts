@@ -183,7 +183,7 @@ export default class AppCenterAppBuilder {
     }
 
     public async startProcess(): Promise<boolean> {
-        return await VsCodeUI.showProgress(async (progress) => {
+        return VsCodeUI.showProgress(async (progress) => {
             // The was an issue for me and without Delay spinner was not shown when app was creating!
             await Utils.Delay(100);
 

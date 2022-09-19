@@ -25,7 +25,7 @@ export default class Logout extends Command {
 
         // One profile - log out from it
         if (profiles.length === 1) {
-            return await this.logoutUser(profiles[0]);
+            return this.logoutUser(profiles[0]);
         }
 
         // Two or more users - choose from which one user should be logged out

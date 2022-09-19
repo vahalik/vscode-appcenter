@@ -283,15 +283,15 @@
         }
     },
     "scripts": {
-        "vscode:prepublish": "npm run clean && npm run compile && npm run test",
+        "vscode:prepublish": "npm run clean && npm run compile && npm run copy && npm run test",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "integrationTest": "node ./node_modules/vscode/bin/test",
         "compile": "tsc -p ./",
         "watch": "tsc -watch -p ./",
-        "copy": "cpx ./test/mock/*.* ./dist/test/mock/",
-        "lint": "eslint --ext .ts ./src",
+        "lint": "eslint --ext .ts ./src --fix",
         "prettier": "prettier --write \"src/**/*.ts\"",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "npm run clean && npm run compile && npm run copy && mocha --reporter spec \"./dist/test/**/*.js\" ",
-        "integrationTest": "node ./node_modules/vscode/bin/test",
+        "copy": "cpx ./test/mock/*.* ./dist/test/mock/",
+        "test": "mocha --reporter spec \"./dist/test/**/*.js\" ",
         "clean": "rimraf ./dist"
     },
     "devDependencies": {

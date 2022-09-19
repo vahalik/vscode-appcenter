@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { ILogger, LogLevel } from './logHelper';
 
 export class NullLogger implements ILogger {

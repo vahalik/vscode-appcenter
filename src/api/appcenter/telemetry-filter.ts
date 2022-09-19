@@ -6,8 +6,9 @@ import { WebResource } from 'ms-rest';
 import { Readable, Writable } from 'stream';
 import { Constants } from '../../extension/resources/constants';
 
-// tslint:disable:no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const requestPipeline = require('ms-rest/lib/requestPipeline');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const uuid = require('uuid');
 
 const sessionId: string = uuid.v4();

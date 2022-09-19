@@ -360,12 +360,12 @@ export default class Start extends CreateAppCommand {
                 }
             });
             if (!alreadyExist) {
-                return await GitUtils.GitAddRemote(remoteName, remoteUrl, this.logger, _rootPath);
+                return GitUtils.GitAddRemote(remoteName, remoteUrl, this.logger, _rootPath);
             } else {
                 return true;
             }
         } else {
-            return await GitUtils.GitAddRemote(remoteName, remoteUrl, this.logger, _rootPath);
+            return GitUtils.GitAddRemote(remoteName, remoteUrl, this.logger, _rootPath);
         }
     }
 

@@ -93,7 +93,7 @@ export default abstract class Auth<T extends Profile> {
     }
 
     public async getProfiles(): Promise<T[]> {
-        return await this.profileStorage.list();
+        return this.profileStorage.list();
     }
 
     public static async accessTokenFor(profile: Profile): Promise<string> {

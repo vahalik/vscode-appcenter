@@ -33,7 +33,7 @@ export class Utils {
         } else if (name.endsWith('-android')) {
             hint = ' (android)';
         }
-        return name.substr(0, hint.length ? ELLIPSIZE_LENGTH_WITH_HINT : ELLIPSIZE_LENGTH_WO_HINT) + '...' + hint;
+        return name.substring(0, hint.length ? ELLIPSIZE_LENGTH_WITH_HINT : ELLIPSIZE_LENGTH_WO_HINT) + '...' + hint;
     }
 
     public static Delay<T>(millis: number, value?: T): Promise<T> {
@@ -45,7 +45,7 @@ export class Utils {
         switch (process.platform) {
             case 'win32':
             case 'darwin':
-                open(url);
+                void open(url);
                 break;
             default:
                 opener(url);
@@ -285,11 +285,11 @@ export class Utils {
             return '';
         }
 
-        if (currentDeploymentName && deployments.some((depl) => depl.name === currentDeploymentName)) {
+        if (currentDeploymentName && deployments.some((deployment) => deployment.name === currentDeploymentName)) {
             return currentDeploymentName; // keep current deployment
         }
 
-        if (deployments.some((depl) => depl.name === Constants.CodePushStagingDeploymentName)) {
+        if (deployments.some((deployment) => deployment.name === Constants.CodePushStagingDeploymentName)) {
             return Constants.CodePushStagingDeploymentName;
         }
 

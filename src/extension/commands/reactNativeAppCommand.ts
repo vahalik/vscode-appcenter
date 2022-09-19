@@ -55,7 +55,7 @@ export class ReactNativeAppCommand extends Command {
     }
 
     protected async getCurrentApp(refreshDeployments = false): Promise<CurrentApp | null> {
-        return await VsCodeUI.showProgress(() => {
+        return VsCodeUI.showProgress(() => {
             return this.appCenterProfile.then(async (profile: AppCenterProfile | null) => {
                 if (profile && profile.currentApp) {
                     if (refreshDeployments) {
@@ -74,7 +74,9 @@ export class ReactNativeAppCommand extends Command {
                                         profile.currentApp.currentAppDeployments.currentDeploymentName,
                                     );
                             }
-                        } catch (err) {}
+                        } catch (err) {
+                            // no empty block
+                        }
                     }
                     return profile.currentApp;
                 }

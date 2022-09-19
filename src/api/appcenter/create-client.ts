@@ -21,7 +21,7 @@ export interface AppCenterClientFactory {
 }
 
 export function createAppCenterClient(): AppCenterClientFactory {
-    function createClientOptions(): any {
+    function createClientOptions(): { filters: any[] } {
         const filters = [userAgentFilter];
 
         if (SettingsHelper.isTelemetryEnabled()) {

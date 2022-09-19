@@ -6,7 +6,7 @@
  */
 
 export namespace CompareVersionNumbers {
-    const regExStripAZ = /[^\.0-9]/g;
+    const regExStripAZ = /[^.\d]/g;
     const regExStrip0 = /(\.0+)+$/;
 
     /**

@@ -34,7 +34,7 @@ export default class LinkAppCenter extends LinkCommand {
 
         this.removeAppSecretKeys();
 
-        return await appCenterLinker.linkAppCenter(this.pickedApps);
+        return appCenterLinker.linkAppCenter(this.pickedApps);
     }
 
     private removeAppSecretKeys() {

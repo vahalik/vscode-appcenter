@@ -212,7 +212,8 @@ export async function getiOSAppVersion(
 
 export async function getWindowsAppVersion(projectRoot?: string): Promise<string> {
     projectRoot = projectRoot || process.cwd();
-    const projectPackageJson: any = require(path.join(projectRoot, 'package.json'));
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const projectPackageJson = require(path.join(projectRoot, 'package.json'));
     const projectName: string = projectPackageJson.name;
 
     console.log(chalk.cyan(`Detecting "Windows" app version:\n`));
@@ -340,7 +341,8 @@ export function isValidPlatform(platform: string): boolean {
 
 export function isReactNativeProject(): boolean {
     try {
-        const projectPackageJson: any = require(path.join(process.cwd(), 'package.json'));
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const projectPackageJson = require(path.join(process.cwd(), 'package.json'));
         const projectName: string = projectPackageJson.name;
         if (!projectName) {
             throw new Error(`The "package.json" file in the CWD does not have the "name" field set.`);

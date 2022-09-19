@@ -28,6 +28,7 @@ export async function activate(context: vscode.ExtensionContext) {
     registerAppCenterCommands(context);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 export function deactivate() {}
 
 function registerAppCenterCommands(context: vscode.ExtensionContext): void {

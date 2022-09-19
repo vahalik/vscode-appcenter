@@ -1,5 +1,5 @@
 import AppCenterAppCreator from '../../../createApp/appCenterAppCreator';
-import { Deployment, CommandParams, CurrentApp } from '../../../helpers/interfaces';
+import { CommandParams, CurrentApp } from '../../../helpers/interfaces';
 import { Utils } from '../../../helpers/utils/utils';
 import CodePushLinker from '../../../link/codePushLinker';
 import { Strings } from '../../resources/strings';
@@ -45,9 +45,10 @@ export default class LinkCodePush extends LinkCommand {
             }
         }
 
-        let deployments: Deployment[];
-
-        deployments = await codePushLinker.createCodePushDeployments(this.pickedApps, this.pickedApps[0].ownerName);
+        const deployments = await codePushLinker.createCodePushDeployments(
+            this.pickedApps,
+            this.pickedApps[0].ownerName,
+        );
 
         if (deployments.length < 1) {
             VsCodeUI.ShowErrorMessage(Messages.FailedToLinkCodePush);

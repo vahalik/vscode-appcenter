@@ -95,14 +95,14 @@ export async function generatePackageHashFromDirectory(directoryPath: string, ba
     return manifest.computePackageHash();
 }
 
-export function generatePackageManifestFromDirectory(
+export async function generatePackageManifestFromDirectory(
     directoryPath: string,
     basePath: string,
 ): Promise<PackageManifest> {
-    return new Promise<PackageManifest>(async (resolve, reject) => {
-        const fileHashesMap = new Map<string, string>();
+    const files: string[] = await fileUtils.walk(directoryPath);
 
-        const files: string[] = await fileUtils.walk(directoryPath);
+    return new Promise<PackageManifest>((resolve, reject) => {
+        const fileHashesMap = new Map<string, string>();
 
         if (!files || files.length === 0) {
             reject(`Error: Can"t sign the release because no files were found.`);

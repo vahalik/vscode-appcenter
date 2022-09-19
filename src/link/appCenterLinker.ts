@@ -12,7 +12,7 @@ export default class AppCenterLinker {
 
     public async installAppcenter(): Promise<boolean> {
         const installAppCenterCmd = 'npm i appcenter appcenter-analytics appcenter-crashes --save';
-        return await VsCodeUI.showProgress(async (progress) => {
+        return VsCodeUI.showProgress(async (progress) => {
             progress.report({ message: Messages.InstallAppCenterProgressMessage });
             try {
                 await cpUtils.executeCommand(this.logger, true, this.rootPath, installAppCenterCmd);

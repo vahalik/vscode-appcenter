@@ -39,7 +39,7 @@ export default class LoginToVsts extends Command {
         }
         loginInfo.token = value;
 
-        return await this.login(loginInfo);
+        return this.login(loginInfo);
     }
 
     private async login(loginInfo: VstsLoginInfo): Promise<boolean> {

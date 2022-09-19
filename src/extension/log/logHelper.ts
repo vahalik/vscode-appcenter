@@ -26,6 +26,7 @@ export const AppCenterExtensionLogPrefix = 'VSCode App Center';
 
 function getLogLevel() {
     try {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         const SettingsHelper = require('../settingsHelper').SettingsHelper;
         return SettingsHelper.getLogLevel();
     } catch (err) {

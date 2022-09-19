@@ -25,11 +25,11 @@ export default class FsProfileStorage<T extends Profile> implements ProfileStora
     }
 
     private async createEmptyStorage(): Promise<void> {
-        return await FSUtils.writeFile(this.storageFilePath, '[]');
+        return FSUtils.writeFile(this.storageFilePath, '[]');
     }
 
     private async storageExists(): Promise<boolean> {
-        return await FSUtils.exists(this.storageFilePath);
+        return FSUtils.exists(this.storageFilePath);
     }
 
     private async loadDataFromStorage(): Promise<void> {

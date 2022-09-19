@@ -26,7 +26,7 @@ export default class ReleaseReact extends RNCPAppCommand {
         const codePushRelaseParams = <ICodePushReleaseParams>{};
         let updateContentsDirectory: string;
         let isMandatory: boolean;
-        return await VsCodeUI.showProgress<void>(async (progress) => {
+        return VsCodeUI.showProgress<void>(async (progress) => {
             try {
                 progress.report({ message: Messages.GettingAppInfoProgressMessage });
                 if (!this._app) {

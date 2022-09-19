@@ -57,8 +57,7 @@ export class CreateAppCommand extends Command {
         this.logger.debug(LogStrings.CheckingProjectName(projectName));
         await VsCodeUI.showProgress(async (progress) => {
             progress.report({ message: Messages.CheckIfAppsExistProgressMessage });
-            let apps: models.AppResponse[];
-            apps = await this.client.apps.list();
+            const apps = await this.client.apps.list();
             exist = apps.some((item) => {
                 return item.name === projectName;
             });

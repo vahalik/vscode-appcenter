@@ -49,7 +49,7 @@ export default class AppCenterPortal extends ReactNativeAppCommand {
 
                 const deployments: models.Deployment[] = await VsCodeUI.showProgress(async (progress) => {
                     progress.report({ message: Messages.FetchDeploymentsProgressMessage });
-                    return await this.client.codePushDeployments.list(selectedApp.owner.name, selectedApp.name);
+                    return this.client.codePushDeployments.list(selectedApp.owner.name, selectedApp.name);
                 });
                 const appDeployments: models.Deployment[] = deployments.sort((a, b): any => {
                     return a.name < b.name; // sort alphabetically

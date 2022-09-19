@@ -39,7 +39,7 @@ export default class CodePushLinker {
     public async installCodePush(): Promise<boolean> {
         const installCodePushCmd = 'npm i react-native-code-push --save';
         const installRNPMCmd = 'npm i -g rnpm';
-        return await VsCodeUI.showProgress(async () => {
+        return VsCodeUI.showProgress(async () => {
             try {
                 await cpUtils.executeCommand(this.logger, true, this.rootPath, installCodePushCmd);
                 const isLowerThan027: boolean = await this.isReactNativeLowerThan027(this.rootPath);
@@ -67,15 +67,14 @@ export default class CodePushLinker {
     }
 
     public async linkCodePush(deployments: Deployment[]): Promise<boolean> {
-        const self = this;
         const cmd = this.useRNPM ? 'rnpm' : 'react-native';
         const iosStagingDeploymentKey = this.findDeploymentKeyFor(AppCenterOS.iOS, deployments);
         const androidStagingDeploymentKey = this.findDeploymentKeyFor(AppCenterOS.Android, deployments);
         if (!iosStagingDeploymentKey && !androidStagingDeploymentKey) {
-            self.logger.error('Deployment keys are missing.');
+            this.logger.error('Deployment keys are missing.');
             return Promise.resolve(false);
         }
-        return await VsCodeUI.showProgress(async (progress) => {
+        return VsCodeUI.showProgress(async (progress) => {
             progress.report({ message: Messages.LinkCodePushProgressMessage });
             const inputValues: ReactNativeLinkInputValue[] = [
                 {

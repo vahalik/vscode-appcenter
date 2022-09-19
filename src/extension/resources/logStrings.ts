@@ -148,7 +148,7 @@ export class LogStrings {
     }
 
     public static MultipleActiveProfiles(storageFilePath: string): string {
-        return `Malformed profile data. Shouldn\'t be more than one active profile. Try deleting ${storageFilePath} and log in again.`;
+        return `Malformed profile data. Shouldn't be more than one active profile. Try deleting ${storageFilePath} and log in again.`;
     }
 
     public static FailedToParseStorage(storageFilePath: string): string {
