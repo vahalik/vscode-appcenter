@@ -5,6 +5,7 @@ node_modules
 coverage/
 .idea
 out
+dist
 src/**/nodeDebugLocation.json
 
 # Compiled files
