@@ -8,9 +8,8 @@
             "request": "launch",
             "runtimeExecutable": "${execPath}",
             "args": ["--extensionDevelopmentPath=${workspaceRoot}" ],
-            "stopOnEntry": false,
             "sourceMaps": true,
-            "outFiles": [ "${workspaceRoot}/src/**/*.js" ],
+            "outFiles": [ "${workspaceRoot}/dist/**/*.js" ],
             "preLaunchTask": "debug"
         },
         {
@@ -23,11 +22,10 @@
                 "--extensionDevelopmentPath=${workspaceRoot}",
                 "--extensionTestsPath=${workspaceRoot}/integrationTest"
             ],
-            "stopOnEntry": false,
             "sourceMaps": true,
             "outFiles": [
-                "${workspaceRoot}/src/**/*.js",
-                "${workspaceRoot}/integrationTest/**/*.js"
+                "${workspaceRoot}/dist/**/*.js",
+                "${workspaceRoot}/dist/integrationTest/**/*.js"
             ],
             "preLaunchTask": "default"
         }

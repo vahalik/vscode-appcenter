@@ -18,15 +18,15 @@ export default class LinkCodePush extends LinkCommand {
         }
 
         if (!Utils.isReactNativeProject(this.logger, this.rootPath, false)) {
-            VsCodeUI.ShowWarningMessage(Messages.NotReactProjectWarning);
+            await VsCodeUI.ShowWarningMessage(Messages.NotReactProjectWarning);
             return;
         }
         if (this._app) {
             this.pickedApps.push(this._app);
-            this.linkApps();
+            await this.linkApps();
         } else {
             if (this.CachedAllApps) {
-                this.showAppsQuickPick(this.CachedAllApps, false, true, false, Strings.ProvideSecondAppHint);
+                await this.showAppsQuickPick(this.CachedAllApps, false, true, false, Strings.ProvideSecondAppHint);
             } else {
                 this.refreshCachedAppsAndRepaintQuickPickIfNeeded(true, false, false, Strings.ProvideFirstAppHint);
             }

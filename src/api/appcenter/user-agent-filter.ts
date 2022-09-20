@@ -1,7 +1,6 @@
 import { WebResource } from 'ms-rest';
 import { platform, release } from 'os';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { version: cliVersion } = require('../../../package.json');
+import { version as cliVersion } from '../../../package.json';
 
 export function userAgentFilter(resource: WebResource, next: any, callback: any): any {
     const scriptName = 'vscode-appcenter';
