@@ -3,7 +3,7 @@ import { Constants } from '../../extension/resources/constants';
 import { cpUtils } from './cpUtils';
 import { LogStrings } from '../../extension/resources/logStrings';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const git = require('simple-git/promise');
+const git = require('simple-git');
 
 export class GitUtils {
     private static gitCommand = 'git';
