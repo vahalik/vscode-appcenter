@@ -6,7 +6,7 @@
     "publisher": "vsmobile",
     "icon": "images/icon.png",
     "engines": {
-        "vscode": "^1.21.0"
+        "vscode": "^1.71.0"
     },
     "repository": {
         "type": "git",
@@ -285,8 +285,7 @@
     "scripts": {
         "vscode:prepublish": "npm run debug && npm run test",
         "debug": "npm run clean && npm run compile && npm run copy",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "integrationTest": "node ./node_modules/vscode/bin/test",
+        "integrationTest": "npm run debug && node ./dist/integrationTest/runTest.js",
         "compile": "tsc -p ./",
         "watch": "tsc -watch -p ./",
         "lint": "eslint --ext .ts ./src --fix",
@@ -296,23 +295,27 @@
         "clean": "rimraf ./dist"
     },
     "devDependencies": {
-        "@types/mocha": "^2.2.42",
+        "@types/vscode": "^1.71.0",
+        "@types/glob": "^7.2.0",
+        "@types/mocha": "^9.1.1",
         "@types/node": "^18.7.18",
         "@types/rimraf": "^3.0.2",
         "@types/temp": "^0.9.1",
         "@typescript-eslint/eslint-plugin": "^5.37.0",
         "@typescript-eslint/parser": "^5.37.0",
+        "@vscode/test-electron": "^2.1.5",
         "cpx": "^1.5.0",
         "eslint": "8.22.0",
         "eslint-config-prettier": "^8.5.0",
+        "glob": "^8.0.3",
         "mocha": "^10.0.0",
         "mock-fs": "^5.1.4",
         "prettier": "^2.7.1",
         "rimraf": "^3.0.2",
-        "typescript": "^4.8.3",
-        "vscode": "^1.1.21"
+        "typescript": "^4.8.3"
     },
     "dependencies": {
+        "@types/vscode": "^1.71.0",
         "btoa": "^1.2.1",
         "chalk": "^2.4.1",
         "date-fns": "^1.29.0",
@@ -339,6 +342,7 @@
         "temp": "^0.9.4",
         "test": "^0.6.0",
         "ts-md5": "^1.2.4",
+        "vscode-test": "^1.6.1",
         "xml2js": "^0.4.19",
         "yazl": "^2.4.3"
     },
