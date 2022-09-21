@@ -18,8 +18,7 @@ steps:
 - script: |
     npm install
     npm install -g vsce json
-    npm run publish:beta
-#   displayName: 'npm install and publish'
+  displayName: 'npm install and publish'
 
 - task: Bash@3
   inputs:
