@@ -20,6 +20,10 @@ steps:
     npm install -g vsce json
   displayName: 'setup'
 
+- script: |
+    npm install -g vsce json
+  displayName: 'setup vsce & json'
+
 - task: Bash@3
   displayName: 'Update package.json with beta values'
   inputs:
