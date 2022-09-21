@@ -121,7 +121,7 @@ export class ExtensionManager implements Disposable {
         } else {
             VsCodeUI.setStatusBar(
                 this._appCenterStatusBarItem,
-                `$(icon octicon-sign-in) ${Strings.LoginToAppCenterStatusBarButton}`,
+                `$(sign-in) ${Strings.LoginToAppCenterStatusBarButton}`,
                 Strings.UserMustSignInStatusBarMessage,
                 `${CommandNames.Login}`,
             );

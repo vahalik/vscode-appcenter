@@ -9,7 +9,7 @@ import AppCenterConfig from '../src/data/appCenterConfig';
 // import { ILogger } from '../src/extension/log/logHelper';
 import { ConsoleLogger } from '../src/extension/log/consoleLogger';
 
-describe('AppCenterConfig', function () {
+describe.skip('AppCenterConfig', function () {
     let appCenterConfig: AppCenterConfig;
     let sandbox;
     const appName = 'appName';
