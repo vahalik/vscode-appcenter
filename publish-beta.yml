@@ -18,15 +18,15 @@ steps:
 - script: |
     npm install
     npm install -g vsce json
-  displayName: 'npm install and publish'
+  displayName: 'setup'
 
 - task: Bash@3
+  displayName: 'Update package.json with beta values'
   inputs:
     targetType: 'filePath'
     filePath: './setBetaValues.sh'
 
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: 'cat package.json'
+- script: vsce publish --pat $(PAT) --allow-star-activation --pre-release
+  displayName: 'Beta publish'
+
 
