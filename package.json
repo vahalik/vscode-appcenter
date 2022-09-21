@@ -292,10 +292,7 @@
     "prettier": "prettier --write \"src/**/*.ts\"",
     "copy": "cpx ./test/mock/*.* ./dist/test/mock/ && cpx ./src/**/*.js ./dist/src/",
     "test": "mocha --reporter spec \"./dist/test/**/*.js\" ",
-    "clean": "rimraf ./dist",
-    "publish": "cross-env PAT=$PAT cross-env-shell vsce publish --pat $PAT --allow-star-activation",
-    "publish:beta": "npm run set-beta-values && npm run publish --pre-release",
-    "set-beta-values": "bash ./setBetaValues.sh"
+    "clean": "rimraf ./dist"
   },
   "devDependencies": {
     "@types/vscode": "^1.71.0",
@@ -308,7 +305,6 @@
     "@typescript-eslint/parser": "^5.37.0",
     "@vscode/test-electron": "^2.1.5",
     "cpx": "^1.5.0",
-    "cross-env": "^7.0.3",
     "eslint": "8.22.0",
     "eslint-config-prettier": "^8.5.0",
     "glob": "^8.0.3",
