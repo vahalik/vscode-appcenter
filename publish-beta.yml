@@ -15,8 +15,18 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
-- script: |
-    npm install
-    npm install -g vsce json
-    npm run publish:beta
-  displayName: 'npm install and publish'
+- task: Bash@3
+  inputs:
+    targetType: 'filePath'
+    filePath: './setBetaValues.sh'
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: 'cat package.json'
+
+# - script: |
+#     npm install
+#     npm install -g vsce json
+#     npm run publish:beta
+#   displayName: 'npm install and publish'
