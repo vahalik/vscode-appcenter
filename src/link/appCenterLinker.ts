@@ -4,7 +4,7 @@ import { Strings } from '../extension/resources/strings';
 import { CurrentApp } from '../helpers/interfaces';
 import { cpUtils } from '../helpers/utils/cpUtils';
 import { IButtonMessageItem, VsCodeUI } from '../extension/ui/vscodeUI';
-import { VsCodeTerminal } from '../extension/ui/VsCodeTerminal';
+import { VsCodeTerminal } from '../extension/ui/vsCodeTerminal';
 import { Messages } from '../extension/resources/messages';
 
 export default class AppCenterLinker {

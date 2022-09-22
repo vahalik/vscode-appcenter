@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import * as rimraf from 'rimraf';
+import rimraf = require('rimraf');
 
 export class FSUtils {
     private static readonly FileDoesNotExist = 'ENOENT';

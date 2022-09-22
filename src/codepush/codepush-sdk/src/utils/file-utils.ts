@@ -4,7 +4,7 @@
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
-import * as rimraf from 'rimraf';
+import rimraf = require('rimraf');
 import * as temp from 'temp';
 import { OpenMode, PathLike } from 'node:fs';
 import { Abortable } from 'node:events';
