@@ -28,7 +28,7 @@
   "activationEvents": [
     "*"
   ],
-  "main": "./dist/src/extension/extension",
+  "main": "./out/main.js",
   "contributes": {
     "commands": [
       {
@@ -283,28 +283,29 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run debug && npm run test",
-    "debug": "npm run clean && npm run compile && npm run copy",
-    "integrationTest": "npm run debug && node ./dist/integrationTest/runTest.js",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "test-compile": "tsc -p ./",
     "lint": "eslint --ext .ts ./src --fix",
     "prettier": "prettier --write \"src/**/*.ts\"",
-    "copy": "cpx ./test/mock/*.* ./dist/test/mock/ && cpx ./src/**/*.js ./dist/src/",
+    "copy": "cpx ./test/mock/*.* ./dist/test/mock/",
     "test": "mocha --reporter spec \"./dist/test/**/*.js\" ",
-    "clean": "rimraf ./dist"
+    "clean": "rimraf ./dist",
+    "esbuild-base": "esbuild ./src/extension/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch"
   },
   "devDependencies": {
-    "@types/vscode": "^1.71.0",
     "@types/glob": "^7.2.0",
     "@types/mocha": "^9.1.1",
     "@types/node": "^18.7.18",
     "@types/rimraf": "^3.0.2",
     "@types/temp": "^0.9.1",
+    "@types/vscode": "^1.71.0",
     "@typescript-eslint/eslint-plugin": "^5.37.0",
     "@typescript-eslint/parser": "^5.37.0",
     "@vscode/test-electron": "^2.1.5",
     "cpx": "^1.5.0",
+    "esbuild": "^0.15.8",
     "eslint": "8.22.0",
     "eslint-config-prettier": "^8.5.0",
     "glob": "^8.0.3",
