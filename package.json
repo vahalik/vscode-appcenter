@@ -165,6 +165,11 @@
         "command": "appcenter.test.viewResults",
         "title": "View UI Tests Results",
         "category": "App Center Test"
+      },
+      {
+        "command": "appcenter.docs.openDocs",
+        "title": "Documentation",
+        "category": "App Center"
       }
     ],
     "configuration": {

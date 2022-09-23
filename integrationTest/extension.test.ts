@@ -35,7 +35,8 @@ suite('Extension Test Suite', () => {
             CommandNames.Test.ShowMenu,
             CommandNames.Test.RunUITests,
             CommandNames.Test.RunUITestsAsync,
-            CommandNames.Test.ViewResults
+            CommandNames.Test.ViewResults,
+            CommandNames.Docs.OpenDocs,
         ]);
 
         const registeredCommands = await vscode.commands.getCommands(true);
