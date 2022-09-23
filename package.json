@@ -293,6 +293,7 @@
     "lint": "eslint --ext .ts ./src --fix",
     "prettier": "prettier --write \"src/**/*.ts\"",
     "copy": "cpx ./test/mock/*.* ./dist/test/mock/",
+    "pretest": "npm run clean && npm run test-compile && npm run copy",
     "test": "mocha --reporter spec \"./dist/test/**/*.js\" ",
     "clean": "rimraf ./dist",
     "esbuild-base": "esbuild ./src/extension/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
