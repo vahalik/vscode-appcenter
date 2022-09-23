@@ -4,7 +4,10 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- beta
+  branches:
+    include:
+    - master
+    - beta
 
 pool:
   vmImage: windows-latest
@@ -30,6 +33,12 @@ steps:
     filePath: './setBetaValues.sh'
 
 - script: vsce publish --pat $(PAT) --allow-star-activation --pre-release
+  displayName: 'Beta publish pre-relase'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/beta'))
+
+- script: vsce publish --pat $(PAT) --allow-star-activation
   displayName: 'Beta publish'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
 
 
