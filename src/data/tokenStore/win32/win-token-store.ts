@@ -14,7 +14,7 @@ import { TokenStore, TokenEntry, TokenKeyType, TokenValueType } from '../tokenSt
 
 type Duplex = stream.Duplex;
 
-const credExePath = path.join(__dirname, '../../../../bin/windows/creds.exe');
+const credExePath = path.join(__dirname, '../bin/windows/creds.exe');
 
 const targetNamePrefix = 'AppCenterExtension:target=';
 
@@ -155,7 +155,7 @@ export class WinTokenStore implements TokenStore {
             });
         });
     }
-
+    
     /**
      * Remove the given key from the credential store.
      *
@@ -186,6 +186,5 @@ export class WinTokenStore implements TokenStore {
 }
 
 export function createWinTokenStore(): TokenStore {
-    // debug(`Creating WinTokenStore`);
     return new WinTokenStore();
 }

@@ -3,7 +3,7 @@
     "tasks": [
         {
             "type": "npm",
-            "script": "compile",
+            "script": "test-compile",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -14,34 +14,24 @@
         },
         {
             "type": "npm",
-            "script": "watch",
+            "script": "esbuild-watch",
             "group": {
                 "kind": "build",
                 "isDefault": false
             },
             "problemMatcher": [],
             "label": "watch",
-            "detail": "tsc -w -p ./"
+            "detail": "esbuild-watch"
         },
         {
             "type": "npm",
-            "script": "debug",
+            "script": "esbuild",
             "group": {
                 "kind": "none"
             },
             "problemMatcher": [],
             "label": "debug",
-            "detail": "clean & compile"
-        },
-        {
-            "type": "npm",
-            "script": "vscode:prepublish",
-            "group": {
-                "kind": "none"
-            },
-            "problemMatcher": [],
-            "label": "default",
-            "detail": "clean & compile & test"
+            "detail": "Bundling Extensions"
         }
     ]
 }

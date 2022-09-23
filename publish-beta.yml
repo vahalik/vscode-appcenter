@@ -7,16 +7,29 @@ trigger:
 - beta
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
 
 steps:
 - task: NodeTool@0
   inputs:
-    versionSpec: '10.x'
+    versionSpec: '14.x'
   displayName: 'Install Node.js'
 
 - script: |
     npm install
+  displayName: 'setup'
+
+- script: |
     npm install -g vsce json
-    npm run publish:beta
-  displayName: 'npm install and publish'
+  displayName: 'setup vsce & json'
+
+- task: Bash@3
+  displayName: 'Update package.json with beta values'
+  inputs:
+    targetType: 'filePath'
+    filePath: './setBetaValues.sh'
+
+- script: vsce publish --pat $(PAT) --allow-star-activation --pre-release
+  displayName: 'Beta publish'
+
+

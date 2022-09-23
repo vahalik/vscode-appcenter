@@ -1,7 +1,7 @@
 import { execSync } from 'child_process';
 import * as fs from 'fs';
-import * as open from 'open';
-import * as opener from 'opener';
+import open = require('open');
+import opener = require('opener');
 import * as os from 'os';
 import * as path from 'path';
 import { ILogger } from '../../extension/log/logHelper';
