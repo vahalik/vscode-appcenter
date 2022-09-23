@@ -110,6 +110,22 @@ export class Utils {
         return true;
     }
 
+    public static getNpmPackageVersion(logger: ILogger, projectRoot: string | undefined, packageName: string) {
+        if (!projectRoot) {
+            return null;
+        }
+
+        const packageJsonPath = path.resolve(projectRoot, 'node_modules', packageName, 'package.json');
+
+        try {
+            const packageJson = Utils.parseJsonFile(packageJsonPath);
+            return packageJson.version;
+        } catch (e) {
+            logger.error(e.message);
+            return null;
+        }
+    }
+
     public static isReactNativeProject(logger: ILogger, projectRoot: string | undefined, showMessageOnError?: boolean) {
         return Utils.projectHaveNpmPackage(
             logger,
