@@ -1,5 +1,13 @@
 ## 0.2.0
-* reincarnation of the project
+* Reincarnation of the project.
+* Removed tslint in favour of eslint & prettier.
+* Updated dependencies to get rid of most vulnerabilities.
+* Updated to latest version of typescript.
+* Updated to use supported version of vscode extension library + test.
+* Removed gulp.
+* Build using esbuild to improve build and execution time (cold load of extension ~10x faster).
+* Added Documentation commands to easily open documentation.
+* Another fixes.
 
 ## 0.1.11
 * Fixed several security issues
