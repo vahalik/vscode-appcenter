@@ -1,49 +1,48 @@
-import mock = require('mock-fs');
 import fs = require('fs');
-import jsxml = require('node-jsxml');
 import plist = require('plist');
 import should = require('should');
 import sinon = require('sinon');
 import { Utils } from '../src/helpers/utils/utils';
 import AppCenterConfig from '../src/data/appCenterConfig';
-// import { ILogger } from '../src/extension/log/logHelper';
 import { ConsoleLogger } from '../src/extension/log/consoleLogger';
 
-describe.skip('AppCenterConfig', function () {
+describe('AppCenterConfig', function () {
     let appCenterConfig: AppCenterConfig;
     let sandbox;
     const appName = 'appName';
+    const root = "./test/mock/temp";
     let androidStringsPath: string;
     let pathToAppCenterConfigPlist: string;
     let pathToMainPlist: string;
     let pathToAndroidConfig: string;
-
+    let jsxml;
+    let builder;
+    
     before(() => {
-        mock({
-            'android/app/src/main/res/values': {
-                'strings.xml':
-                    '<?xml version="1.0" encoding="utf-8"?><resources><string name="name"></string></resources>',
-            },
-            'android/app/src/assets': {
-                'appcenter-config.json': '',
-            },
-            'ios/appName/': {
-                'AppCenter-Config.plist': '<?xml version="1.0" encoding="UTF-8"?>',
-                'Info.plist': '<?xml version="1.0" encoding="UTF-8"?>',
-            },
-        });
-        androidStringsPath = 'android/app/src/main/res/values/strings.xml';
-        pathToAppCenterConfigPlist = `ios/${appName}/AppCenter-Config.plist`;
-        pathToMainPlist = `ios/${appName}/Info.plist`;
-        pathToAndroidConfig = 'android/app/src/main/assets/appcenter-config.json';
+        jsxml = require("node-jsxml");
+        builder = require('xmlbuilder');
+
+        androidStringsPath = `${root}/android/app/src/main/res/values/strings.xml`;
+        pathToAppCenterConfigPlist = `${root}/ios/${appName}/AppCenter-Config.plist`;
+        pathToMainPlist = `${root}/ios/${appName}/Info.plist`;
+        pathToAndroidConfig = `${root}/android/app/src/main/assets/appcenter-config.json`;
         sandbox = sinon.sandbox.create();
-        // const loggerStub: ILogger = sandbox.stub(ConsoleLogger.prototype);
-        appCenterConfig = Utils.createAppCenterConfigFrom(appName, '', new ConsoleLogger());
+
+        const stringsXml = builder.create('root').ele('resources', { 'name': 'name'}).end({ pretty: true});
+
+        fs.mkdirSync(`${root}/android/app/src/main/res/values`, { recursive: true });
+        fs.mkdirSync(`${root}/android/app/src/assets`, { recursive: true });
+        fs.mkdirSync(`${root}/ios/${appName}`, { recursive: true });
+
+        fs.writeFileSync(androidStringsPath, stringsXml);
+        fs.writeFileSync(`${root}/android/app/src/assets/appcenter-config.json`, '{}');
+
+        appCenterConfig = Utils.createAppCenterConfigFrom(appName, root, new ConsoleLogger());
     });
 
     after(() => {
         sandbox.restore();
-        mock.restore();
+        fs.rmdirSync(root, { recursive: true });
     });
 
     describe('#setAndroidStringResourcesDeploymentKey', () => {
