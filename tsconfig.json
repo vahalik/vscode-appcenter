@@ -13,11 +13,13 @@
         "strictNullChecks": false,
         "noUnusedParameters": true,
         "outDir": "./dist",
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "allowJs": false
     },
     "exclude": [
         "node_modules",
         ".vscode-test",
-        "src/api/appcenter/generated"
+        "src/api/appcenter/generated",
+        "./dist/"
     ]
 }

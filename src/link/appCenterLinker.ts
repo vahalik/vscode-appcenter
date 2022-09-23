@@ -1,3 +1,5 @@
+import { lt } from 'semver';
+
 import { ILogger } from '../extension/log/logHelper';
 import { AppCenterOS } from '../extension/resources/constants';
 import { Strings } from '../extension/resources/strings';
@@ -6,6 +8,7 @@ import { cpUtils } from '../helpers/utils/cpUtils';
 import { IButtonMessageItem, VsCodeUI } from '../extension/ui/vscodeUI';
 import { VsCodeTerminal } from '../extension/ui/VsCodeTerminal';
 import { Messages } from '../extension/resources/messages';
+import { Utils } from '../helpers/utils/utils';
 
 export default class AppCenterLinker {
     constructor(private logger: ILogger, private rootPath: string) {}
@@ -40,7 +43,12 @@ export default class AppCenterLinker {
             ...messageItems,
         );
         if (selection) {
-            terminalHelper.run('react-native link');
+            const rnVersion = Utils.getNpmPackageVersion(this.logger, this.rootPath, 'react-native');
+            if (rnVersion && lt(rnVersion, '0.69.0')) {
+                // react-native link command was removed in 0.69.0
+                // there is autolinking in newer versions
+                terminalHelper.run('react-native link');
+            }
             const messageItems: IButtonMessageItem[] = [];
             messageItems.push({
                 title: Strings.LinkDoneBtnLabel,

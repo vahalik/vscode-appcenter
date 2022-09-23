@@ -1,4 +1,3 @@
-// A launch configuration that compiles the extension and then opens it inside a new window
 {
     "version": "0.1.0",
     "configurations": [
@@ -6,9 +5,14 @@
             "name": "Extension",
             "type": "extensionHost",
             "request": "launch",
-            "args": ["--extensionDevelopmentPath=${workspaceRoot}" ],
+            "args": [
+                "--disable-extensions",
+                "--extensionDevelopmentPath=${workspaceRoot}"
+            ],
             "sourceMaps": true,
-            "outFiles": [ "${workspaceRoot}/dist/**/*.js" ],
+            "outFiles": [
+                "${workspaceRoot}/dist/**/*.js"
+            ],
             "preLaunchTask": "debug"
         },
         {
