@@ -245,6 +245,44 @@ export class MenuItems {
         description: MenuStrings.HideStatusBarMenuDescription,
         command: CommandNames.Settings.HideStatusBar,
     };
+    
+    // Docs
+    public static GettingStartedDocs: MenuQuickPickItem = {
+        label: MenuStrings.GettingStartedMenuLabel,
+        description: MenuStrings.OpenDocsInBrowserMenuDescription(MenuStrings.GettingStartedMenuLabel),
+        command: MenuStrings.GettingStartedMenuLabel,
+    };
+
+    public static TestDocs: MenuQuickPickItem = {
+        label: MenuStrings.TestTabMenuLabel,
+        description: MenuStrings.OpenDocsInBrowserMenuDescription(MenuStrings.TestTabMenuLabel),
+        command: AppCenterBeacons.Test,
+    };
+
+    public static BuildDocs: MenuQuickPickItem = {
+        label: MenuStrings.BuildTabMenuLabel,
+        description: MenuStrings.OpenDocsInBrowserMenuDescription(MenuStrings.BuildTabMenuLabel),
+        command: AppCenterBeacons.Build,
+    };
+
+    public static DistributeDocs: MenuQuickPickItem = {
+        label: MenuStrings.DistributeTabMenuLabel,
+        description: MenuStrings.OpenDocsInBrowserMenuDescription(MenuStrings.DistributeTabMenuLabel),
+        command: AppCenterBeacons.Distribute,
+    };
+
+    public static DiagnosticsDocs: MenuQuickPickItem = {
+        label: MenuStrings.DiagnosticsMenuLabel,
+        description: MenuStrings.OpenDocsInBrowserMenuDescription(MenuStrings.DiagnosticsMenuLabel),
+        command: AppCenterBeacons.Crashes,
+    };
+
+    public static AnalyticsDocs: MenuQuickPickItem = {
+        label: MenuStrings.AnalyticsTabMenuLabel,
+        description: MenuStrings.OpenDocsInBrowserMenuDescription(MenuStrings.AnalyticsTabMenuLabel),
+        command: AppCenterBeacons.Analytics,
+    };
+
 }
 
 export function getSelectedUserOrOrgItem(

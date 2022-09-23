@@ -3,6 +3,7 @@ export class Constants {
     public static ExtensionCommandPrefix = 'appcenter';
     public static DefaultAPIEndPoint = 'https://api.appcenter.ms';
     public static AppCenterPortalURL = 'https://appcenter.ms';
+    public static AppCenterDocsURL = 'https://docs.microsoft.com/en-us/appcenter/';
     public static DefaultLegacyCodePushService = 'https://codepush-management.azurewebsites.net/';
     public static DefaultDistributionGroupTestersName = 'Beta Testers';
     public static DefaultBranchName = 'master';
@@ -118,6 +119,10 @@ export class CommandNames {
         public static RunUITests: string = CommandNames.CommandPrefix + 'test.runUITests';
         public static RunUITestsAsync: string = CommandNames.CommandPrefix + 'test.runUITestsAsync';
         public static ViewResults: string = CommandNames.CommandPrefix + 'test.viewResults';
+    };
+
+    public static Docs = class {
+        public static OpenDocs: string = CommandNames.CommandPrefix + 'docs.openDocs';
     };
 }
 
