@@ -6,6 +6,8 @@ export class MenuStrings {
     public static TestTabMenuLabel = 'Test';
     public static DistributeTabMenuLabel = 'Distribute';
     public static CrashesTabMenuLabel = 'Crashes';
+    public static DiagnosticsMenuLabel = 'Diagnostics';
+    public static GettingStartedMenuLabel = 'GettingStarted';
     public static AnalyticsTabMenuLabel = 'Analytics';
     public static PushTabMenuLabel = 'Push';
     public static DistributeGroupsTabMenuLabel = 'Groups';
@@ -91,6 +93,9 @@ export class MenuStrings {
         "Hide status bar from the bottom left corner. You can enable it with 'Show status bar' cmd.";
     public static OpenTabInBrowserMenuDescription(tabName: string): string {
         return `Navigate to '${tabName}' options for current app`;
+    }
+    public static OpenDocsInBrowserMenuDescription(tabName: string): string {
+        return `Navigate to '${tabName}' docs page`;
     }
 
     public static DeviceSetsDescription(ownerType: string): string {

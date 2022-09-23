@@ -178,4 +178,12 @@ function registerAppCenterCommands(context: vscode.ExtensionContext): void {
             _extensionManager.RunCommand(() => testCommandHandler.viewResults()),
         ),
     );
+
+    // Docs commands
+    const docsCommandHandler = _extensionManager.commandHandlers.docsCommandHandler;
+    context.subscriptions.push(
+        vscode.commands.registerCommand(CommandNames.Docs.OpenDocs, () =>
+            _extensionManager.RunCommand(() => docsCommandHandler.showDocsMenu()),
+        ),
+    );
 }
