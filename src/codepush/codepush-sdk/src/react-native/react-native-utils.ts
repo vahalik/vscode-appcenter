@@ -6,19 +6,14 @@ import * as fs from 'fs';
 import * as mkdirp from 'mkdirp';
 import * as path from 'path';
 import * as xml2js from 'xml2js';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const plist = require('plist');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const g2js = require('gradle-to-js/lib/parser');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const properties = require('properties');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const childProcess = require('child_process');
+import g2js from 'gradle-to-js/lib/parser';
+import { spawn } from 'child_process';
+import plist from 'plist';
+import properties from 'properties';
+
 import * as fileUtils from '../utils/file-utils';
 import { isValidVersion } from '../utils/validation-utils';
 import { SettingsHelper } from '../../../../helpers/settingsHelper';
-
-export const spawn = childProcess.spawn;
 
 export interface VersionSearchParams {
     os: string; // ios or android
